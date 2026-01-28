@@ -1,11 +1,13 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Hero } from "@/components/sections/Hero";
-import { CategoryIcons } from "@/components/sections/CategoryIcons";
-import { ProductShowcase } from "@/components/sections/ProductShowcase";
-import { NewArrivals } from "@/components/sections/NewArrivals";
-import { PromoBanners } from "@/components/sections/PromoBanners";
-import { CollectionsByCategory } from "@/components/sections/CollectionsByCategory";
+import {
+  Hero,
+  CategoryIcons,
+  ProductShowcase,
+  NewArrivals,
+  PromoBanners,
+  CollectionsByCategory,
+} from "@/components/features/home";
 
 export default function Home() {
   return (

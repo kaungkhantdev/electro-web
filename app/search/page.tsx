@@ -3,17 +3,15 @@
 import { useState } from "react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ProductCard, Product } from "@/components/ui/ProductCard";
 import { FilterSidebar } from "@/components/ui/FilterSidebar";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Product } from "@/components/ui/ProductCard";
 import {
-  ChevronDown,
-  Grid3X3,
-  LayoutGrid,
-  SlidersHorizontal,
-  X,
-} from "lucide-react";
+  SearchHeader,
+  ProductToolbar,
+  ProductGrid,
+  Pagination,
+  MobileFilterDrawer,
+} from "@/components/features/search";
 
 // Mock product data
 const mockProducts: Product[] = [
@@ -40,8 +38,6 @@ const mockProducts: Product[] = [
       { name: "Blue", hex: "#4A90D9" },
       { name: "Green", hex: "#5DB075" },
       { name: "Pink", hex: "#F5A3B5" },
-      { name: "Yellow", hex: "#F5D547" },
-      { name: "Purple", hex: "#9B6DD0" },
     ],
   },
   {
@@ -50,12 +46,6 @@ const mockProducts: Product[] = [
     price: 999,
     originalPrice: 1099,
     slug: "iphone-15-pro-blue-titanium",
-    colors: [
-      { name: "Blue Titanium", hex: "#3B4A5C" },
-      { name: "Natural Titanium", hex: "#B5A99D" },
-      { name: "White Titanium", hex: "#F5F5F0" },
-      { name: "Black Titanium", hex: "#3A3A3C" },
-    ],
     discount: 9,
   },
   {
@@ -71,13 +61,6 @@ const mockProducts: Product[] = [
     price: 699,
     originalPrice: 799,
     slug: "iphone-14-midnight-blue",
-    colors: [
-      { name: "Midnight Blue", hex: "#1D2951" },
-      { name: "Purple", hex: "#9B6DD0" },
-      { name: "Yellow", hex: "#F5D547" },
-      { name: "Red", hex: "#D73B3E" },
-      { name: "Starlight", hex: "#F5F5F0" },
-    ],
     discount: 12,
   },
   {
@@ -91,13 +74,6 @@ const mockProducts: Product[] = [
     name: "iPhone 15 - Green",
     price: 799,
     slug: "iphone-15-green",
-    colors: [
-      { name: "Green", hex: "#5DB075" },
-      { name: "Yellow", hex: "#F5D547" },
-      { name: "Pink", hex: "#F5A3B5" },
-      { name: "Blue", hex: "#4A90D9" },
-      { name: "Black", hex: "#3A3A3C" },
-    ],
     isNew: true,
   },
   {
@@ -126,13 +102,6 @@ const mockProducts: Product[] = [
     name: "iPhone 15 Plus - Yellow",
     price: 899,
     slug: "iphone-15-plus-yellow",
-    colors: [
-      { name: "Yellow", hex: "#F5D547" },
-      { name: "Green", hex: "#5DB075" },
-      { name: "Pink", hex: "#F5A3B5" },
-      { name: "Blue", hex: "#4A90D9" },
-      { name: "Black", hex: "#3A3A3C" },
-    ],
   },
   {
     id: "12",
@@ -145,8 +114,6 @@ const mockProducts: Product[] = [
 export default function SearchPage() {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "compact">("grid");
-  const searchQuery = "iphone";
-  const resultCount = 373;
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -154,146 +121,31 @@ export default function SearchPage() {
 
       <main className="flex-1">
         <div className="container mx-auto px-4 py-6">
-          {/* Search header */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">
-              {resultCount} results for "{searchQuery}"
-            </h1>
-            <p className="text-sm text-gray-500">{searchQuery}</p>
-          </div>
+          <SearchHeader query="iphone" resultCount={373} />
 
           <div className="flex gap-8">
-            {/* Desktop filter sidebar */}
             <div className="hidden lg:block w-64 shrink-0">
               <FilterSidebar />
             </div>
 
-            {/* Products section */}
             <div className="flex-1">
-              {/* Toolbar */}
-              <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
-                {/* Mobile filter button */}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="lg:hidden"
-                  onClick={() => setShowMobileFilters(true)}
-                >
-                  <SlidersHorizontal className="w-4 h-4 mr-2" />
-                  Filters
-                </Button>
+              <ProductToolbar
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                onOpenFilters={() => setShowMobileFilters(true)}
+              />
 
-                {/* Active filters (desktop) */}
-                <div className="hidden lg:flex items-center gap-2 flex-wrap">
-                  <Badge variant="secondary" className="gap-1">
-                    In Stock
-                    <button className="ml-1 hover:text-red-500">
-                      <X className="w-3 h-3" />
-                    </button>
-                  </Badge>
-                </div>
+              <ProductGrid products={mockProducts} viewMode={viewMode} />
 
-                {/* Sort and view options */}
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500 hidden sm:inline">Sort by:</span>
-                    <Button variant="outline" size="sm" className="gap-1">
-                      Featured <ChevronDown className="w-4 h-4" />
-                    </Button>
-                  </div>
-
-                  <div className="hidden sm:flex items-center gap-1 border border-gray-200 rounded-lg p-1">
-                    <button
-                      onClick={() => setViewMode("grid")}
-                      className={`p-1.5 rounded ${
-                        viewMode === "grid"
-                          ? "bg-purple-100 text-purple-600"
-                          : "text-gray-400 hover:text-gray-600"
-                      }`}
-                    >
-                      <LayoutGrid className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => setViewMode("compact")}
-                      className={`p-1.5 rounded ${
-                        viewMode === "compact"
-                          ? "bg-purple-100 text-purple-600"
-                          : "text-gray-400 hover:text-gray-600"
-                      }`}
-                    >
-                      <Grid3X3 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Products grid */}
-              <div
-                className={`grid gap-4 ${
-                  viewMode === "grid"
-                    ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-                    : "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
-                }`}
-              >
-                {mockProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    variant={viewMode === "compact" ? "compact" : "default"}
-                  />
-                ))}
-              </div>
-
-              {/* Pagination */}
-              <div className="flex items-center justify-center gap-2 mt-8">
-                <Button variant="outline" size="sm" disabled>
-                  Previous
-                </Button>
-                <div className="flex items-center gap-1">
-                  <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-white">
-                    1
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    2
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    3
-                  </Button>
-                  <span className="px-2 text-gray-400">...</span>
-                  <Button variant="ghost" size="sm">
-                    32
-                  </Button>
-                </div>
-                <Button variant="outline" size="sm">
-                  Next
-                </Button>
-              </div>
+              <Pagination currentPage={1} totalPages={32} />
             </div>
           </div>
         </div>
 
-        {/* Mobile filter drawer */}
-        {showMobileFilters && (
-          <div className="fixed inset-0 z-50 lg:hidden">
-            <div
-              className="absolute inset-0 bg-black/50"
-              onClick={() => setShowMobileFilters(false)}
-            />
-            <div className="absolute left-0 top-0 bottom-0 w-80 max-w-[85vw] bg-white p-6 overflow-y-auto">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-semibold text-gray-900">Filters</h2>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setShowMobileFilters(false)}
-                >
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
-              <FilterSidebar />
-            </div>
-          </div>
-        )}
+        <MobileFilterDrawer
+          isOpen={showMobileFilters}
+          onClose={() => setShowMobileFilters(false)}
+        />
       </main>
 
       <Footer />
