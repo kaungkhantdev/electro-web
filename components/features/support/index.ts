@@ -1,0 +1,10 @@
+export { SupportCategories } from "./SupportCategories";
+export { SupportContactInfo } from "./SupportContactInfo";
+export { ContactForm } from "./ContactForm";
+export { ContactInfoCards } from "./ContactInfoCards";
+export { FAQAccordion } from "./FAQAccordion";
+export { ShippingOptions } from "./ShippingOptions";
+export { ShippingPolicy } from "./ShippingPolicy";
+export { ReturnSteps } from "./ReturnSteps";
+export { ReturnPolicy } from "./ReturnPolicy";
+export { WarrantyPlans, WarrantyClaim } from "./WarrantyPlans";
