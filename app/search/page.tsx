@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { FilterSidebar } from "@/components/ui/FilterSidebar";
 import { Product } from "@/components/ui/ProductCard";
 import {

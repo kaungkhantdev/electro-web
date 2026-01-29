@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { FilterSidebar } from "@/components/ui/FilterSidebar";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/components/ui/ProductCard";

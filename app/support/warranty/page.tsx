@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
+import { ContentPageLayout } from "@/components/layout/content-page-layout";
 import { WarrantyPlans, WarrantyClaim } from "@/components/features/support";
 
 export default function WarrantyPage() {

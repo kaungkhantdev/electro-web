@@ -1,4 +1,4 @@
-import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
+import { ContentPageLayout } from "@/components/layout/content-page-layout";
 
 export default function PrivacyPage() {
   return (
