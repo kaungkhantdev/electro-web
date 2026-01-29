@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
+import { ContentPageLayout } from "@/components/layout/content-page-layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield, Award, Users, MapPin } from "lucide-react";
 

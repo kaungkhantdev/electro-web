@@ -1,4 +1,4 @@
-import { ContentPageLayout } from "@/components/layout/ContentPageLayout";
+import { ContentPageLayout } from "@/components/layout/content-page-layout";
 import { ReturnSteps, ReturnPolicy } from "@/components/features/support";
 
 export default function ReturnsPage() {

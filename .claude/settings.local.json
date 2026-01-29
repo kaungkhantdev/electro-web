@@ -1,10 +1,11 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(tree:*)"
+    ],
     "additionalDirectories": [
       "/Users/codigodev/Desktop/astronity/projects/electro-ecommerce/electro-web/components/features"
-    ],
-    "allow": [
-      "Bash(npm run build:*)"
     ]
   }
 }
