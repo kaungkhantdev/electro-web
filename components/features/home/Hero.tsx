@@ -18,7 +18,7 @@ export function Hero() {
               <Image
                 src={Hero1}
                 alt="Hero Banner"
-                className="w-full h-full object-cover rounded-md"
+                className="w-full h-full object-cover rounded-3xl"
               />
             </Link>
           </div>
@@ -31,7 +31,7 @@ export function Hero() {
                 <Image
                   src={Hero2}
                   alt="Hero Banner"
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-3xl"
                 />
               </Link>
             </div>
@@ -42,7 +42,7 @@ export function Hero() {
                 <Image
                   src={Hero3}
                   alt="Hero Banner"
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-3xl"
                 />
               </Link>
               
@@ -50,7 +50,7 @@ export function Hero() {
                 <Image
                   src={Hero4}
                   alt="Hero Banner"
-                  className="w-full h-full object-cover rounded-md"
+                  className="w-full h-full object-cover rounded-3xl"
                 />
               </Link>
               

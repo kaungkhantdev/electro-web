@@ -1,6 +1,6 @@
-export { Hero } from "./Hero";
-export { CategoryIcons } from "./CategoryIcons";
-export { ProductShowcase } from "./ProductShowcase";
-export { NewArrivals } from "./NewArrivals";
-export { PromoBanners } from "./PromoBanners";
-export { CollectionsByCategory } from "./CollectionsByCategory";
+export { Hero } from "./hero";
+export { CategoryIcons } from "./category-icons";
+export { ProductShowcase } from "./product-showcase";
+export { NewArrivals } from "./new-arrivals";
+export { PromoBanners } from "./promo-banners";
+export { CollectionsByCategory } from "./collections-by-category";
