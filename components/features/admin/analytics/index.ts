@@ -1,3 +1,3 @@
-export { OverviewChart } from "./OverviewChart"
-export { SalesChart } from "./SalesChart"
-export { TrafficChart } from "./TrafficChart"
+export { OverviewChart } from "./overview-chart"
+export { SalesChart } from "./sales-chart"
+export { TrafficChart } from "./traffic-chart"

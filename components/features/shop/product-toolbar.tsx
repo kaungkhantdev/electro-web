@@ -1,0 +1,111 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
+  Grid3X3,
+  LayoutGrid,
+  SlidersHorizontal,
+  X,
+} from "lucide-react";
+
+interface ProductToolbarProps {
+  viewMode: "grid" | "compact";
+  onViewModeChange: (mode: "grid" | "compact") => void;
+  onOpenFilters: () => void;
+  showResultCount?: boolean;
+  resultCount?: number;
+  totalCount?: number;
+}
+
+export function ProductToolbar({
+  viewMode,
+  onViewModeChange,
+  onOpenFilters,
+  showResultCount = false,
+  resultCount,
+  totalCount,
+}: ProductToolbarProps) {
+  return (
+    <div className="flex items-center justify-between mb-6 pb-4">
+      {/* Mobile filter button */}
+      <Button
+        variant="outline"
+        size="sm"
+        className="lg:hidden rounded-full"
+        onClick={onOpenFilters}
+      >
+        <SlidersHorizontal className="w-4 h-4 mr-2" />
+        Filters
+      </Button>
+
+      {/* Results count or active filters */}
+      {showResultCount ? (
+        <p className="hidden lg:block text-sm text-gray-500">
+          Showing {resultCount} of {totalCount} products
+        </p>
+      ) : (
+        <div className="hidden lg:flex items-center gap-2 flex-wrap">
+          <Badge variant="secondary" className="gap-1">
+            In Stock
+            <button className="ml-1 hover:text-red-500">
+              <X className="w-3 h-3" />
+            </button>
+          </Badge>
+        </div>
+      )}
+
+      {/* Sort and view options */}
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-500 hidden sm:inline">Sort by:</span>
+          <div>
+            <Select>
+              <SelectTrigger className="w-full max-w-48 rounded-full">
+                <SelectValue placeholder="Features" />
+              </SelectTrigger>
+              <SelectContent className=" rounded-2xl ">
+                <SelectGroup>
+                  <SelectLabel>Fruits</SelectLabel>
+                  <SelectItem className="rounded-xl" value="apple">Apple</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-1 border border-gray-200 rounded-full p-1">
+          <button
+            onClick={() => onViewModeChange("grid")}
+            className={`p-1.5 rounded-full ${
+              viewMode === "grid"
+                ? "bg-purple-100 text-purple-600"
+                : "text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            <LayoutGrid className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => onViewModeChange("compact")}
+            className={`p-1.5 rounded-full ${
+              viewMode === "compact"
+                ? "bg-purple-100 text-purple-600"
+                : "text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            <Grid3X3 className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
