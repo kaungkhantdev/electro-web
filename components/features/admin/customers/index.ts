@@ -1,2 +1,2 @@
-export { CustomersTable } from "./CustomersTable"
-export { ReviewsTable } from "./ReviewsTable"
+export { CustomersTable } from "./customers-table"
+export { ReviewsTable } from "./reviews-table"

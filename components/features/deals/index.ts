@@ -1,4 +1,4 @@
-export { FeaturedDeals } from "./FeaturedDeals";
-export { FlashSaleBanner } from "./FlashSaleBanner";
-export { CategoryDeals } from "./CategoryDeals";
-export { DealsNewsletter } from "./DealsNewsletter";
+export { FeaturedDeals } from "./featured-deals";
+export { FlashSaleBanner } from "./flash-sale-banner";
+export { CategoryDeals } from "./category-deals";
+export { DealsNewsletter } from "./deals-newsletter";

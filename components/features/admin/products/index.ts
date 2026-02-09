@@ -1,3 +1,3 @@
-export { ProductsTable } from "./ProductsTable"
-export { ProductForm } from "./ProductForm"
-export { CategoriesTable } from "./CategoriesTable"
+export { ProductsTable } from "./products-table"
+export { ProductForm } from "./product-form"
+export { CategoriesTable } from "./categories-table"

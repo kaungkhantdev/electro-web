@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, BellElectric } from "lucide-react";
+import { Logo } from "./logo";
 
 const footerLinks = {
   shopAndLearn: [
@@ -37,16 +38,9 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Logo and Subscribe section */}
           <div className="lg:col-span-4">
-            <Link href="/" className="flex items-center gap-2 shrink-0 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-purple-800 rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">
-                  <BellElectric className="h-5 w-5" />
-                </span>
-              </div>
-              <span className="text-xl font-bold">
-                Electro
-              </span>
-            </Link>
+            <div className="mb-6">
+                <Logo />
+            </div>
             <p className="text-white text-lg mb-6">
               Subscribe and get updated information!
             </p>

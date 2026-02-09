@@ -1,4 +1,4 @@
-export { GeneralSettingsForm } from "./GeneralSettingsForm"
-export { StoreSettingsForm } from "./StoreSettingsForm"
-export { PaymentsSettingsForm } from "./PaymentsSettingsForm"
-export { ShippingSettingsForm } from "./ShippingSettingsForm"
+export { GeneralSettingsForm } from "./general-settings-form"
+export { StoreSettingsForm } from "./store-settings-form"
+export { PaymentsSettingsForm } from "./payments-settings-form"
+export { ShippingSettingsForm } from "./shipping-settings-form"

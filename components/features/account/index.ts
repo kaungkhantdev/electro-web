@@ -1,4 +1,4 @@
-export { AccountSidebar } from "./AccountSidebar";
-export { UserProfile } from "./UserProfile";
-export { OrdersList } from "./OrdersList";
-export { CartItems } from "./CartItems";
+export { AccountSidebar } from "./account-sidebar";
+export { UserProfile } from "./user-profile";
+export { OrdersList } from "./orders-list";
+export { CartItems } from "./cart-items";
