@@ -4,6 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { Check } from "lucide-react";
+import { HugeiconsIcon } from '@hugeicons/react'
+import { 
+  CheckmarkBadge01Icon, 
+} from '@hugeicons/core-free-icons'
 
 interface ProductTabsProps {
   features: string[];
@@ -62,7 +66,7 @@ export function ProductTabs({ features, description, reviewCount }: ProductTabsP
       </div>
 
       {/* Tab content */}
-      <div className="max-w-3xl">
+      <div className="">
         {activeTab === "description" && (
           <div>
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Key Features</h3>

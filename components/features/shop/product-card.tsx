@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link href={`/shop/product/${product.id}`}>
       <div
-        className="group relative overflow-hidden rounded-[24px] bg-slate-800 shadow-xl transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl"
+        className="group relative overflow-hidden rounded-3xl bg-slate-800 shadow-xl transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl"
       >
         {/* Image with overlay */}
         <div className="relative aspect-[4/5] overflow-hidden">

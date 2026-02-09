@@ -83,7 +83,7 @@ export function ProductToolbar({
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-1 border border-gray-200 rounded-full p-1">
+        {/* <div className="hidden sm:flex items-center gap-1 border border-gray-200 rounded-full p-1">
           <button
             onClick={() => onViewModeChange("grid")}
             className={`p-1.5 rounded-full ${
@@ -104,7 +104,8 @@ export function ProductToolbar({
           >
             <Grid3X3 className="w-4 h-4" />
           </button>
-        </div>
+        </div> */}
+        
       </div>
     </div>
   );

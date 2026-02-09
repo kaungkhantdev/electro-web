@@ -1,6 +1,7 @@
 "use client";
-
+import Image from "next/image";
 import { useState } from "react";
+import Photo from "@/public/img/ipad.webp"
 
 interface ProductGalleryProps {
   images: string[];
@@ -12,10 +13,12 @@ export function ProductGallery({ images }: ProductGalleryProps) {
   return (
     <div className="space-y-4">
       {/* Main image */}
-      <div className="aspect-square bg-gray-50 rounded-2xl overflow-hidden flex items-center justify-center">
-        <div className="w-3/4 h-3/4 bg-gray-100 rounded-xl flex items-center justify-center">
-          <span className="text-gray-400">Product Image {activeImageIndex + 1}</span>
-        </div>
+      <div className="aspect-square border rounded-3xl overflow-hidden flex items-center justify-center">
+        <Image
+          src={Photo}
+          alt={"photo"}
+          className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
+        />
       </div>
 
       {/* Thumbnail images */}
@@ -24,14 +27,18 @@ export function ProductGallery({ images }: ProductGalleryProps) {
           <button
             key={index}
             onClick={() => setActiveImageIndex(index)}
-            className={`w-20 h-20 shrink-0 rounded-lg overflow-hidden border-2 transition-colors ${
+            className={`w-20 h-20 shrink-0 rounded-xl overflow-hidden border transition-colors ${
               activeImageIndex === index
                 ? "border-purple-600"
                 : "border-gray-200 hover:border-gray-300"
             }`}
           >
-            <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-              <span className="text-gray-400 text-xs">{index + 1}</span>
+            <div className="w-full h-full flex items-center justify-center">
+              <Image
+                  src={Photo}
+                  alt={"photo"}
+                  className="object-contain w-full h-full transition-transform duration-500 group-hover:scale-105"
+                />
             </div>
           </button>
         ))}

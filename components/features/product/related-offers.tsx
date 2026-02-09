@@ -1,5 +1,8 @@
 import { Badge } from "@/components/ui/badge";
-import { Shield } from "lucide-react";
+import { HugeiconsIcon } from '@hugeicons/react'
+import { 
+  ShieldEnergyIcon, 
+} from '@hugeicons/core-free-icons'
 
 interface Offer {
   id: string;
@@ -24,10 +27,16 @@ export function RelatedOffers({ offers }: RelatedOffersProps) {
           {offers.map((offer) => (
             <div
               key={offer.id}
-              className="flex gap-4 p-4 bg-white rounded-xl border border-gray-200 hover:border-purple-200 transition-colors"
+              className="flex gap-4 p-4 bg-white rounded-2xl hover:border-purple-200 transition-colors"
             >
               <div className="w-20 h-20 shrink-0 bg-purple-100 rounded-lg flex items-center justify-center">
-                <Shield className="w-8 h-8 text-purple-600" />
+                <HugeiconsIcon
+                  icon={ShieldEnergyIcon}
+                  size={30}
+                  color="currentColor"
+                  className="text-purple-600"
+                  strokeWidth={1.5}
+                />
               </div>
               <div className="flex-1">
                 {offer.badge && (
