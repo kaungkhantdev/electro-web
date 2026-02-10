@@ -15,11 +15,10 @@ const footerLinks = {
     { label: "AirPods", href: "/shop/airpods" },
   ],
   support: [
-    { label: "Delivery Policy", href: "/support/delivery" },
-    { label: "Warranty Policy", href: "/support/warranty" },
-    { label: "Trade in Policy", href: "/support/trade-in" },
-    { label: "Installment Plan", href: "/support/installment" },
-    { label: "Bank Information", href: "/support/bank-info" },
+    { label: "Shipping Policy", href: "/support/shipping" },
+    { label: "Returns Policy", href: "/support/returns" },
+    { label: "FAQs", href: "/support/faqs" },
+    { label: "Contact Us", href: "/support/contact" },
   ],
   aboutElectro: [
     { label: "About Us", href: "/about" },

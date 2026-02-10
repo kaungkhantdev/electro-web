@@ -3,7 +3,7 @@ export default function TermsPage() {
     <div className="max-w-3xl mx-auto prose prose-gray">
         <h2>Agreement to Terms</h2>
         <p>
-          By accessing or using XtraSure's website and services, you agree to be bound
+          By accessing or using XtraSure&apos;s website and services, you agree to be bound
           by these Terms of Service. If you do not agree to these terms, please do not
           use our services.
         </p>
@@ -90,7 +90,7 @@ export default function TermsPage() {
 
         <h2>Disclaimer of Warranties</h2>
         <p>
-          Our services are provided "as is" without warranties of any kind, either
+          Our services are provided &quot;as is&quot; without warranties of any kind, either
           express or implied. We do not warrant that our services will be
           uninterrupted, error-free, or secure.
         </p>
@@ -132,6 +132,5 @@ export default function TermsPage() {
           <li>Address: 123 Tech Street, Silicon Valley, CA 94000</li>
         </ul>
       </div>
-    </div>
   );
 }

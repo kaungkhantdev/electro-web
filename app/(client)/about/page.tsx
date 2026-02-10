@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
-import { Shield, Award, Users, MapPin } from "lucide-react";
+import { Shield, Award, Users, MapPin, ArrowRight } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "About Us",
+};
 
 const stats = [
   { value: "10+", label: "Years in Business" },
@@ -36,89 +41,185 @@ const values = [
   },
 ];
 
+const timeline = [
+  {
+    year: "2014",
+    title: "The Beginning",
+    description:
+      "XtraSure was founded with a simple mission: to make premium Apple products accessible to everyone with uncompromising authenticity and exceptional service.",
+  },
+  {
+    year: "2017",
+    title: "Expanding Horizons",
+    description:
+      "What started as a single store in Silicon Valley grew rapidly as we opened locations across the West Coast, building a reputation for trust and quality.",
+  },
+  {
+    year: "2021",
+    title: "Nationwide Reach",
+    description:
+      "With over 50 locations nationwide, we now serve more than a million customers who trust us for their technology needs.",
+  },
+  {
+    year: "Today",
+    title: "Authorized & Certified",
+    description:
+      "As an authorized Apple reseller, we offer only genuine products backed by full manufacturer warranties. Our certified technicians provide expert advice and support.",
+  },
+];
+
 export default function AboutPage() {
   return (
-    <div className="max-w-5xl mx-auto">
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+    <div>
+      {/* Hero Section */}
+      <section className="">
+        <div className="relative max-w-5xl mx-auto px-4 pt-16 pb-20 text-center">
+          <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-purple-700 bg-purple-100 rounded-full">
+            Authorized Apple Reseller
+          </span>
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-5 tracking-tight">
+            Technology Made
+            <span className="block text-purple-600">Personal</span>
+          </h1>
+          <p className=" text-gray-500 max-w-2xl mx-auto leading-relaxed">
+            For over a decade, we&apos;ve been bringing premium Apple products
+            closer to you — with authenticity you can trust and service that
+            goes beyond expectations.
+          </p>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="max-w-5xl mx-auto px-4 -mt-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="text-4xl font-bold text-purple-600 mb-1">
+            <div
+              key={stat.label}
+              className="rounded-3xl border p-6 text-center hover:shadow-md hover:border-purple-100 transition-all duration-300"
+            >
+              <div className="text-3xl md:text-4xl font-bold text-purple-600 mb-1">
                 {stat.value}
               </div>
-              <div className="text-gray-500">{stat.label}</div>
+              <div className="text-sm text-gray-500 font-medium">
+                {stat.label}
+              </div>
             </div>
           ))}
         </div>
+      </section>
 
-        {/* Story */}
-        <div className="prose prose-lg prose-gray max-w-none mb-16">
-          <h2>Our Story</h2>
-          <p>
-            Founded in 2014, XtraSure began with a simple mission: to make premium
-            Apple products accessible to everyone with uncompromising authenticity
-            and exceptional service.
-          </p>
-          <p>
-            What started as a single store in Silicon Valley has grown into a
-            nationwide network of over 50 locations, serving more than a million
-            customers who trust us for their technology needs.
-          </p>
-          <p>
-            As an authorized Apple reseller, we take pride in offering only
-            genuine products backed by full manufacturer warranties. Our certified
-            technicians provide expert advice and support, ensuring you get the
-            most out of your Apple devices.
+      {/* Story Timeline */}
+      <section className="max-w-5xl mx-auto px-4 py-20">
+        <div className="text-center mb-14">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3">Our Story</h2>
+          <p className="text-gray-500 max-w-lg mx-auto">
+            From a single store to a nationwide network — here&apos;s how we got
+            here.
           </p>
         </div>
 
-        {/* Values */}
-        <div className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-            Our Values
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {values.map((value) => (
-              <Card key={value.title}>
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center shrink-0">
-                      <value.icon className="w-6 h-6 text-purple-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">
-                        {value.title}
-                      </h3>
-                      <p className="text-gray-600">{value.description}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+        <div className="relative">
+          {/* Timeline line */}
+          <div className="absolute left-4 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-200 via-purple-300 to-purple-200" />
+
+          <div className="space-y-10">
+            {timeline.map((item, index) => (
+              <div
+                key={item.year}
+                className={`relative flex flex-col md:flex-row items-start gap-6 md:gap-10 ${
+                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                }`}
+              >
+                {/* Dot */}
+                <div className="absolute left-4 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-purple-500 ring-4 ring-purple-100 z-10 mt-1.5" />
+
+                {/* Content */}
+                <div
+                  className={`ml-10 md:ml-0 md:w-[calc(50%-2.5rem)] ${
+                    index % 2 === 0 ? "md:text-right" : "md:text-left"
+                  }`}
+                >
+                  <span className="inline-block px-3 py-1 text-xs font-bold text-purple-600 bg-purple-50 rounded-full mb-2">
+                    {item.year}
+                  </span>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-500 leading-relaxed text-sm">
+                    {item.description}
+                  </p>
+                </div>
+
+                {/* Spacer for opposite side */}
+                <div className="hidden md:block md:w-[calc(50%-2.5rem)]" />
+              </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* CTA */}
-        <div className="bg-gradient-to-r from-purple-600 to-purple-800 rounded-2xl p-8 text-center text-white">
-          <h2 className="text-2xl font-bold mb-3">Visit Us Today</h2>
-          <p className="text-white/80 mb-6 max-w-md mx-auto">
-            Experience the XtraSure difference at any of our store locations
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/stores"
-              className="px-6 py-2 bg-white text-purple-600 rounded-lg font-medium hover:bg-gray-100 transition-colors"
-            >
-              Find a Store
-            </Link>
-            <Link
-              href="/careers"
-              className="px-6 py-2 bg-purple-700 text-white rounded-lg font-medium hover:bg-purple-800 transition-colors"
-            >
-              Join Our Team
-            </Link>
+      {/* Values */}
+      <section className="bg-gray-50/80 py-20">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
+              Our Values
+            </h2>
+            <p className="text-gray-500 max-w-lg mx-auto">
+              The principles that drive everything we do.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {values.map((value) => (
+              <div key={value.title} className="flex items-start gap-4 border p-6 rounded-3xl">
+                <div className="bg-purple-100 w-12 h-12 rounded-xl flex items-center justify-center shrink-0">
+                  <value.icon className="w-5 h-5 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-1.5">
+                    {value.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 leading-relaxed">
+                    {value.description}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* CTA */}
+      <section className="max-w-5xl mx-auto px-4 py-20">
+        <div className="relative overflow-hidden bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 rounded-3xl p-10 md:p-14 text-center text-white">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent" />
+          <div className="relative">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">
+              Visit Us Today
+            </h2>
+            <p className="text-purple-200 mb-8 max-w-md mx-auto">
+              Experience the XtraSure difference at any of our store locations
+              across the country.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                href="/stores"
+                className="inline-flex items-center gap-2 px-7 py-3 bg-white text-purple-700 rounded-full font-semibold hover:bg-gray-50 transition-colors shadow-lg shadow-purple-900/20"
+              >
+                Find a Store
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/careers"
+                className="inline-flex items-center gap-2 px-7 py-3 bg-white/10 text-white rounded-full font-semibold hover:bg-white/20 transition-colors backdrop-blur-sm border border-white/20"
+              >
+                Join Our Team
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
