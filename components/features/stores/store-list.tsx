@@ -4,6 +4,7 @@ import { useState } from "react";
 import { StoreSearch } from "./store-search";
 import { StoreMap } from "./store-map";
 import { StoreCard, Store } from "./store-card";
+import { SearchX } from "lucide-react";
 
 const stores: Store[] = [
   {
@@ -67,21 +68,64 @@ export function StoreList() {
       store.address.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const featuredStores = filteredStores.filter((s) => s.featured);
+  const otherStores = filteredStores.filter((s) => !s.featured);
+
   return (
     <>
       <StoreSearch value={searchQuery} onChange={setSearchQuery} />
       <StoreMap />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filteredStores.map((store) => (
-          <StoreCard key={store.id} store={store} />
-        ))}
+      {/* Results heading */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-gray-900">
+          {searchQuery ? "Search Results" : "All Locations"}
+        </h2>
+        <span className="text-sm text-gray-500">
+          {filteredStores.length}{" "}
+          {filteredStores.length === 1 ? "store" : "stores"} found
+        </span>
       </div>
 
+      {/* Featured stores */}
+      {featuredStores.length > 0 && !searchQuery && (
+        <div className="mb-8">
+          <p className="text-xs font-medium uppercase tracking-wider text-purple-600 mb-3">
+            Flagship Stores
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {featuredStores.map((store) => (
+              <StoreCard key={store.id} store={store} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Other stores */}
+      {(searchQuery ? filteredStores : otherStores).length > 0 && (
+        <div>
+          {!searchQuery && featuredStores.length > 0 && (
+            <p className="text-xs font-medium uppercase tracking-wider text-gray-400 mb-3">
+              More Locations
+            </p>
+          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {(searchQuery ? filteredStores : otherStores).map((store) => (
+              <StoreCard key={store.id} store={store} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Empty state */}
       {filteredStores.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500">
-            No stores found matching your search. Try a different location.
+        <div className="text-center py-16">
+          <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
+            <SearchX className="w-7 h-7 text-gray-400" />
+          </div>
+          <p className="text-gray-900 font-medium mb-1">No stores found</p>
+          <p className="text-sm text-gray-500">
+            Try a different city, state, or zip code.
           </p>
         </div>
       )}

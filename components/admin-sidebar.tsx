@@ -2,28 +2,33 @@
 
 import * as React from "react"
 import {
-  BarChart3,
-  Box,
+  Activity,
   CreditCard,
+  DollarSign,
+  Frame,
   LayoutDashboard,
   Package,
+  PieChart,
   Settings2,
   ShoppingCart,
+  Store,
+  TrendingUp,
   Users,
+  Zap,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
+import { NavReport } from "@/components/nav-report"
 import { NavUser } from "@/components/nav-user"
+import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { NavDashboard } from "./nav-dashboard"
 
 const data = {
   user: {
@@ -31,13 +36,26 @@ const data = {
     email: "admin@example.com",
     avatar: "/avatars/admin.jpg",
   },
-  navMain: [
+  teams: [
     {
+      name: "Electro Store",
+      logo: Zap,
+      plan: "Enterprise",
+    },
+    {
+      name: "Electro Marketplace",
+      logo: Store,
+      plan: "Business",
+    },
+  ],
+  dashboard: 
+  {
       title: "Dashboard",
       url: "/admin",
       icon: LayoutDashboard,
       isActive: true,
-    },
+  },
+  navMain: [
     {
       title: "Products",
       url: "/admin/products",
@@ -111,25 +129,6 @@ const data = {
       ],
     },
     {
-      title: "Analytics",
-      url: "/admin/analytics",
-      icon: BarChart3,
-      items: [
-        {
-          title: "Overview",
-          url: "/admin/analytics",
-        },
-        {
-          title: "Sales Report",
-          url: "/admin/analytics/sales",
-        },
-        {
-          title: "Traffic",
-          url: "/admin/analytics/traffic",
-        },
-      ],
-    },
-    {
       title: "Settings",
       url: "/admin/settings",
       icon: Settings2,
@@ -153,30 +152,35 @@ const data = {
       ],
     },
   ],
+  reports: [
+    {
+      name: "Overview",
+      url: "/admin/analytics",
+      icon: TrendingUp,
+    },
+    {
+      name: "Sales Report",
+      url: "/admin/analytics/sales",
+      icon: DollarSign,
+    },
+    {
+      name: "Traffic",
+      url: "/admin/analytics/traffic",
+      icon: Activity,
+    }
+  ],
 }
 
 export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="/admin">
-                <div className="bg-primary text-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <Box className="size-4" />
-                </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Electro Admin</span>
-                  <span className="truncate text-xs">E-commerce</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavDashboard item={data.dashboard} />
+        <NavMain subTitle="Platform" items={data.navMain} />
+        <NavReport report={data.reports} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
