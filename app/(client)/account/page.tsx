@@ -5,16 +5,18 @@ import {
   CartItems,
   AccountStats,
 } from "@/components/features/account";
+import Image from "next/image";
+import Photo from '@/public/img/avatar.avif'
 
 export default function AccountPage() {
   return (
     <main className="flex-1 bg-gray-50/60">
       {/* Welcome Banner */}
-      <section className="bg-linear-to-r from-purple-600 via-purple-700 to-indigo-700 text-white">
+      <section className="bg-linear-to-r from-purple-400 via-purple-500 to-indigo-600 text-white">
         <div className="container mx-auto px-4 py-10 sm:py-14">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-3xl sm:text-4xl font-bold border border-white/20">
-              J
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden border-2">
+              <Image src={Photo} height={100} width={100} alt="photo" />
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold">
@@ -38,7 +40,7 @@ export default function AccountPage() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-6">
+            <div className="lg:sticky lg:top-20">
               <AccountSidebar activeItem="Profile" />
             </div>
           </div>

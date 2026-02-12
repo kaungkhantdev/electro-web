@@ -158,28 +158,28 @@ export default function OrdersPage() {
 
           <div className="lg:col-span-3 space-y-6">
             {/* Search and Filter */}
-            <Card className="shadow-sm">
-              <CardContent className="pt-6">
+            <div className="">
+              <div className="">
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <Input
                       placeholder="Search orders by number or product..."
-                      className="pl-10"
+                      className="pl-10 rounded-full"
                     />
                   </div>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="gap-1.5">
+                    <Button variant="outline" size="sm" className="gap-1.5 rounded-full">
                       <Filter className="w-4 h-4" />
                       All Orders
                     </Button>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="rounded-full">
                       This Month
                     </Button>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Order Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -189,7 +189,7 @@ export default function OrdersPage() {
                 { label: "In Progress", value: mockOrders.filter((o) => o.status === "processing" || o.status === "shipped").length.toString(), color: "text-blue-600 bg-blue-50" },
                 { label: "Cancelled", value: mockOrders.filter((o) => o.status === "cancelled").length.toString(), color: "text-red-600 bg-red-50" },
               ].map((stat) => (
-                <div key={stat.label} className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+                <div key={stat.label} className="bg-white rounded-2xl border border-gray-200 p-4">
                   <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
                   <p className="text-xs text-gray-500 mt-0.5">{stat.label}</p>
                 </div>
@@ -201,8 +201,8 @@ export default function OrdersPage() {
               {mockOrders.map((order) => {
                 const config = statusConfig[order.status];
                 return (
-                  <Card key={order.id} className="shadow-sm hover:shadow-md transition-shadow">
-                    <CardContent className="pt-6">
+                  <div key={order.id} className="p-5 border rounded-2xl hover:shadow-md transition-shadow">
+                    <div className="">
                       <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4 mb-4">
                         <div>
                           <div className="flex items-center gap-2.5 flex-wrap mb-1">
@@ -250,31 +250,31 @@ export default function OrdersPage() {
                       </div>
 
                       <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-100">
-                        <Button variant="outline" size="sm" className="gap-1.5 text-xs">
+                        <Button variant="outline" size="sm" className="gap-1.5 text-xs rounded-full">
                           <Eye className="w-3.5 h-3.5" />
                           View Details
                         </Button>
                         {order.status === "delivered" && (
-                          <Button variant="outline" size="sm" className="gap-1.5 text-xs">
+                          <Button variant="outline" size="sm" className="gap-1.5 text-xs rounded-full">
                             <Download className="w-3.5 h-3.5" />
                             Invoice
                           </Button>
                         )}
                         {(order.status === "shipped" || order.status === "delivered") && (
-                          <Button variant="outline" size="sm" className="gap-1.5 text-xs">
+                          <Button variant="outline" size="sm" className="gap-1.5 text-xs rounded-full">
                             <Package className="w-3.5 h-3.5" />
                             Track Package
                           </Button>
                         )}
                         {order.status === "delivered" && (
-                          <Button size="sm" className="bg-purple-600 hover:bg-purple-700 gap-1.5 text-xs ml-auto">
+                          <Button size="sm" className="rounded-full bg-purple-600 hover:bg-purple-700 gap-1.5 text-xs ml-auto">
                             <RefreshCw className="w-3.5 h-3.5" />
                             Buy Again
                           </Button>
                         )}
                       </div>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 );
               })}
             </div>

@@ -121,19 +121,19 @@ export default function SettingsPage() {
 
           <div className="lg:col-span-3 space-y-6">
             {/* Profile Settings */}
-            <Card className="shadow-sm">
-              <CardHeader>
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
+            <div className="border rounded-2xl p-5">
+              <div>
+                <div className="mb-4">
+                  <div className="flex items-center gap-2">
+                    <h1 className="text-lg font-semibold w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-purple-600">
                       <User className="w-4 h-4" />
-                    </div>
+                    </h1>
                     Profile Information
-                  </CardTitle>
+                  </div>
                   <CardDescription className="ml-10">Update your personal details</CardDescription>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
+              </div>
+              <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">First Name</label>
@@ -153,25 +153,25 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <div className="flex justify-end pt-2">
-                  <Button className="bg-purple-600 hover:bg-purple-700">Save Changes</Button>
+                  <Button className="bg-purple-600 hover:bg-purple-700 rounded-full">Save Changes</Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Password Settings */}
-            <Card className="shadow-sm">
-              <CardHeader>
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
+            <div className="border p-5 rounded-2xl">
+              <div>
+                <div className="mb-4">
+                  <div className="flex items-center gap-2">
+                    <h1 className="text-lg font-semibold w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600">
                       <Lock className="w-4 h-4" />
-                    </div>
+                    </h1>
                     Password & Security
-                  </CardTitle>
+                  </div>
                   <CardDescription className="ml-10">Manage your password and security settings</CardDescription>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
+              </div>
+              <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2 md:max-w-[calc(50%-0.5rem)]">
                     <label className="block text-sm font-medium text-gray-700 mb-1.5">Current Password</label>
@@ -196,25 +196,25 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <div className="flex justify-end pt-2">
-                  <Button className="bg-purple-600 hover:bg-purple-700">Update Password</Button>
+                  <Button className="bg-purple-600 hover:bg-purple-700 rounded-full">Update Password</Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Notification Settings */}
-            <Card className="shadow-sm">
-              <CardHeader>
-                <div>
-                  <CardTitle className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+            <div className="p-5 rounded-2xl border">
+              <div>
+                <div className="mb-4">
+                  <div className="text-lg font-semibold flex items-center gap-2">
+                    <div className=" w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
                       <Bell className="w-4 h-4" />
                     </div>
                     Notification Preferences
-                  </CardTitle>
+                  </div>
                   <CardDescription className="ml-10">Choose how you want to receive notifications</CardDescription>
                 </div>
-              </CardHeader>
-              <CardContent>
+              </div>
+              <div>
                 <div className="divide-y divide-gray-100">
                   {[
                     { key: "orderUpdates", label: "Order Updates", description: "Get notified about your order status" },
@@ -250,29 +250,29 @@ export default function SettingsPage() {
                     );
                   })}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Saved Addresses */}
-            <Card className="shadow-sm">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle className="flex items-center gap-2">
+            <div className="p-5 rounded-2xl border">
+              <div className="flex flex-row items-center justify-between">
+                <div className="mb-4">
+                  <div className="text-lg font-semibold flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
                       <MapPin className="w-4 h-4" />
                     </div>
                     Saved Addresses
-                  </CardTitle>
+                  </div>
                   <CardDescription className="ml-10">Manage your delivery addresses</CardDescription>
                 </div>
-                <CardAction>
+                <div>
                   <Button variant="outline" size="sm" className="gap-1.5">
                     <Plus className="w-4 h-4" />
                     Add Address
                   </Button>
-                </CardAction>
-              </CardHeader>
-              <CardContent>
+                </div>
+              </div>
+              <div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {mockAddresses.map((address) => (
                     <div
@@ -315,34 +315,34 @@ export default function SettingsPage() {
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Payment Methods */}
-            <Card className="shadow-sm">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle className="flex items-center gap-2">
+            <div className="p-5 rounded-2xl border">
+              <div className="flex flex-row items-center justify-between">
+                <div className="mb-4">
+                  <div className=" text-lg font-semibold flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-pink-50 flex items-center justify-center text-pink-600">
                       <CreditCard className="w-4 h-4" />
                     </div>
                     Payment Methods
-                  </CardTitle>
+                  </div>
                   <CardDescription className="ml-10">Manage your saved payment methods</CardDescription>
                 </div>
-                <CardAction>
+                <div>
                   <Button variant="outline" size="sm" className="gap-1.5">
                     <Plus className="w-4 h-4" />
                     Add Card
                   </Button>
-                </CardAction>
-              </CardHeader>
-              <CardContent>
+                </div>
+              </div>
+              <div>
                 <div className="space-y-3">
                   {mockPaymentMethods.map((method) => (
                     <div
                       key={method.id}
-                      className={`flex items-center justify-between p-4 rounded-xl border-2 transition-colors ${
+                      className={`flex items-center justify-between p-3 rounded-lg border transition-colors ${
                         method.isDefault
                           ? "border-purple-200 bg-purple-50/30"
                           : "border-gray-200 hover:border-gray-300"
@@ -350,7 +350,7 @@ export default function SettingsPage() {
                     >
                       <div className="flex items-center gap-4">
                         <div
-                          className={`w-12 h-8 ${cardTypeColors[method.type] || "bg-gray-600"} rounded-lg flex items-center justify-center text-[10px] font-bold text-white uppercase tracking-wider`}
+                          className={`w-12 h-8 ${cardTypeColors[method.type] || "bg-gray-600"} rounded flex items-center justify-center text-[10px] font-bold text-white uppercase tracking-wider`}
                         >
                           {method.type}
                         </div>
@@ -381,24 +381,24 @@ export default function SettingsPage() {
                     </div>
                   ))}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
 
             {/* Danger Zone */}
-            <Card className="border-red-200 shadow-sm">
-              <CardHeader>
+            <div className="border-red-200 p-5 rounded-2xl border">
+              <div className="mb-4">
                 <div>
-                  <CardTitle className="flex items-center gap-2 text-red-600">
+                  <div className="text-lg font-semibold flex items-center gap-2 text-red-600">
                     <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
                       <Trash2 className="w-4 h-4" />
                     </div>
                     Danger Zone
-                  </CardTitle>
+                  </div>
                   <CardDescription className="ml-10">Irreversible actions for your account</CardDescription>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between p-4 bg-red-50/50 rounded-xl border border-red-100">
+              </div>
+              <div>
+                <div className="flex items-center justify-between p-4 bg-red-50/50 rounded-lg border border-red-100">
                   <div>
                     <p className="font-medium text-sm text-gray-900">Delete Account</p>
                     <p className="text-sm text-gray-500">
@@ -409,8 +409,8 @@ export default function SettingsPage() {
                     Delete Account
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </section>

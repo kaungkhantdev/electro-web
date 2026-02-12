@@ -90,22 +90,22 @@ const statusConfig: Record<
 
 export function OrdersList() {
   return (
-    <Card className="shadow-sm">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="flex items-center gap-2">
+    <div className="bg-white">
+      <div className="flex flex-row items-center justify-between mb-4">
+        <h1 className="text-lg font-medium flex items-center gap-2">
           <Package className="w-5 h-5 text-purple-600" />
           Recent Orders
-        </CardTitle>
-        <CardAction>
+        </h1>
+        <div>
           <Link href="/account/orders">
             <Button variant="ghost" size="sm" className="gap-1 text-purple-600 hover:text-purple-700">
               View All
               <ChevronRight className="w-4 h-4" />
             </Button>
           </Link>
-        </CardAction>
-      </CardHeader>
-      <CardContent>
+        </div>
+      </div>
+      <div>
         {mockOrders.length === 0 ? (
           <div className="text-center py-10">
             <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
@@ -128,7 +128,7 @@ export function OrdersList() {
               return (
                 <div
                   key={order.id}
-                  className="border border-gray-200 rounded-xl p-4 hover:border-purple-300 hover:shadow-sm transition-all group"
+                  className="border border-gray-200 rounded-2xl p-4 hover:border-purple-300 hover:shadow-sm transition-all group"
                 >
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="min-w-0">
@@ -189,7 +189,7 @@ export function OrdersList() {
             })}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

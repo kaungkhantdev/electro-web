@@ -135,8 +135,8 @@ export default function CartPage() {
               {/* Cart Items */}
               <div className="xl:col-span-2 space-y-4">
                 {cartItems.length === 0 ? (
-                  <Card className="shadow-sm">
-                    <CardContent className="py-16 text-center">
+                  <div className="">
+                    <div className="py-16 text-center">
                       <div className="w-16 h-16 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-5">
                         <ShoppingCart className="w-8 h-8 text-gray-400" />
                       </div>
@@ -148,26 +148,26 @@ export default function CartPage() {
                           <ArrowRight className="w-4 h-4" />
                         </Button>
                       </Link>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 ) : (
                   <>
                     {/* In Stock Items */}
-                    <Card className="shadow-sm">
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
+                    <div className="">
+                      <div>
+                        <div className="mb-4 flex items-center gap-2 text-lg font-semibold">
                           <ShoppingCart className="w-5 h-5 text-purple-600" />
                           Cart Items
                           <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
                             {inStockItems.reduce((sum, item) => sum + item.quantity, 0)}
                           </span>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-3">
+                        </div>
+                      </div>
+                      <div className="space-y-3">
                         {inStockItems.map((item) => (
                           <div
                             key={item.id}
-                            className="flex gap-4 p-4 border border-gray-200 rounded-xl hover:border-purple-300 hover:shadow-sm transition-all group"
+                            className="flex gap-4 p-4 border border-gray-200 rounded-2xl hover:border-purple-300 hover:shadow-sm transition-all group"
                           >
                             <div className="w-20 h-20 rounded-xl bg-gray-100 flex items-center justify-center text-xl font-bold text-gray-400 shrink-0">
                               {item.name.charAt(0)}
@@ -218,25 +218,25 @@ export default function CartPage() {
                             </div>
                           </div>
                         ))}
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
 
                     {/* Out of Stock Items */}
                     {outOfStockItems.length > 0 && (
-                      <Card className="border-amber-200 bg-amber-50/30 shadow-sm">
-                        <CardHeader>
-                          <CardTitle className="flex items-center gap-2 text-amber-800">
+                      <div className="border-amber-200 bg-amber-50/30 ">
+                        <div>
+                          <div className="text-lg font-semibold mb-4 flex items-center gap-2 text-amber-800">
                             Unavailable Items
                             <span className="text-xs font-medium text-amber-600 bg-amber-100 px-2 py-0.5 rounded-full">
                               {outOfStockItems.length}
                             </span>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-3">
+                          </div>
+                        </div>
+                        <div className="space-y-3">
                           {outOfStockItems.map((item) => (
                             <div
                               key={item.id}
-                              className="flex gap-4 p-4 border border-amber-200 rounded-xl bg-white/70"
+                              className="flex gap-4 p-4 border border-amber-200 rounded-2xl bg-white/70"
                             >
                               <div className="w-16 h-16 rounded-xl bg-gray-100 flex items-center justify-center text-lg font-bold text-gray-300 shrink-0">
                                 {item.name.charAt(0)}
@@ -257,8 +257,8 @@ export default function CartPage() {
                               </button>
                             </div>
                           ))}
-                        </CardContent>
-                      </Card>
+                        </div>
+                      </div>
                     )}
                   </>
                 )}
@@ -267,11 +267,11 @@ export default function CartPage() {
               {/* Order Summary */}
               {cartItems.length > 0 && (
                 <div className="space-y-4">
-                  <Card className="shadow-sm">
-                    <CardHeader>
-                      <CardTitle>Order Summary</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-5">
+                  <div className="">
+                    <div>
+                      <h1 className="text-lg font-semibold mb-4">Order Summary</h1>
+                    </div>
+                    <div className="space-y-5 border rounded-2xl p-5">
                       {/* Promo Code */}
                       <div className="flex gap-2">
                         <div className="relative flex-1">
@@ -325,22 +325,22 @@ export default function CartPage() {
                         <span className="text-purple-600">${total.toFixed(2)}</span>
                       </div>
 
-                      <Button className="w-full bg-purple-600 hover:bg-purple-700 h-12 text-base gap-2">
+                      <Button className="w-full rounded-full bg-purple-600 hover:bg-purple-700 h-12 text-base gap-2">
                         Proceed to Checkout
                         <ArrowRight className="w-4 h-4" />
                       </Button>
 
                       <Link href="/" className="block">
-                        <Button variant="outline" className="w-full">
+                        <Button variant="outline" className="w-full rounded-full">
                           Continue Shopping
                         </Button>
                       </Link>
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
 
                   {/* Benefits */}
-                  <Card className="shadow-sm">
-                    <CardContent className="pt-6 space-y-4">
+                  <div className="">
+                    <div className="pt-6 space-y-4">
                       {[
                         {
                           icon: <Truck className="w-5 h-5" />,
@@ -368,7 +368,7 @@ export default function CartPage() {
                         },
                       ].map((benefit) => (
                         <div key={benefit.title} className="flex items-center gap-3">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${benefit.color}`}>
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${benefit.color}`}>
                             {benefit.icon}
                           </div>
                           <div>
@@ -377,8 +377,8 @@ export default function CartPage() {
                           </div>
                         </div>
                       ))}
-                    </CardContent>
-                  </Card>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

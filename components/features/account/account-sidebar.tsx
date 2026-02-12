@@ -11,6 +11,8 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Photo from '@/public/img/avatar.avif'
+import Image from "next/image";
 
 
 interface SidebarItem {
@@ -53,12 +55,12 @@ interface AccountSidebarProps {
 
 export function AccountSidebar({ activeItem = "Profile" }: AccountSidebarProps) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+    <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
       {/* User Info */}
       <div className="p-5 bg-linear-to-br from-purple-50 to-indigo-50 border-b border-gray-200">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white text-lg font-bold shrink-0">
-            J
+          <div className="w-12 h-12 rounded-full overflow-hidden">
+            <Image src={Photo} height={100} width={100} alt="photo" />
           </div>
           <div className="min-w-0">
             <h3 className="font-semibold text-gray-900 truncate">John Doe</h3>
@@ -81,7 +83,7 @@ export function AccountSidebar({ activeItem = "Profile" }: AccountSidebarProps) 
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group",
                   isActive
-                    ? "bg-purple-600 text-white shadow-sm"
+                    ? "bg-purple-600 text-white"
                     : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                 )}
               >

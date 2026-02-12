@@ -1,8 +1,10 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle, CardAction } from "@/components/ui/card";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Edit, Calendar, Shield } from "lucide-react";
+import Image from "next/image";
+import Photo from '@/public/img/avatar.avif'
 
 interface UserData {
   name: string;
@@ -47,22 +49,13 @@ const infoItems = [
 
 export function UserProfile() {
   return (
-    <Card className="shadow-sm">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Profile Information</CardTitle>
-        <CardAction>
-          <Button variant="outline" size="sm" className="gap-2">
-            <Edit className="w-4 h-4" />
-            Edit Profile
-          </Button>
-        </CardAction>
-      </CardHeader>
-      <CardContent>
+    <div className="bg-white p-5 border rounded-2xl">
+      <div>
         <div className="flex flex-col sm:flex-row gap-6">
           {/* Avatar */}
           <div className="shrink-0">
-            <div className="w-20 h-20 rounded-2xl bg-purple-600 flex items-center justify-center text-white text-2xl font-bold shadow-sm">
-              {mockUser.name.charAt(0)}
+            <div className="w-20 h-20 rounded-xl overflow-hidden">
+              <Image src={Photo} height={100} width={100} alt="photo" />
             </div>
             <div className="flex items-center gap-1.5 mt-3 text-xs text-emerald-600 font-medium justify-center">
               <Shield className="w-3.5 h-3.5" />
@@ -72,13 +65,21 @@ export function UserProfile() {
 
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-semibold text-gray-900">
-              {mockUser.name}
-            </h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {mockUser.name}
+              </h3>
+              <Button variant="outline" size="sm" className="gap-2" asChild>
+                <Link href="/account/setting">
+                  <Edit className="w-4 h-4" />
+                  Edit Profile
+                </Link>
+              </Button>
+            </div>
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
               {infoItems.map((item) => (
                 <div key={item.label} className="flex items-start gap-3 group">
-                  <div className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500 shrink-0 group-hover:bg-purple-50 group-hover:text-purple-600 transition-colors">
+                  <div className="w-8 h-8 rounded-md bg-gray-100 flex items-center justify-center text-gray-500 shrink-0 group-hover:bg-purple-50 group-hover:text-purple-600 transition-colors">
                     {item.icon}
                   </div>
                   <div className="min-w-0">
@@ -94,7 +95,7 @@ export function UserProfile() {
             </div>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

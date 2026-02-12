@@ -64,9 +64,9 @@ export function CartItems() {
   const total = subtotal + shipping;
 
   return (
-    <Card className="shadow-sm">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="flex items-center gap-2">
+    <div className="">
+      <div className="flex flex-row items-center justify-between">
+        <h1 className="text-lg font-medium mb-4 flex items-center gap-2">
           <ShoppingCart className="w-5 h-5 text-purple-600" />
           Shopping Cart
           {cartItems.length > 0 && (
@@ -74,17 +74,17 @@ export function CartItems() {
               {cartItems.reduce((sum, item) => sum + item.quantity, 0)}
             </span>
           )}
-        </CardTitle>
-        <CardAction>
+        </h1>
+        <div>
           <Link href="/account/cart">
             <Button variant="ghost" size="sm" className="gap-1 text-purple-600 hover:text-purple-700">
               View Cart
               <ChevronRight className="w-4 h-4" />
             </Button>
           </Link>
-        </CardAction>
-      </CardHeader>
-      <CardContent>
+        </div>
+      </div>
+      <div>
         {cartItems.length === 0 ? (
           <div className="text-center py-10">
             <div className="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mx-auto mb-4">
@@ -105,7 +105,7 @@ export function CartItems() {
             {cartItems.map((item) => (
               <div
                 key={item.id}
-                className="flex gap-3 p-3 border border-gray-200 rounded-xl hover:border-purple-300 transition-all group"
+                className="flex gap-3 p-3 border border-gray-200 rounded-2xl hover:border-purple-300 transition-all group"
               >
                 <div className="w-14 h-14 rounded-xl bg-gray-100 flex items-center justify-center text-base font-bold text-gray-400 shrink-0">
                   {item.name.charAt(0)}
@@ -122,7 +122,7 @@ export function CartItems() {
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => updateQuantity(item.id, -1)}
-                        className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:border-purple-300 hover:text-purple-600 transition-colors disabled:opacity-40"
+                        className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:border-purple-300 hover:text-purple-600 transition-colors disabled:opacity-40"
                         disabled={item.quantity <= 1}
                       >
                         <Minus className="w-3 h-3" />
@@ -132,13 +132,13 @@ export function CartItems() {
                       </span>
                       <button
                         onClick={() => updateQuantity(item.id, 1)}
-                        className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:border-purple-300 hover:text-purple-600 transition-colors"
+                        className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center text-gray-600 hover:border-purple-300 hover:text-purple-600 transition-colors"
                       >
                         <Plus className="w-3 h-3" />
                       </button>
                       <button
                         onClick={() => removeItem(item.id)}
-                        className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors ml-1"
+                        className="w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors ml-1"
                         aria-label="Remove item"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -150,7 +150,7 @@ export function CartItems() {
             ))}
           </div>
         )}
-      </CardContent>
+      </div>
       {cartItems.length > 0 && (
         <CardFooter className="flex-col gap-4 border-t border-gray-100 pt-6">
           <div className="w-full space-y-2">
@@ -175,12 +175,12 @@ export function CartItems() {
               <span className="text-purple-600">${total.toFixed(2)}</span>
             </div>
           </div>
-          <Button className="w-full bg-purple-600 hover:bg-purple-700 gap-2">
+          <Button className="w-full h-11 rounded-full bg-purple-600 hover:bg-purple-700 gap-2">
             Proceed to Checkout
             <ArrowRight className="w-4 h-4" />
           </Button>
         </CardFooter>
       )}
-    </Card>
+    </div>
   );
 }
