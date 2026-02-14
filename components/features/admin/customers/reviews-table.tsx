@@ -67,7 +67,7 @@ export function ReviewsTable() {
   return (
     <div className="space-y-4">
       {/* Rating Distribution */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <h3 className="font-semibold mb-4">Rating Distribution</h3>
         <div className="space-y-2">
           {ratingDistribution.map((item) => (
@@ -108,14 +108,14 @@ export function ReviewsTable() {
       {/* Reviews List */}
       <div className="space-y-4">
         {filteredReviews.length === 0 ? (
-          <div className="bg-card border rounded-xl p-8 text-center">
+          <div className="bg-white border border-gray-200 rounded-xl p-8 text-center">
             <p className="text-muted-foreground text-sm">No reviews found for this filter.</p>
           </div>
         ) : (
           filteredReviews.map((review) => {
             const config = statusConfig[review.status]
             return (
-              <div key={review.id} className="bg-card border rounded-xl p-5">
+              <div key={review.id} className="bg-white border border-gray-200 rounded-xl p-5">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3 min-w-0">
                     <Link

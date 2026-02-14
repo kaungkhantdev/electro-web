@@ -55,7 +55,7 @@ export function ShippingSettingsForm() {
   return (
     <div className="space-y-6">
       {/* Shipping Zones */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="bg-primary/10 rounded-lg p-2">
@@ -111,7 +111,7 @@ export function ShippingSettingsForm() {
       </div>
 
       {/* Free Shipping */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-green-500/10 rounded-lg p-2">
             <Gift className="h-5 w-5 text-green-500" />
@@ -167,7 +167,7 @@ export function ShippingSettingsForm() {
       </div>
 
       {/* Package Defaults */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-amber-500/10 rounded-lg p-2">
             <Package className="h-5 w-5 text-amber-500" />
@@ -236,7 +236,7 @@ export function ShippingSettingsForm() {
       </div>
 
       {/* Handling Time */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-blue-500/10 rounded-lg p-2">
             <Clock className="h-5 w-5 text-blue-500" />
@@ -281,7 +281,7 @@ export function ShippingSettingsForm() {
       </div>
 
       {/* Carrier Integrations */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-violet-500/10 rounded-lg p-2">
             <Truck className="h-5 w-5 text-violet-500" />
@@ -317,7 +317,7 @@ export function ShippingSettingsForm() {
       </div>
 
       {/* Returns & Exchanges */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-red-500/10 rounded-lg p-2">
             <RotateCcw className="h-5 w-5 text-red-500" />

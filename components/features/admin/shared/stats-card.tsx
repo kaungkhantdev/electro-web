@@ -16,10 +16,10 @@ export function StatsCard({ title, value, change, changeType = "neutral", icon: 
   }[changeType]
 
   return (
-    <div className="bg-card border rounded-xl p-6">
+    <div className="bg-white border border-gray-200 rounded-xl p-6">
       <div className="flex items-center justify-between">
-        <span className="text-muted-foreground text-sm font-medium">{title}</span>
-        {Icon && <Icon className="text-muted-foreground h-4 w-4" />}
+        <span className="text-gray-500 text-sm font-medium">{title}</span>
+        {Icon && <Icon className="text-gray-400 h-4 w-4" />}
       </div>
       <div className="mt-2 text-2xl font-bold">{value}</div>
       {change && (

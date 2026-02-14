@@ -13,12 +13,8 @@ export default function RefundsPage() {
           { label: "Refunds" },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Refunds</h1>
-            <p className="text-muted-foreground text-sm mt-1">Review and process customer refund requests</p>
-          </div>
           <div className="flex items-center gap-2">
             <Link
               href="/admin/payments"

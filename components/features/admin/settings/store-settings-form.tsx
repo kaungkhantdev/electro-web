@@ -18,7 +18,7 @@ export function StoreSettingsForm() {
   return (
     <div className="space-y-6">
       {/* Store Details */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-primary/10 rounded-lg p-2">
             <MapPin className="h-5 w-5 text-primary" />
@@ -103,7 +103,7 @@ export function StoreSettingsForm() {
       </div>
 
       {/* Business Hours */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-blue-500/10 rounded-lg p-2">
             <Clock className="h-5 w-5 text-blue-500" />
@@ -144,7 +144,7 @@ export function StoreSettingsForm() {
       </div>
 
       {/* Inventory Settings */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-amber-500/10 rounded-lg p-2">
             <Package className="h-5 w-5 text-amber-500" />
@@ -207,7 +207,7 @@ export function StoreSettingsForm() {
       </div>
 
       {/* Order Settings */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-green-500/10 rounded-lg p-2">
             <ShoppingCart className="h-5 w-5 text-green-500" />
@@ -284,7 +284,7 @@ export function StoreSettingsForm() {
       </div>
 
       {/* Social Media */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-violet-500/10 rounded-lg p-2">
             <Share2 className="h-5 w-5 text-violet-500" />

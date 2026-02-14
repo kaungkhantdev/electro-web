@@ -196,7 +196,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
           { label: customer.name },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="flex flex-col gap-5">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -240,17 +240,17 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
           <div className="lg:col-span-2 space-y-4">
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="bg-card border rounded-xl p-4 text-center">
+              <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
                 <ShoppingCart className="h-5 w-5 text-muted-foreground mx-auto mb-2" />
                 <p className="text-2xl font-bold">{customer.orders}</p>
                 <p className="text-muted-foreground text-xs">Total Orders</p>
               </div>
-              <div className="bg-card border rounded-xl p-4 text-center">
+              <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
                 <CreditCard className="h-5 w-5 text-muted-foreground mx-auto mb-2" />
                 <p className="text-2xl font-bold">${customer.totalSpent.toLocaleString()}</p>
                 <p className="text-muted-foreground text-xs">Total Spent</p>
               </div>
-              <div className="bg-card border rounded-xl p-4 text-center">
+              <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
                 <CreditCard className="h-5 w-5 text-muted-foreground mx-auto mb-2" />
                 <p className="text-2xl font-bold">${customer.avgOrderValue}</p>
                 <p className="text-muted-foreground text-xs">Avg. Order Value</p>
@@ -258,7 +258,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             </div>
 
             {/* Recent Orders */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold">Recent Orders</h3>
                 <span className="text-muted-foreground text-xs">{customer.orders} total</span>
@@ -308,7 +308,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             </div>
 
             {/* Reviews */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold">Reviews</h3>
                 <span className="text-muted-foreground text-xs">{customer.recentReviews.length} reviews</span>
@@ -344,7 +344,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
           {/* Sidebar */}
           <div className="space-y-4">
             {/* Contact Info */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Contact Information</h3>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
@@ -374,7 +374,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             </div>
 
             {/* Account Details */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Account Details</h3>
               <dl className="space-y-3">
                 <div className="flex justify-between">
@@ -418,7 +418,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 <button className="border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted w-full text-left inline-flex items-center gap-2">

@@ -79,7 +79,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           { label: product.name },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
@@ -119,7 +119,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         <div className="grid gap-4 lg:grid-cols-3">
           <div className="lg:col-span-2 space-y-4">
             {/* Product Image & Info */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <div className="flex gap-6">
                 <div className="bg-muted h-40 w-40 rounded-xl overflow-hidden shrink-0">
                   <div className="h-full w-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
@@ -143,7 +143,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             </div>
 
             {/* Pricing */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Pricing</h3>
               <div className="grid gap-4 sm:grid-cols-4">
                 <div>
@@ -170,7 +170,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             </div>
 
             {/* Inventory */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Inventory</h3>
               <div className="grid gap-4 sm:grid-cols-3">
                 <div>
@@ -204,7 +204,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
           {/* Sidebar */}
           <div className="space-y-4">
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Details</h3>
               <dl className="space-y-3">
                 <div className="flex justify-between">
@@ -239,7 +239,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               </dl>
             </div>
 
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 <Link

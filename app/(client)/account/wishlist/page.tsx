@@ -1,7 +1,5 @@
 "use client";
 
-import { AccountSidebar } from "@/components/features/account";
-import { Heart } from "lucide-react";
 import { Product, ProductCard } from "@/components/features/shop/product-card";
 
 const mockProducts: Product[] = [
@@ -63,42 +61,12 @@ const mockProducts: Product[] = [
 
 export default function WishlistPage() {
   return (
-    <main className="flex-1 bg-gray-50/60">
-      {/* Page Header */}
-      <section className="bg-linear-to-r from-purple-600 via-purple-700 to-indigo-700 text-white">
-        <div className="container mx-auto px-4 py-10 sm:py-12">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
-              <Heart className="w-6 h-6" />
-            </div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl font-bold">My Wishlist</h1>
-              <p className="text-purple-200 text-sm mt-0.5">
-                {mockProducts.length} items saved for later
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <section className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-1">
-            <div className="lg:sticky lg:top-6">
-              <AccountSidebar activeItem="Wishlist" />
-            </div>
-          </div>
-
-          <div className="lg:col-span-3">
-            <div className="grid gap-4 lg:gap-6 grid-cols-2 md:grid-cols-3">
-              {mockProducts.map((product, index) => (
-                <ProductCard key={index} product={product} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+    <div>
+      <div className="grid gap-4 lg:gap-6 grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        {mockProducts.map((product, index) => (
+          <ProductCard key={index} product={product} />
+        ))}
+      </div>
+    </div>
   );
 }

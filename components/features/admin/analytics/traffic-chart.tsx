@@ -91,7 +91,7 @@ export function TrafficChart() {
       </div>
 
       {/* Daily Visitors Chart */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="font-semibold">Daily Visitors</h3>
@@ -127,7 +127,7 @@ export function TrafficChart() {
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Traffic Sources */}
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Traffic Sources</h3>
 
           {/* Stacked bar */}
@@ -169,7 +169,7 @@ export function TrafficChart() {
         </div>
 
         {/* Top Pages */}
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Top Pages</h3>
           <div className="space-y-3">
             {pageViews.map((page) => {
@@ -199,7 +199,7 @@ export function TrafficChart() {
         </div>
 
         {/* Device Breakdown */}
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Device Breakdown</h3>
           <div className="space-y-4">
             {deviceStats.map((device) => {
@@ -233,7 +233,7 @@ export function TrafficChart() {
       </div>
 
       {/* Geographic Data */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="font-semibold">Top Countries</h3>

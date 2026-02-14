@@ -35,12 +35,9 @@ export default function AnalyticsPage() {
           { label: "Analytics" },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Analytics Overview</h1>
-            <p className="text-muted-foreground text-sm mt-1">Monitor your store performance and trends</p>
-          </div>
+          
           <div className="flex items-center gap-2">
             <Link
               href="/admin/analytics"
@@ -98,7 +95,7 @@ export default function AnalyticsPage() {
 
         <div className="grid gap-4 lg:grid-cols-2">
           {/* Conversion Funnel */}
-          <div className="bg-card border rounded-xl p-6">
+          <div className="bg-white border border-gray-200 rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold">Conversion Funnel</h3>
               <span className="text-muted-foreground text-xs">Last 30 days</span>
@@ -139,7 +136,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Insights & Alerts */}
-          <div className="bg-card border rounded-xl p-6">
+          <div className="bg-white border border-gray-200 rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold">Insights & Alerts</h3>
               <Activity className="h-4 w-4 text-muted-foreground" />

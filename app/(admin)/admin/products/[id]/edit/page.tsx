@@ -30,7 +30,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
           { label: "Edit" },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="flex flex-col gap-5">
         <div className="flex items-center gap-3">
           <Link
             href={`/admin/products/${id}`}

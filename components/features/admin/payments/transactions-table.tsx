@@ -113,7 +113,7 @@ export function TransactionsTable() {
       </div>
 
       {/* Table */}
-      <div className="bg-card border rounded-xl overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <table className="w-full">
           <thead className="bg-muted/50">
             <tr>

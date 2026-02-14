@@ -9,7 +9,7 @@ export function ProductForm() {
   return (
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2 space-y-6">
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Product Information</h3>
           <div className="space-y-4">
             <div>
@@ -49,7 +49,7 @@ export function ProductForm() {
           </div>
         </div>
 
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Media</h3>
           <div className="border-2 border-dashed rounded-lg p-8 text-center">
             <ImagePlus className="h-10 w-10 mx-auto text-muted-foreground mb-2" />
@@ -73,7 +73,7 @@ export function ProductForm() {
           )}
         </div>
 
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Pricing</h3>
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
@@ -112,7 +112,7 @@ export function ProductForm() {
           </div>
         </div>
 
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Inventory</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
@@ -136,7 +136,7 @@ export function ProductForm() {
       </div>
 
       <div className="space-y-6">
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Status</h3>
           <select className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
             <option value="draft">Draft</option>
@@ -145,7 +145,7 @@ export function ProductForm() {
           </select>
         </div>
 
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Category</h3>
           <select className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
             <option value="">Select category</option>
@@ -158,7 +158,7 @@ export function ProductForm() {
           </select>
         </div>
 
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Tags</h3>
           <input
             type="text"

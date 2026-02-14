@@ -161,7 +161,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           { label: order.orderNumber },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="flex flex-col gap-5">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -201,7 +201,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           {/* Main */}
           <div className="lg:col-span-2 space-y-4">
             {/* Order Items */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Order Items</h3>
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -259,7 +259,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             </div>
 
             {/* Timeline */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Order Timeline</h3>
               <div className="space-y-0">
                 {order.timeline.map((entry, i) => (
@@ -284,7 +284,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
             {/* Notes */}
             {order.notes && (
-              <div className="bg-card border rounded-xl p-6">
+              <div className="bg-white border border-gray-200 rounded-xl p-6">
                 <h3 className="font-semibold mb-2">Notes</h3>
                 <p className="text-muted-foreground text-sm">{order.notes}</p>
               </div>
@@ -294,7 +294,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           {/* Sidebar */}
           <div className="space-y-4">
             {/* Customer */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Customer</h3>
               <Link href={`/admin/customers/${order.customer.id}`} className="flex items-center gap-3 group mb-4">
                 <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-medium text-sm">
@@ -320,7 +320,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             </div>
 
             {/* Shipping */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Shipping Address</h3>
               <div className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
@@ -334,7 +334,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             </div>
 
             {/* Payment */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Payment</h3>
               <dl className="space-y-3">
                 <div className="flex justify-between">
@@ -363,7 +363,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             </div>
 
             {/* Actions */}
-            <div className="bg-card border rounded-xl p-6">
+            <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="font-semibold mb-4">Actions</h3>
               <div className="space-y-2">
                 <button className="border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted w-full text-left inline-flex items-center gap-2">

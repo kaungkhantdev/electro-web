@@ -12,12 +12,8 @@ export default function CompletedOrdersPage() {
           { label: "Completed" },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Completed Orders</h1>
-            <p className="text-muted-foreground text-sm mt-1">Shipped and delivered orders</p>
-          </div>
           <div className="flex items-center gap-2">
             <Link
               href="/admin/orders"

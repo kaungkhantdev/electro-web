@@ -31,7 +31,7 @@ export function CategoryForm({ mode, defaultValues }: CategoryFormProps) {
     <div className="grid gap-6 lg:grid-cols-3">
       <div className="lg:col-span-2 space-y-6">
         {/* Basic Information */}
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Category Information</h3>
           <div className="space-y-4">
             <div>
@@ -71,7 +71,7 @@ export function CategoryForm({ mode, defaultValues }: CategoryFormProps) {
         </div>
 
         {/* Category Image */}
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Category Image</h3>
           <div className="border-2 border-dashed rounded-lg p-8 text-center">
             <ImagePlus className="h-10 w-10 mx-auto text-muted-foreground mb-2" />
@@ -88,7 +88,7 @@ export function CategoryForm({ mode, defaultValues }: CategoryFormProps) {
         </div>
 
         {/* SEO */}
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">SEO</h3>
           <div className="space-y-4">
             <div>
@@ -119,7 +119,7 @@ export function CategoryForm({ mode, defaultValues }: CategoryFormProps) {
 
       {/* Sidebar */}
       <div className="space-y-6">
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Status</h3>
           <select
             defaultValue={defaultValues?.status ?? "active"}
@@ -131,7 +131,7 @@ export function CategoryForm({ mode, defaultValues }: CategoryFormProps) {
           </select>
         </div>
 
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Parent Category</h3>
           <select
             defaultValue={defaultValues?.parentCategory ?? ""}
@@ -148,7 +148,7 @@ export function CategoryForm({ mode, defaultValues }: CategoryFormProps) {
           </p>
         </div>
 
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Display</h3>
           <div className="space-y-3">
             <label className="flex items-center gap-3 cursor-pointer">

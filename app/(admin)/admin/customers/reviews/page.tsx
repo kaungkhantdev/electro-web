@@ -13,19 +13,7 @@ export default function ReviewsPage() {
           { label: "Reviews" },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/admin/customers"
-            className="hover:bg-muted rounded-md p-2 transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold">Customer Reviews</h1>
-            <p className="text-muted-foreground text-sm mt-0.5">Manage and moderate product reviews</p>
-          </div>
-        </div>
+      <div className="flex flex-col gap-5">
 
         <div className="grid auto-rows-min gap-4 md:grid-cols-4">
           <StatsCard

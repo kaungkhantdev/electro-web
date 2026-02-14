@@ -12,12 +12,9 @@ export default function SalesReportPage() {
           { label: "Sales Report" },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Sales Report</h1>
-            <p className="text-muted-foreground text-sm mt-1">Revenue breakdown and product performance</p>
-          </div>
+         
           <div className="flex items-center gap-2">
             <Link
               href="/admin/analytics"

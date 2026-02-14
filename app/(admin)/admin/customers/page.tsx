@@ -12,12 +12,8 @@ export default function CustomersPage() {
           { label: "Customers" },
         ]}
       />
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold">Customers</h1>
-            <p className="text-muted-foreground text-sm mt-1">Manage customer accounts and activity</p>
-          </div>
           <Link
             href="/admin/customers/reviews"
             className="border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted"

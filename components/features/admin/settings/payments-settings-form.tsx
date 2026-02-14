@@ -16,7 +16,7 @@ export function PaymentsSettingsForm() {
   return (
     <div className="space-y-6">
       {/* Payment Methods */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-primary/10 rounded-lg p-2">
             <CreditCard className="h-5 w-5 text-primary" />
@@ -53,7 +53,7 @@ export function PaymentsSettingsForm() {
       </div>
 
       {/* Stripe Configuration */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="bg-violet-500/10 rounded-lg p-2">
@@ -123,7 +123,7 @@ export function PaymentsSettingsForm() {
       </div>
 
       {/* PayPal Configuration */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-blue-500/10 rounded-lg p-2">
             <Wallet className="h-5 w-5 text-blue-500" />
@@ -167,7 +167,7 @@ export function PaymentsSettingsForm() {
       </div>
 
       {/* Tax Settings */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-amber-500/10 rounded-lg p-2">
             <Receipt className="h-5 w-5 text-amber-500" />
@@ -221,7 +221,7 @@ export function PaymentsSettingsForm() {
       </div>
 
       {/* Refund Policy */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-green-500/10 rounded-lg p-2">
             <RefreshCw className="h-5 w-5 text-green-500" />
