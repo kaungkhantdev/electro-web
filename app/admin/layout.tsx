@@ -26,7 +26,9 @@ export default function AdminLayout({
         </div>
       </header>
 
-      <div className="container mx-auto px-4 lg:px-6 py-6">{children}</div>
+      <div className="container mx-auto px-4 lg:px-6 py-6 lg:mb-7">
+        {children}
+      </div>
     </div>
   );
 }

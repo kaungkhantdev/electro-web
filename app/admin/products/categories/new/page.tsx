@@ -13,6 +13,7 @@ export default function NewCategoryPage() {
           { label: "Categories", href: "/admin/products/categories" },
           { label: "New Category" },
         ]}
+        showActions={false}
       />
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-3">

@@ -1,19 +1,23 @@
-import Link from "next/link"
-import { Download, Calendar } from "lucide-react"
+import Link from "next/link";
+import { Download, Calendar } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface BreadcrumbItemType {
-  label: string
-  href?: string
+  label: string;
+  href?: string;
 }
 
 interface AdminPageHeaderProps {
-  breadcrumbs: BreadcrumbItemType[]
-  showActions?: boolean
+  breadcrumbs: BreadcrumbItemType[];
+  showActions?: boolean;
 }
 
-export function AdminPageHeader({ breadcrumbs, showActions = true }: AdminPageHeaderProps) {
-  const currentPage = breadcrumbs[breadcrumbs.length - 1]?.label ?? ""
-  const breadcrumbPath = breadcrumbs.map((b) => b.label).join(" / ")
+export function AdminPageHeader({
+  breadcrumbs,
+  showActions = true,
+}: AdminPageHeaderProps) {
+  const currentPage = breadcrumbs[breadcrumbs.length - 1]?.label ?? "";
+  const breadcrumbPath = breadcrumbs.map((b) => b.label).join(" / ");
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -25,7 +29,10 @@ export function AdminPageHeader({ breadcrumbs, showActions = true }: AdminPageHe
               <span key={item.label}>
                 {index > 0 && " / "}
                 {item.href ? (
-                  <Link href={item.href} className="hover:text-gray-700 transition-colors">
+                  <Link
+                    href={item.href}
+                    className="hover:text-gray-700 transition-colors"
+                  >
                     {item.label}
                   </Link>
                 ) : (
@@ -40,16 +47,16 @@ export function AdminPageHeader({ breadcrumbs, showActions = true }: AdminPageHe
       </div>
       {showActions && (
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <Button variant="outline" className="rounded-full">
             <Download className="w-4 h-4" />
             Export
-          </button>
-          <button className="flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          </Button>
+          <Button variant="outline" className="rounded-full">
             <Calendar className="w-4 h-4" />
             Jan 20, 2025 - Feb 09, 2025
-          </button>
+          </Button>
         </div>
       )}
     </div>
-  )
+  );
 }
