@@ -9,7 +9,7 @@ export function GeneralSettingsForm() {
   return (
     <div className="space-y-6">
       {/* Site Information */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-primary/10 rounded-lg p-2">
             <Globe className="h-5 w-5 text-primary" />
@@ -68,7 +68,7 @@ export function GeneralSettingsForm() {
       </div>
 
       {/* Contact Information */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-blue-500/10 rounded-lg p-2">
             <Mail className="h-5 w-5 text-blue-500" />
@@ -115,7 +115,7 @@ export function GeneralSettingsForm() {
       </div>
 
       {/* Regional Settings */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-violet-500/10 rounded-lg p-2">
             <Globe className="h-5 w-5 text-violet-500" />
@@ -187,7 +187,7 @@ export function GeneralSettingsForm() {
       </div>
 
       {/* Notification Preferences */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-amber-500/10 rounded-lg p-2">
             <Bell className="h-5 w-5 text-amber-500" />
@@ -242,7 +242,7 @@ export function GeneralSettingsForm() {
       </div>
 
       {/* Security & Maintenance */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-red-500/10 rounded-lg p-2">
             <Shield className="h-5 w-5 text-red-500" />

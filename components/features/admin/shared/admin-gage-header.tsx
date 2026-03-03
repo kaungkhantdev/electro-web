@@ -1,13 +1,5 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import { SidebarTrigger } from "@/components/ui/sidebar"
+import Link from "next/link"
+import { Download, Calendar } from "lucide-react"
 
 interface BreadcrumbItemType {
   label: string
@@ -16,36 +8,48 @@ interface BreadcrumbItemType {
 
 interface AdminPageHeaderProps {
   breadcrumbs: BreadcrumbItemType[]
+  showActions?: boolean
 }
 
-export function AdminPageHeader({ breadcrumbs }: AdminPageHeaderProps) {
+export function AdminPageHeader({ breadcrumbs, showActions = true }: AdminPageHeaderProps) {
+  const currentPage = breadcrumbs[breadcrumbs.length - 1]?.label ?? ""
+  const breadcrumbPath = breadcrumbs.map((b) => b.label).join(" / ")
+
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-      <div className="flex items-center gap-2 px-4">
-        <SidebarTrigger className="-ml-1" />
-        <Separator
-          orientation="vertical"
-          className="mr-2 data-[orientation=vertical]:h-4"
-        />
-        <Breadcrumb>
-          <BreadcrumbList>
-            {breadcrumbs.map((item, index) => (
-              <span key={item.label} className="contents">
-                {index > 0 && (
-                  <BreadcrumbSeparator className="hidden md:block" />
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div>
+        <h1 className="text-lg font-semibold text-gray-900">{currentPage}</h1>
+        <p className="text-sm text-gray-500 mt-0.5">
+          {breadcrumbs.length > 1 ? (
+            breadcrumbs.map((item, index) => (
+              <span key={item.label}>
+                {index > 0 && " / "}
+                {item.href ? (
+                  <Link href={item.href} className="hover:text-gray-700 transition-colors">
+                    {item.label}
+                  </Link>
+                ) : (
+                  <span>{item.label}</span>
                 )}
-                <BreadcrumbItem className={index < breadcrumbs.length - 1 ? "hidden md:block" : ""}>
-                  {item.href ? (
-                    <BreadcrumbLink href={item.href}>{item.label}</BreadcrumbLink>
-                  ) : (
-                    <BreadcrumbPage>{item.label}</BreadcrumbPage>
-                  )}
-                </BreadcrumbItem>
               </span>
-            ))}
-          </BreadcrumbList>
-        </Breadcrumb>
+            ))
+          ) : (
+            <span>Dashboards / {currentPage}</span>
+          )}
+        </p>
       </div>
-    </header>
+      {showActions && (
+        <div className="flex items-center gap-2">
+          <button className="flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <Download className="w-4 h-4" />
+            Export
+          </button>
+          <button className="flex items-center gap-2 px-3.5 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <Calendar className="w-4 h-4" />
+            Jan 20, 2025 - Feb 09, 2025
+          </button>
+        </div>
+      )}
+    </div>
   )
 }

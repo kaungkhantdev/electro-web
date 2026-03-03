@@ -73,7 +73,7 @@ export function SalesChart() {
       </div>
 
       {/* Weekly Revenue Chart */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="font-semibold">Weekly Revenue</h3>
@@ -121,7 +121,7 @@ export function SalesChart() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Sales by Category */}
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Sales by Category</h3>
           <div className="space-y-4">
             {salesData.map((item) => (
@@ -158,7 +158,7 @@ export function SalesChart() {
         </div>
 
         {/* Top Products */}
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <h3 className="font-semibold mb-4">Top Selling Products</h3>
           <div className="space-y-3">
             {topProducts.map((product, index) => (
@@ -198,7 +198,7 @@ export function SalesChart() {
       </div>
 
       {/* Recent Transactions */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-semibold">Recent Transactions</h3>
           <span className="text-muted-foreground text-xs">Live feed</span>

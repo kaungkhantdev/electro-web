@@ -114,7 +114,7 @@ export function RefundsTable() {
       </div>
 
       {/* Table */}
-      <div className="bg-card border rounded-xl overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <table className="w-full">
           <thead className="bg-muted/50">
             <tr>
@@ -224,7 +224,7 @@ export function RefundsTable() {
       </div>
 
       {/* Refund Reasons Breakdown */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <h3 className="font-semibold mb-4">Refund Reasons Breakdown</h3>
         <div className="space-y-3">
           {[

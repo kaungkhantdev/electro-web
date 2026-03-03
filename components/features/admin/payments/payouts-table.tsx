@@ -78,7 +78,7 @@ export function PayoutsTable() {
 
       {/* Bank Account & Payout Schedule */}
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="bg-primary/10 rounded-lg p-2">
@@ -114,7 +114,7 @@ export function PayoutsTable() {
           </div>
         </div>
 
-        <div className="bg-card border rounded-xl p-6">
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="bg-blue-500/10 rounded-lg p-2">
@@ -152,7 +152,7 @@ export function PayoutsTable() {
       </div>
 
       {/* Balance Breakdown */}
-      <div className="bg-card border rounded-xl p-6">
+      <div className="bg-white border border-gray-200 rounded-xl p-6">
         <h3 className="font-semibold mb-4">Balance Breakdown</h3>
         <div className="grid gap-6 md:grid-cols-3">
           <div className="space-y-2">
@@ -180,7 +180,7 @@ export function PayoutsTable() {
       </div>
 
       {/* Payout History Table */}
-      <div className="bg-card border rounded-xl overflow-hidden">
+      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <div className="flex items-center justify-between p-4 border-b">
           <h3 className="font-semibold">Payout History</h3>
           <button className="border rounded-md px-3 py-1.5 text-sm font-medium hover:bg-muted flex items-center gap-2">

@@ -40,7 +40,7 @@ export function OverviewChart() {
   })()
 
   return (
-    <div className="bg-card border rounded-xl p-6">
+    <div className="bg-white border border-gray-200 rounded-xl p-6">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="font-semibold">Performance Overview</h3>

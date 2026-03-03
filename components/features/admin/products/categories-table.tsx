@@ -30,29 +30,13 @@ const maxProducts = Math.max(...sampleCategories.map(c => c.productCount))
 export function CategoriesTable() {
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="relative max-w-sm">
-          <input
-            type="text"
-            placeholder="Search categories..."
-            className="border-input bg-background w-full rounded-md border py-2 pl-4 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-        </div>
-        <Link
-          href="/admin/products/categories/new"
-          className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium flex items-center gap-2"
-        >
-          <Plus className="h-4 w-4" />
-          Add Category
-        </Link>
-      </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {sampleCategories.map((category) => {
           const activePercent = Math.round((category.activeProducts / category.productCount) * 100)
           const barWidth = (category.productCount / maxProducts) * 100
           return (
-            <div key={category.id} className="bg-card border rounded-xl p-4 hover:shadow-sm transition-shadow">
+            <div key={category.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-sm transition-shadow">
               <div className="flex items-start justify-between mb-3">
                 <div className="bg-primary/10 rounded-lg p-2">
                   <FolderTree className="h-5 w-5 text-primary" />

@@ -45,10 +45,10 @@ export function AccountStats() {
       {stats.map((stat) => (
         <div
           key={stat.label}
-          className="bg-white rounded-xl border border-gray-200 p-4 sm:p-5 flex items-center gap-4 shadow-sm"
+          className="bg-white rounded-2xl border border-gray-200 p-3 sm:p-3 flex items-center gap-4"
         >
           <div
-            className={`w-11 h-11 rounded-xl ${stat.bgColor} ${stat.color} flex items-center justify-center flex-shrink-0`}
+            className={`w-11 h-11 rounded-lg ${stat.bgColor} ${stat.color} flex items-center justify-center flex-shrink-0`}
           >
             {stat.icon}
           </div>
