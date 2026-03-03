@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { HugeiconsIcon } from "@hugeicons/react"
-import { Menu01Icon } from "@hugeicons/core-free-icons"
-import { ChevronDown } from "lucide-react"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/collapsible";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Menu01Icon } from "@hugeicons/core-free-icons";
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils/utils";
 
 const shopCategories = [
   { title: "iPhone", href: "/shop/iphone" },
@@ -27,7 +27,7 @@ const shopCategories = [
   { title: "Apple Watch", href: "/shop/watch" },
   { title: "AirPods", href: "/shop/airpods" },
   { title: "Accessories", href: "/shop/accessories" },
-]
+];
 
 const supportLinks = [
   { title: "Contact Us", href: "/support/contact" },
@@ -35,12 +35,12 @@ const supportLinks = [
   { title: "Shipping Info", href: "/support/shipping" },
   { title: "Returns & Refunds", href: "/support/returns" },
   { title: "Warranty", href: "/support/warranty" },
-]
+];
 
 export function MobileNavSheet() {
-  const [openShop, setOpenShop] = React.useState(false)
-  const [openSupport, setOpenSupport] = React.useState(false)
-  const [sheetOpen, setSheetOpen] = React.useState(false)
+  const [openShop, setOpenShop] = React.useState(false);
+  const [openSupport, setOpenSupport] = React.useState(false);
+  const [sheetOpen, setSheetOpen] = React.useState(false);
 
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
@@ -69,7 +69,7 @@ export function MobileNavSheet() {
               <ChevronDown
                 className={cn(
                   "h-4 w-4 transition-transform duration-200",
-                  openShop && "rotate-180"
+                  openShop && "rotate-180",
                 )}
               />
             </CollapsibleTrigger>
@@ -114,7 +114,7 @@ export function MobileNavSheet() {
               <ChevronDown
                 className={cn(
                   "h-4 w-4 transition-transform duration-200",
-                  openSupport && "rotate-180"
+                  openSupport && "rotate-180",
                 )}
               />
             </CollapsibleTrigger>
@@ -180,5 +180,5 @@ export function MobileNavSheet() {
         </nav>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

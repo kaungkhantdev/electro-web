@@ -10,10 +10,9 @@ import {
   LogOut,
   ChevronRight,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import Photo from '@/public/img/avatar.avif'
+import { cn } from "@/lib/utils/utils";
+import Photo from "@/public/img/avatar.avif";
 import Image from "next/image";
-
 
 interface SidebarItem {
   label: string;
@@ -53,7 +52,9 @@ interface AccountSidebarProps {
   activeItem?: string;
 }
 
-export function AccountSidebar({ activeItem = "Profile" }: AccountSidebarProps) {
+export function AccountSidebar({
+  activeItem = "Profile",
+}: AccountSidebarProps) {
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
       {/* User Info */}
@@ -84,13 +85,15 @@ export function AccountSidebar({ activeItem = "Profile" }: AccountSidebarProps) 
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group",
                   isActive
                     ? "bg-purple-600 text-white"
-                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900",
                 )}
               >
                 <span
                   className={cn(
                     "shrink-0",
-                    isActive ? "text-white" : "text-gray-400 group-hover:text-gray-600"
+                    isActive
+                      ? "text-white"
+                      : "text-gray-400 group-hover:text-gray-600",
                   )}
                 >
                   {item.icon}
@@ -102,7 +105,7 @@ export function AccountSidebar({ activeItem = "Profile" }: AccountSidebarProps) 
                       "text-xs font-semibold px-2 py-0.5 rounded-full",
                       isActive
                         ? "bg-white/20 text-white"
-                        : "bg-gray-100 text-gray-600 group-hover:bg-gray-200"
+                        : "bg-gray-100 text-gray-600 group-hover:bg-gray-200",
                     )}
                   >
                     {item.count}
@@ -111,7 +114,7 @@ export function AccountSidebar({ activeItem = "Profile" }: AccountSidebarProps) 
                   <ChevronRight
                     className={cn(
                       "w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity",
-                      isActive ? "text-white opacity-100" : "text-gray-400"
+                      isActive ? "text-white opacity-100" : "text-gray-400",
                     )}
                   />
                 )}

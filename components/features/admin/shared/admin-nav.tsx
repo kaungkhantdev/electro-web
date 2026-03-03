@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import {
   ChevronDown,
   LayoutDashboard,
@@ -120,7 +120,7 @@ function NavDropdown({ item, isActive }: { item: NavItem; isActive: boolean }) {
           "flex items-center gap-1.5 px-3 py-2.5 text-[13px] transition-colors",
           isActive
             ? "text-gray-900 font-semibold"
-            : "text-gray-500 font-medium hover:text-gray-900"
+            : "text-gray-500 font-medium hover:text-gray-900",
         )}
       >
         <Icon className="w-4 h-4" />
@@ -137,7 +137,7 @@ function NavDropdown({ item, isActive }: { item: NavItem; isActive: boolean }) {
           "flex items-center gap-1.5 px-3 py-2.5 text-[13px] transition-colors",
           isActive
             ? "text-gray-900 font-semibold"
-            : "text-gray-500 font-medium hover:text-gray-900"
+            : "text-gray-500 font-medium hover:text-gray-900",
         )}
       >
         <Icon className="w-4 h-4" />
@@ -167,7 +167,10 @@ interface AdminNavProps {
   onMobileMenuChange: (open: boolean) => void;
 }
 
-export function AdminNav({ mobileMenuOpen, onMobileMenuChange }: AdminNavProps) {
+export function AdminNav({
+  mobileMenuOpen,
+  onMobileMenuChange,
+}: AdminNavProps) {
   const pathname = usePathname();
 
   return (
@@ -207,7 +210,7 @@ export function AdminNav({ mobileMenuOpen, onMobileMenuChange }: AdminNavProps) 
                       "flex items-center gap-2.5 px-3 py-2.5 text-sm rounded-lg transition-colors",
                       isActive
                         ? "text-gray-900 font-semibold bg-gray-100"
-                        : "text-gray-500 font-medium hover:text-gray-900 hover:bg-gray-50"
+                        : "text-gray-500 font-medium hover:text-gray-900 hover:bg-gray-50",
                     )}
                   >
                     <Icon className="w-4 h-4" />
@@ -224,7 +227,7 @@ export function AdminNav({ mobileMenuOpen, onMobileMenuChange }: AdminNavProps) 
                             "block px-3 py-2 text-sm rounded-lg transition-colors",
                             pathname === child.href
                               ? "text-gray-900 font-medium"
-                              : "text-gray-400 hover:text-gray-700 hover:bg-gray-50"
+                              : "text-gray-400 hover:text-gray-700 hover:bg-gray-50",
                           )}
                         >
                           {child.label}

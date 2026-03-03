@@ -124,3 +124,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .base-btn {
+    @apply rounded-full h-10;
+  }
+  .base-btn-primary {
+    @apply bg-purple-600 hover:bg-purple-700;
+  }
+  .base-btn-outline {
+    @apply rounded-full;
+  }
+}

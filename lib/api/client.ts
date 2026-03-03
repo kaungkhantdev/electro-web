@@ -3,15 +3,20 @@ import { getSession } from "next-auth/react";
 
 const API_URL = process.env.API_URL || "http://localhost:3000";
 
-export const apiClient = axios.create({
+const baseConfig = {
   baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },
+};
+
+export const serverClient = axios.create(baseConfig);
+
+export const apiClient = axios.create({
+  ...baseConfig,
   withCredentials: true,
 });
 
-// Auto-attach Bearer token on every request
 apiClient.interceptors.request.use(async (config) => {
   const session = await getSession();
   if (session?.user?.accessToken) {
@@ -19,4 +24,5 @@ apiClient.interceptors.request.use(async (config) => {
   }
   return config;
 });
+
 export default apiClient;

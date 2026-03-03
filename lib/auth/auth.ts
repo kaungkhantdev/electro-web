@@ -1,9 +1,15 @@
 import { NextAuthOptions, getServerSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
-import "./types/auth.types";
-
-const API_URL = process.env.API_URL || "http://localhost:3000";
+import "@/types/auth.types";
+import {
+  RegisterPayload,
+  RegisterResponse,
+  LoginResponse,
+} from "@/types/auth.types";
+import { serverClient } from "@/lib/api/client";
+import { isApiError } from "@/types/api.types";
+import { AUTH_ENDPOINT } from "@/lib/api/endpoint";
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -13,48 +19,30 @@ const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("API_URL:", API_URL);
-        console.log("Calling:", `${API_URL}/api/v1/auth/login`);
-        console.log("Credentials:", {
-          username: credentials?.username,
-          password: "***",
-        });
-
         try {
-          const res = await fetch(`${API_URL}/api/v1/auth/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({
+          const { data: response } = await serverClient.post<LoginResponse>(
+            AUTH_ENDPOINT.LOGIN,
+            {
               username: credentials?.username,
               password: credentials?.password,
-            }),
-          });
+            },
+          );
 
-          console.log("Response status:", res.status);
-          console.log("Response ok:", res.ok);
-
-          if (!res.ok) {
-            const errorText = await res.text();
-            console.error("Login failed:", errorText);
-            return null;
-          }
-
-          const response = await res.json();
-          console.log("Backend response:", JSON.stringify(response, null, 2));
-
-          const user = response.data.user;
-          const accessToken = response.data.accessToken;
+          const { user, accessToken } = response.data;
 
           return {
             id: user.id,
             name: `${user.firstName} ${user.lastName}`,
             email: user.email,
             role: user.role,
-            accessToken: accessToken,
+            accessToken,
           };
         } catch (error) {
-          console.error("Error in authorize:", error);
+          if (isApiError(error)) {
+            console.error("Login failed:", error.message);
+          } else {
+            console.error("Error in authorize:", error);
+          }
           return null;
         }
       },
@@ -96,28 +84,17 @@ const authOptions: NextAuthOptions = {
 
 async function refreshAccessToken(token: JWT) {
   try {
-    const res = await fetch(`${API_URL}/api/v1/auth/refresh`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to refresh access token");
-    }
-
-    const refreshedTokens = await res.json();
+    const { data: response } = await serverClient.post<{ accessToken: string }>(
+      AUTH_ENDPOINT.REFRESH,
+    );
 
     return {
       ...token,
-      accessToken: refreshedTokens.accessToken,
-      accessTokenExpires: Date.now() + 15 * 60 * 1000, // 15 minutes
+      accessToken: response.accessToken,
+      accessTokenExpires: Date.now() + 15 * 60 * 1000,
     };
   } catch (error) {
     console.error("Error refreshing access token:", error);
-
     return {
       ...token,
       error: "RefreshAccessTokenError",
@@ -129,4 +106,30 @@ export { authOptions };
 
 export async function auth() {
   return getServerSession(authOptions);
+}
+
+export async function register(payload: RegisterPayload) {
+  try {
+    const { data: response } = await serverClient.post<RegisterResponse>(
+      AUTH_ENDPOINT.REGISTER,
+      payload,
+    );
+
+    const { user, accessToken } = response.data;
+
+    return {
+      id: user.id,
+      name: `${user.firstName} ${user.lastName}`,
+      email: user.email,
+      role: user.role,
+      accessToken,
+    };
+  } catch (error) {
+    if (isApiError(error)) {
+      console.error("Register failed:", error.message);
+    } else {
+      console.error("Error in register:", error);
+    }
+    return null;
+  }
 }
