@@ -1,5 +1,4 @@
 import { useState, type InputHTMLAttributes } from "react";
-import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type {
   FieldErrors,
@@ -10,11 +9,7 @@ import type {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  PackageIcon,
-  ViewFreeIcons,
-  ViewOffFreeIcons,
-} from "@hugeicons/core-free-icons";
+import { ViewFreeIcons, ViewOffFreeIcons } from "@hugeicons/core-free-icons";
 
 interface PasswordInputProps<T extends FieldValues> extends Omit<
   InputHTMLAttributes<HTMLInputElement>,

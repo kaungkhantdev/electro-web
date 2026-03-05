@@ -14,10 +14,8 @@ export default function CategoriesPage() {
           { label: "Products", href: "/admin/products" },
           { label: "Categories" },
         ]}
-        showActions={false}
-      />
-      <div className="flex flex-col gap-5">
-        <div className="flex items-center justify-between">
+      >
+        <div className="flex items-center justify-between gap-2">
           <div className="relative max-w-lg">
             <Input
               type="text"
@@ -38,22 +36,23 @@ export default function CategoriesPage() {
             Add Category
           </Link>
         </div>
-
+      </AdminPageHeader>
+      <div className="flex flex-col gap-5">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-5">
-          <div className="bg-white border border-gray-200 rounded-2xl p-4 text-center">
-            <p className="text-2xl font-bold">8</p>
+          <div className="flex items-center justify-between bg-white border rounded-2xl p-4 text-center">
+            <p className="text-xl font-bold">8</p>
             <p className="text-muted-foreground text-sm">Total Categories</p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-2xl p-4 text-center">
-            <p className="text-2xl font-bold">474</p>
+          <div className="flex items-center justify-between bg-white border rounded-2xl p-4 text-center">
+            <p className="text-xl font-bold">474</p>
             <p className="text-muted-foreground text-sm">Total Products</p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-2xl p-4 text-center">
-            <p className="text-2xl font-bold">156</p>
+          <div className="flex items-center justify-between bg-white border rounded-2xl p-4 text-center">
+            <p className="text-xl font-bold">156</p>
             <p className="text-muted-foreground text-sm">Largest Category</p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-2xl p-4 text-center">
-            <p className="text-2xl font-bold">59</p>
+          <div className="flex items-center justify-between bg-white border rounded-2xl p-4 text-center">
+            <p className="text-xl font-bold">59</p>
             <p className="text-muted-foreground text-sm">Avg. per Category</p>
           </div>
         </div>

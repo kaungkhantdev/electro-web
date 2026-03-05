@@ -11,9 +11,14 @@ export interface Category {
 
 export interface CategoryPayload {
   name: string;
-  slug: string;
   description: string;
-  parentCategory: string;
-  status: string;
   image: string;
+  status: string;
+  isFeatured?: boolean;
+  parentId?: string | null;
+}
+
+export interface CursorPaginatedResponse<T> {
+  data: T[];
+  nextCursor: string | null;
 }

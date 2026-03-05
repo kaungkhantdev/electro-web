@@ -9,12 +9,12 @@ interface BreadcrumbItemType {
 
 interface AdminPageHeaderProps {
   breadcrumbs: BreadcrumbItemType[];
-  showActions?: boolean;
+  children?: React.ReactNode;
 }
 
 export function AdminPageHeader({
   breadcrumbs,
-  showActions = true,
+  children,
 }: AdminPageHeaderProps) {
   const currentPage = breadcrumbs[breadcrumbs.length - 1]?.label ?? "";
   const breadcrumbPath = breadcrumbs.map((b) => b.label).join(" / ");
@@ -45,18 +45,7 @@ export function AdminPageHeader({
           )}
         </p>
       </div>
-      {showActions && (
-        <div className="flex items-center gap-2">
-          <Button variant="outline" className="rounded-full">
-            <Download className="w-4 h-4" />
-            Export
-          </Button>
-          <Button variant="outline" className="rounded-full">
-            <Calendar className="w-4 h-4" />
-            Jan 20, 2025 - Feb 09, 2025
-          </Button>
-        </div>
-      )}
+      {children}
     </div>
   );
 }
