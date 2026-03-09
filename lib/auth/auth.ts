@@ -53,7 +53,7 @@ const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.accessToken = user.accessToken;
-        token.accessTokenExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
+        token.accessTokenExpires = Date.now() + 1 * 60 * 1000; // 1 minute
         token.role = user.role;
       }
 
@@ -91,7 +91,7 @@ async function refreshAccessToken(token: JWT) {
     return {
       ...token,
       accessToken: response.accessToken,
-      accessTokenExpires: Date.now() + 15 * 60 * 1000,
+      accessTokenExpires: Date.now() + 1 * 60 * 1000,
     };
   } catch (error) {
     console.error("Error refreshing access token:", error);

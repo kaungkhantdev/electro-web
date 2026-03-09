@@ -17,6 +17,7 @@ import BaseTextarea from "@/components/common/base-textarea";
 import { RotateCw } from "lucide-react";
 import { ParentCategoryCombobox } from "./parent-category-combobox";
 import { Switch } from "@/components/ui/switch";
+import { useRouter } from "next/navigation";
 
 interface CategoryFormProps {
   mode: "create" | "edit";
@@ -38,7 +39,7 @@ export function CategoryForm({ mode, defaultValues }: CategoryFormProps) {
     isLoading,
     setValue,
   } = useCreateCategory();
-
+  const router = useRouter();
   return (
     <form onSubmit={onSubmit} className="grid gap-6 lg:grid-cols-4">
       <div className="lg:col-span-2 space-y-6 lg:border-r lg:pr-6">
@@ -143,7 +144,11 @@ export function CategoryForm({ mode, defaultValues }: CategoryFormProps) {
         </div>
 
         <div className="flex gap-3">
-          <Button variant="outline" className="rounded-full flex-1 base-btn">
+          <Button
+            variant="outline"
+            className="rounded-full flex-1 base-btn"
+            onClick={() => router.back()}
+          >
             Cancel
           </Button>
           <Button

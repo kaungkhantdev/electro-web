@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
 import { categoryService } from "@/services/category.service";
@@ -21,6 +22,7 @@ export type CategoryFormValues = z.infer<typeof categorySchema>;
 
 export function useCreateCategory() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
 
   const { register, handleSubmit, formState, setValue } =
@@ -52,6 +54,7 @@ export function useCreateCategory() {
         toast.error("Invalid name or slug.");
       } else {
         toast.success("Category created successfully!");
+        queryClient.invalidateQueries({ queryKey: ["categories"] });
         router.push("/admin/products/categories");
       }
     } catch {

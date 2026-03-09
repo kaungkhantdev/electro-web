@@ -3,16 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/utils";
-import {
-  ChevronDown,
-  LayoutDashboard,
-  Package,
-  ShoppingCart,
-  Users,
-  CreditCard,
-  TrendingUp,
-  Settings2,
-} from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import {
   Sheet,
@@ -20,11 +10,22 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  ArrowDown01Icon,
+  ChartUpIcon,
+  CreditCardIcon,
+  DashboardSpeed02FreeIcons,
+  PackageIcon,
+  Settings02FreeIcons,
+  ShoppingCartIcon,
+  UserCircle02FreeIcons,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 interface NavItem {
   label: string;
   href: string;
-  icon: React.ElementType;
+  icon: React.ReactNode;
   children?: { label: string; href: string }[];
 }
 
@@ -32,12 +33,14 @@ const navItems: NavItem[] = [
   {
     label: "Home",
     href: "/admin",
-    icon: LayoutDashboard,
+    icon: (
+      <HugeiconsIcon icon={DashboardSpeed02FreeIcons} className="w-4 h-4" />
+    ),
   },
   {
     label: "Products",
     href: "/admin/products",
-    icon: Package,
+    icon: <HugeiconsIcon icon={PackageIcon} className="w-4 h-4" />,
     children: [
       { label: "All Products", href: "/admin/products" },
       { label: "Add Product", href: "/admin/products/new" },
@@ -47,7 +50,7 @@ const navItems: NavItem[] = [
   {
     label: "Orders",
     href: "/admin/orders",
-    icon: ShoppingCart,
+    icon: <HugeiconsIcon icon={ShoppingCartIcon} className="w-4 h-4" />,
     children: [
       { label: "All Orders", href: "/admin/orders" },
       { label: "Pending", href: "/admin/orders/pending" },
@@ -57,7 +60,7 @@ const navItems: NavItem[] = [
   {
     label: "Customers",
     href: "/admin/customers",
-    icon: Users,
+    icon: <HugeiconsIcon icon={UserCircle02FreeIcons} className="w-4 h-4" />,
     children: [
       { label: "All Customers", href: "/admin/customers" },
       { label: "Reviews", href: "/admin/customers/reviews" },
@@ -66,7 +69,7 @@ const navItems: NavItem[] = [
   {
     label: "Payments",
     href: "/admin/payments",
-    icon: CreditCard,
+    icon: <HugeiconsIcon icon={CreditCardIcon} className="w-4 h-4" />,
     children: [
       { label: "All Transactions", href: "/admin/payments" },
       { label: "Refunds", href: "/admin/payments/refunds" },
@@ -76,7 +79,7 @@ const navItems: NavItem[] = [
   {
     label: "Analytics",
     href: "/admin/analytics",
-    icon: TrendingUp,
+    icon: <HugeiconsIcon icon={ChartUpIcon} className="w-4 h-4" />,
     children: [
       { label: "Overview", href: "/admin/analytics" },
       { label: "Sales Report", href: "/admin/analytics/sales" },
@@ -86,7 +89,7 @@ const navItems: NavItem[] = [
   {
     label: "Settings",
     href: "/admin/settings",
-    icon: Settings2,
+    icon: <HugeiconsIcon icon={Settings02FreeIcons} className="w-4 h-4" />,
     children: [
       { label: "General", href: "/admin/settings" },
       { label: "Store", href: "/admin/settings/store" },
@@ -110,8 +113,6 @@ function NavDropdown({ item, isActive }: { item: NavItem; isActive: boolean }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const Icon = item.icon;
-
   if (!item.children) {
     return (
       <Link
@@ -123,7 +124,7 @@ function NavDropdown({ item, isActive }: { item: NavItem; isActive: boolean }) {
             : "text-gray-500 font-medium hover:text-gray-900",
         )}
       >
-        <Icon className="w-4 h-4" />
+        {item.icon}
         {item.label}
       </Link>
     );
@@ -140,9 +141,9 @@ function NavDropdown({ item, isActive }: { item: NavItem; isActive: boolean }) {
             : "text-gray-500 font-medium hover:text-gray-900",
         )}
       >
-        <Icon className="w-4 h-4" />
+        {item.icon}
         {item.label}
-        <ChevronDown className="w-3.5 h-3.5" />
+        <HugeiconsIcon icon={ArrowDown01Icon} className="w-3.5 h-3.5" />
       </button>
       {open && (
         <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
@@ -200,7 +201,6 @@ export function AdminNav({
               const isActive =
                 pathname === item.href ||
                 (item.href !== "/admin" && pathname.startsWith(item.href));
-              const Icon = item.icon;
               return (
                 <div key={item.label}>
                   <Link
@@ -213,7 +213,7 @@ export function AdminNav({
                         : "text-gray-500 font-medium hover:text-gray-900 hover:bg-gray-50",
                     )}
                   >
-                    <Icon className="w-4 h-4" />
+                    {item.icon}
                     {item.label}
                   </Link>
                   {item.children && (

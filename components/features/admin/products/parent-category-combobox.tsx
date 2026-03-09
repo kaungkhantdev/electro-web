@@ -24,7 +24,7 @@ export function ParentCategoryCombobox({
 
   // Flatten all pages into one item list, prepend "None" option
   const categories = [
-    { value: "", label: "None (Top Level)" },
+    { value: "", label: "" },
     ...(data?.pages.flatMap((page) =>
       page.data.map((cat: Category) => ({ value: cat.id, label: cat.name })),
     ) ?? []),
@@ -54,7 +54,7 @@ export function ParentCategoryCombobox({
     <Combobox
       items={categories}
       defaultValue={categories[0]}
-      onValueChange={(val) => onValueChange(String(val ?? ""))}
+      onValueChange={(val) => onValueChange(String(val?.value ?? ""))}
     >
       <ComboboxInput
         placeholder="Select a category"
@@ -65,7 +65,7 @@ export function ParentCategoryCombobox({
         <ComboboxEmpty>No categories found.</ComboboxEmpty>
         <ComboboxList>
           {(item) => (
-            <ComboboxItem key={item.value} value={item.value}>
+            <ComboboxItem key={item.value} value={item}>
               {item.label}
             </ComboboxItem>
           )}
