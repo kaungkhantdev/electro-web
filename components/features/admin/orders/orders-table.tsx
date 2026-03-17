@@ -1,161 +1,301 @@
-"use client"
+"use client";
 
-import { Eye } from "lucide-react"
-import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
-import { DataTable } from "../shared/data-table"
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { ReusableDataTable } from "../shared/data-table";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  Delete02Icon,
+  Download02Icon,
+  Edit01FreeIcons,
+  EyeIcon,
+  FilterIcon,
+  SearchIcon,
+} from "@hugeicons/core-free-icons";
+import { Button } from "@/components/ui/button";
+import { ColumnDef } from "@tanstack/react-table";
+import { Input } from "@/components/ui/input";
 
-interface Order {
-  id: string
-  orderNumber: string
-  customer: {
-    id: string
-    name: string
-    email: string
-  }
-  date: string
-  total: number
-  items: number
-  status: "pending" | "processing" | "shipped" | "delivered" | "cancelled"
-  paymentStatus: "paid" | "pending" | "refunded"
-  method: string
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  sku: string;
+  category: string;
+  price: number;
+  comparePrice?: number;
+  stock: number;
+  status: "active" | "draft" | "out_of_stock";
 }
 
-const sampleOrders: Order[] = [
-  { id: "1", orderNumber: "ORD-001234", customer: { id: "4", name: "Alice Brown", email: "alice@example.com" }, date: "2025-02-10", total: 1199.00, items: 1, status: "pending", paymentStatus: "pending", method: "Credit Card" },
-  { id: "2", orderNumber: "ORD-001233", customer: { id: "9", name: "George Martinez", email: "george@example.com" }, date: "2025-02-09", total: 2147.00, items: 3, status: "processing", paymentStatus: "paid", method: "PayPal" },
-  { id: "3", orderNumber: "ORD-001232", customer: { id: "1", name: "John Doe", email: "john@example.com" }, date: "2025-02-08", total: 1448.00, items: 2, status: "shipped", paymentStatus: "paid", method: "Credit Card" },
-  { id: "4", orderNumber: "ORD-001231", customer: { id: "2", name: "Jane Smith", email: "jane@example.com" }, date: "2025-02-05", total: 2499.00, items: 1, status: "processing", paymentStatus: "paid", method: "Apple Pay" },
-  { id: "5", orderNumber: "ORD-001230", customer: { id: "10", name: "Hannah Lee", email: "hannah@example.com" }, date: "2025-02-01", total: 249.00, items: 1, status: "delivered", paymentStatus: "paid", method: "Credit Card" },
-  { id: "6", orderNumber: "ORD-001229", customer: { id: "9", name: "George Martinez", email: "george@example.com" }, date: "2025-01-30", total: 1299.00, items: 1, status: "shipped", paymentStatus: "paid", method: "PayPal" },
-  { id: "7", orderNumber: "ORD-001228", customer: { id: "6", name: "Diana Miller", email: "diana@example.com" }, date: "2025-01-28", total: 548.00, items: 2, status: "delivered", paymentStatus: "paid", method: "Credit Card" },
-  { id: "8", orderNumber: "ORD-001227", customer: { id: "1", name: "John Doe", email: "john@example.com" }, date: "2025-01-22", total: 249.00, items: 1, status: "delivered", paymentStatus: "paid", method: "Apple Pay" },
-  { id: "9", orderNumber: "ORD-001226", customer: { id: "3", name: "Bob Johnson", email: "bob@example.com" }, date: "2025-01-20", total: 399.00, items: 1, status: "delivered", paymentStatus: "paid", method: "Credit Card" },
-  { id: "10", orderNumber: "ORD-001225", customer: { id: "7", name: "Edward Davis", email: "edward@example.com" }, date: "2025-01-15", total: 349.00, items: 1, status: "delivered", paymentStatus: "paid", method: "PayPal" },
-  { id: "11", orderNumber: "ORD-001224", customer: { id: "4", name: "Alice Brown", email: "alice@example.com" }, date: "2025-01-12", total: 799.00, items: 1, status: "delivered", paymentStatus: "paid", method: "Credit Card" },
-  { id: "12", orderNumber: "ORD-001223", customer: { id: "5", name: "Charlie Wilson", email: "charlie@example.com" }, date: "2025-01-05", total: 399.00, items: 1, status: "cancelled", paymentStatus: "refunded", method: "Credit Card" },
-]
+const sampleProducts: Product[] = [
+  {
+    id: "1",
+    name: "iPhone 15 Pro Max",
+    image: "/products/iphone.jpg",
+    sku: "IPH-15PM-256",
+    category: "Phones",
+    price: 1199,
+    comparePrice: 1299,
+    stock: 45,
+    status: "active",
+  },
+  {
+    id: "2",
+    name: 'MacBook Pro 16"',
+    image: "/products/macbook.jpg",
+    sku: "MBP-16-M3",
+    category: "Laptops",
+    price: 2499,
+    stock: 23,
+    status: "active",
+  },
+  {
+    id: "3",
+    name: "AirPods Pro 2",
+    image: "/products/airpods.jpg",
+    sku: "APP-2-USB",
+    category: "Audio",
+    price: 249,
+    stock: 120,
+    status: "active",
+  },
+  {
+    id: "4",
+    name: 'iPad Pro 12.9"',
+    image: "/products/ipad.jpg",
+    sku: "IPD-PRO-129",
+    category: "Tablets",
+    price: 1099,
+    comparePrice: 1199,
+    stock: 0,
+    status: "out_of_stock",
+  },
+  {
+    id: "5",
+    name: "Apple Watch Ultra 2",
+    image: "/products/watch.jpg",
+    sku: "AW-ULT-2",
+    category: "Wearables",
+    price: 799,
+    stock: 67,
+    status: "active",
+  },
+  {
+    id: "6",
+    name: "Samsung Galaxy S24 Ultra",
+    image: "/products/samsung.jpg",
+    sku: "SG-S24U-256",
+    category: "Phones",
+    price: 1299,
+    stock: 34,
+    status: "active",
+  },
+  {
+    id: "7",
+    name: "Sony WH-1000XM5",
+    image: "/products/sony.jpg",
+    sku: "SNY-WH5-BLK",
+    category: "Audio",
+    price: 399,
+    comparePrice: 449,
+    stock: 89,
+    status: "active",
+  },
+  {
+    id: "8",
+    name: "Dell XPS 15",
+    image: "/products/dell.jpg",
+    sku: "DLL-XPS15-I7",
+    category: "Laptops",
+    price: 1799,
+    stock: 12,
+    status: "draft",
+  },
+  {
+    id: "9",
+    name: "Google Pixel 8 Pro",
+    image: "/products/pixel.jpg",
+    sku: "GP-8PRO-128",
+    category: "Phones",
+    price: 999,
+    stock: 56,
+    status: "active",
+  },
+  {
+    id: "10",
+    name: "Nintendo Switch OLED",
+    image: "/products/switch.jpg",
+    sku: "NTD-SWOLED",
+    category: "Gaming",
+    price: 349,
+    stock: 0,
+    status: "out_of_stock",
+  },
+];
 
 const statusConfig = {
-  pending: { label: "Pending", variant: "default" as const, className: "bg-yellow-600 hover:bg-yellow-600" },
-  processing: { label: "Processing", variant: "default" as const, className: "bg-blue-600 hover:bg-blue-600" },
-  shipped: { label: "Shipped", variant: "default" as const, className: "bg-violet-600 hover:bg-violet-600" },
-  delivered: { label: "Delivered", variant: "default" as const, className: "bg-green-600 hover:bg-green-600" },
-  cancelled: { label: "Cancelled", variant: "destructive" as const, className: "" },
-}
+  active: {
+    label: "Active",
+    variant: "default" as const,
+    className: "bg-green-600 hover:bg-green-600",
+  },
+  draft: { label: "Draft", variant: "secondary" as const, className: "" },
+  out_of_stock: {
+    label: "Out of Stock",
+    variant: "destructive" as const,
+    className: "",
+  },
+};
 
-const paymentConfig = {
-  paid: { label: "Paid", variant: "default" as const, className: "bg-green-600 hover:bg-green-600" },
-  pending: { label: "Unpaid", variant: "default" as const, className: "bg-yellow-600 hover:bg-yellow-600" },
-  refunded: { label: "Refunded", variant: "secondary" as const, className: "" },
-}
-
-interface OrdersTableProps {
-  filter?: "all" | "pending" | "completed"
-}
-
-export function OrdersTable({ filter = "all" }: OrdersTableProps) {
-  const filteredOrders = filter === "all"
-    ? sampleOrders
-    : filter === "pending"
-    ? sampleOrders.filter(o => ["pending", "processing"].includes(o.status))
-    : sampleOrders.filter(o => ["delivered", "shipped"].includes(o.status))
-
-  const columns = [
+export function ProductsTable() {
+  const columns: ColumnDef<Product>[] = [
     {
-      key: "orderNumber",
-      label: "Order",
-      render: (order: Order) => (
-        <Link href={`/admin/orders/${order.id}`} className="font-medium font-mono hover:text-primary transition-colors">
-          {order.orderNumber}
-        </Link>
-      ),
-    },
-    {
-      key: "customer",
-      label: "Customer",
-      render: (order: Order) => (
-        <Link href={`/admin/customers/${order.customer.id}`} className="flex items-center gap-2.5 group">
-          <div className="bg-primary/10 text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-medium text-xs">
-            {order.customer.name.split(" ").map(n => n[0]).join("")}
+      accessorKey: "name",
+      header: "Product",
+      cell: ({ row }) => (
+        <Link
+          href={`/admin/products/${row.original.id}`}
+          className="flex items-center gap-3 group"
+        >
+          <div className="bg-muted h-10 w-10 rounded-lg overflow-hidden shrink-0">
+            <div className="h-full w-full bg-gradient-to-br from-gray-200 to-gray-300" />
           </div>
           <div className="min-w-0">
-            <div className="text-sm font-medium group-hover:text-primary transition-colors truncate">
-              {order.customer.name}
-            </div>
-            <div className="text-muted-foreground text-xs truncate">{order.customer.email}</div>
+            <span className="font-medium group-hover:text-primary transition-colors block truncate">
+              {row.original.name}
+            </span>
+            <span className="text-muted-foreground text-xs">
+              {row.original.sku}
+            </span>
           </div>
         </Link>
       ),
     },
     {
-      key: "date",
-      label: "Date",
-      render: (order: Order) => (
-        <span className="text-muted-foreground text-sm">
-          {new Date(order.date).toLocaleDateString()}
-        </span>
+      accessorKey: "category",
+      header: "Category",
+      cell: ({ row }) => (
+        <Badge variant="secondary" className="text-xs">
+          {row.original.category}
+        </Badge>
       ),
     },
     {
-      key: "items",
-      label: "Items",
-      render: (order: Order) => (
-        <span className="tabular-nums">{order.items}</span>
+      accessorKey: "price",
+      header: "Price",
+      cell: ({ row }) => (
+        <div>
+          <span className="font-medium">
+            ${row.original.price.toLocaleString()}
+          </span>
+          {row.original.comparePrice && (
+            <span className="text-muted-foreground text-xs line-through ml-2">
+              ${row.original.comparePrice.toLocaleString()}
+            </span>
+          )}
+        </div>
       ),
     },
     {
-      key: "total",
-      label: "Total",
-      render: (order: Order) => (
-        <span className="font-medium tabular-nums">${order.total.toLocaleString()}</span>
+      accessorKey: "stock",
+      header: "Stock",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          <div
+            className={`h-2 w-2 rounded-full ${
+              row.original.stock === 0
+                ? "bg-red-500"
+                : row.original.stock < 20
+                  ? "bg-yellow-500"
+                  : "bg-green-500"
+            }`}
+          />
+          <span
+            className={
+              row.original.stock === 0 ? "text-red-600 font-medium" : ""
+            }
+          >
+            {row.original.stock === 0
+              ? "Out of stock"
+              : `${row.original.stock} in stock`}
+          </span>
+        </div>
       ),
     },
     {
-      key: "status",
-      label: "Status",
-      render: (order: Order) => {
-        const cfg = statusConfig[order.status]
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => {
+        const config = statusConfig[row.original.status];
         return (
-          <Badge variant={cfg.variant} className={`text-xs ${cfg.className}`}>
-            {cfg.label}
+          <Badge
+            variant={config.variant}
+            className={`text-xs ${config.className}`}
+          >
+            {config.label}
           </Badge>
-        )
+        );
       },
     },
     {
-      key: "paymentStatus",
-      label: "Payment",
-      render: (order: Order) => {
-        const cfg = paymentConfig[order.paymentStatus]
-        return (
-          <Badge variant={cfg.variant} className={`text-[10px] px-1.5 py-0 ${cfg.className}`}>
-            {cfg.label}
-          </Badge>
-        )
-      },
-    },
-    {
-      key: "actions",
-      label: "",
-      render: (order: Order) => (
-        <Link
-          href={`/admin/orders/${order.id}`}
-          className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors inline-flex"
-          title="View order"
-        >
-          <Eye className="h-4 w-4" />
-        </Link>
+      accessorKey: "actions",
+      header: "Actions",
+      cell: ({ row }) => (
+        <div className="flex items-center justify-end gap-1">
+          <Link
+            href={`/admin/products/${row.original.id}`}
+            className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors"
+            title="View details"
+          >
+            <HugeiconsIcon icon={EyeIcon} className="h-4 w-4" />
+          </Link>
+          <Link
+            href={`/admin/products/${row.original.id}/edit`}
+            className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors"
+            title="Edit product"
+          >
+            <HugeiconsIcon icon={Edit01FreeIcons} className="h-4 w-4" />
+          </Link>
+          <button
+            className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-red-600 transition-colors"
+            title="Delete product"
+          >
+            <HugeiconsIcon icon={Delete02Icon} className="h-4 w-4" />
+          </button>
+        </div>
       ),
     },
-  ]
+  ];
 
   return (
-    <DataTable
-      columns={columns}
-      data={filteredOrders}
-      searchPlaceholder="Search orders..."
-      searchKey="orderNumber"
-    />
-  )
+    <div className="bg-white rounded-3xl border p-5">
+      <div className="flex items-center justify-between mb-4">
+        <div className="relative flex-1 max-w-sm">
+          <HugeiconsIcon
+            icon={SearchIcon}
+            className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
+          />
+          <Input className="border-0 bg-gray-100 " />
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button variant="ghost">
+            <HugeiconsIcon icon={Download02Icon} className="h-4 w-4" />
+            Export
+          </Button>
+
+          <Button variant="ghost">
+            <HugeiconsIcon icon={FilterIcon} className="h-4 w-4" />
+            Filter
+          </Button>
+        </div>
+      </div>
+      <hr className="border-border" />
+      <ReusableDataTable
+        data={[...sampleProducts, ...sampleProducts]}
+        columns={columns}
+      />
+    </div>
+  );
 }

@@ -1,5 +1,4 @@
 import { useState, type InputHTMLAttributes } from "react";
-import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type {
   FieldErrors,
@@ -9,6 +8,8 @@ import type {
 } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ViewFreeIcons, ViewOffFreeIcons } from "@hugeicons/core-free-icons";
 
 interface PasswordInputProps<T extends FieldValues> extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -65,9 +66,9 @@ const PasswordInput = <T extends FieldValues>({
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
             {showPassword ? (
-              <EyeOff className="h-4 w-4" />
+              <HugeiconsIcon icon={ViewFreeIcons} className="w-4 h-4" />
             ) : (
-              <Eye className="h-4 w-4" />
+              <HugeiconsIcon icon={ViewOffFreeIcons} className="w-4 h-4" />
             )}
           </button>
         </div>

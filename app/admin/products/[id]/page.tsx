@@ -1,7 +1,14 @@
-import { ArrowLeft, Edit, ExternalLink, Package, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/features/admin/shared";
 import { Badge } from "@/components/ui/badge";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ArrowLeft01Icon,
+  Delete02Icon,
+  Edit01FreeIcons,
+  Package01FreeIcons,
+} from "@hugeicons/core-free-icons";
+import { Button } from "@/components/ui/button";
 
 const sampleProducts: Record<
   string,
@@ -215,14 +222,17 @@ export default async function ProductDetailPage({
           ]}
         />
         <div className="flex flex-1 flex-col items-center justify-center gap-4 p-4 pt-0">
-          <Package className="h-16 w-16 text-muted-foreground" />
+          <HugeiconsIcon
+            icon={Package01FreeIcons}
+            className="h-16 w-16 text-muted-foreground"
+          />
           <h1 className="text-2xl font-bold">Product Not Found</h1>
           <p className="text-muted-foreground">
             The product you are looking for does not exist.
           </p>
           <Link
             href="/admin/products"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium"
+            className="bg-purple-600 text-white hover:bg-purple-600/90 rounded-full px-4 py-2 text-sm font-medium"
           >
             Back to Products
           </Link>
@@ -243,16 +253,32 @@ export default async function ProductDetailPage({
           { label: "Products", href: "/admin/products" },
           { label: product.name },
         ]}
-      />
-      <div className="flex flex-col gap-5">
+      >
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/products"
+            className="hover:bg-muted rounded-full py-2 px-4 transition-colors flex items-center gap-2"
+          >
+            <HugeiconsIcon icon={ArrowLeft01Icon} className="h-4 w-4" />
+            Back
+          </Link>
+          <Link
+            href={`/admin/products/${product.id}/edit`}
+            className="border rounded-full px-4 py-2 text-sm font-medium hover:bg-muted inline-flex items-center gap-2"
+          >
+            <HugeiconsIcon icon={Edit01FreeIcons} className="h-4 w-4" />
+            Edit
+          </Link>
+          <Button variant="destructive" className="base-btn">
+            <HugeiconsIcon icon={Delete02Icon} className="h-4 w-4" />
+            Delete
+          </Button>
+        </div>
+      </AdminPageHeader>
+
+      <div className="flex flex-col gap-5 border p-5 rounded-3xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Link
-              href="/admin/products"
-              className="hover:bg-muted rounded-md p-2 transition-colors"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Link>
             <div>
               <div className="flex items-center gap-3">
                 <h1 className="text-2xl font-bold">{product.name}</h1>
@@ -268,29 +294,19 @@ export default async function ProductDetailPage({
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Link
-              href={`/admin/products/${product.id}/edit`}
-              className="border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted inline-flex items-center gap-2"
-            >
-              <Edit className="h-4 w-4" />
-              Edit
-            </Link>
-            <button className="border border-red-200 text-red-600 rounded-md px-4 py-2 text-sm font-medium hover:bg-red-50 inline-flex items-center gap-2">
-              <Trash2 className="h-4 w-4" />
-              Delete
-            </button>
-          </div>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-3">
           <div className="lg:col-span-2 space-y-4">
             {/* Product Image & Info */}
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
+            <div className="">
               <div className="flex gap-6">
                 <div className="bg-muted h-40 w-40 rounded-xl overflow-hidden shrink-0">
                   <div className="h-full w-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                    <Package className="h-12 w-12 text-muted-foreground" />
+                    <HugeiconsIcon
+                      icon={Package01FreeIcons}
+                      className="h-12 w-12 text-muted-foreground"
+                    />
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
@@ -310,7 +326,7 @@ export default async function ProductDetailPage({
             </div>
 
             {/* Pricing */}
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
+            <div className="">
               <h3 className="font-semibold mb-4">Pricing</h3>
               <div className="grid gap-4 sm:grid-cols-4">
                 <div>
@@ -345,7 +361,7 @@ export default async function ProductDetailPage({
             </div>
 
             {/* Inventory */}
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
+            <div className="">
               <h3 className="font-semibold mb-4">Inventory</h3>
               <div className="grid gap-4 sm:grid-cols-3">
                 <div>
@@ -391,7 +407,7 @@ export default async function ProductDetailPage({
 
           {/* Sidebar */}
           <div className="space-y-4">
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
+            <div className="">
               <h3 className="font-semibold mb-4">Details</h3>
               <dl className="space-y-3">
                 <div className="flex justify-between">
@@ -432,23 +448,6 @@ export default async function ProductDetailPage({
                   <dd className="text-sm">{product.updatedAt}</dd>
                 </div>
               </dl>
-            </div>
-
-            <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h3 className="font-semibold mb-4">Quick Actions</h3>
-              <div className="space-y-2">
-                <Link
-                  href={`/admin/products/${product.id}/edit`}
-                  className="border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted w-full inline-flex items-center gap-2"
-                >
-                  <Edit className="h-4 w-4" />
-                  Edit Product
-                </Link>
-                <button className="border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted w-full inline-flex items-center gap-2">
-                  <ExternalLink className="h-4 w-4" />
-                  View in Store
-                </button>
-              </div>
             </div>
           </div>
         </div>

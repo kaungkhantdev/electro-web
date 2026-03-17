@@ -1,14 +1,15 @@
 import Link from "next/link";
-import {
-  Package,
-  ShoppingCart,
-  Users,
-  Settings2,
-  CreditCard,
-  ChevronRight,
-  BarChart3,
-} from "lucide-react";
 import { AdminPageHeader } from "@/components/features/admin/shared";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  ChevronRight,
+  ChartUpIcon,
+  CreditCardIcon,
+  PackageIcon,
+  Settings02Icon,
+  ShoppingCartIcon,
+  UserCircle02FreeIcons,
+} from "@hugeicons/core-free-icons";
 
 interface DashboardCard {
   title: string;
@@ -23,42 +24,84 @@ const dashboardCards: DashboardCard[] = [
     description:
       "Manage your product catalog, add new items, update pricing, organize categories, and track inventory levels",
     href: "/admin/products",
-    icon: <Package className="w-6 h-6 text-gray-400" />,
+    icon: (
+      <HugeiconsIcon
+        icon={PackageIcon}
+        size={24}
+        color="currentColor"
+        strokeWidth={1.5}
+      />
+    ),
   },
   {
     title: "Orders",
     description:
       "Track and manage customer orders, process shipments, handle returns, and view order analytics",
     href: "/admin/orders",
-    icon: <ShoppingCart className="w-6 h-6 text-gray-400" />,
+    icon: (
+      <HugeiconsIcon
+        icon={ShoppingCartIcon}
+        size={24}
+        color="currentColor"
+        strokeWidth={1.5}
+      />
+    ),
   },
   {
     title: "Customers",
     description:
       "View customer profiles, manage accounts, read reviews, and track customer activity and engagement",
     href: "/admin/customers",
-    icon: <Users className="w-6 h-6 text-gray-400" />,
+    icon: (
+      <HugeiconsIcon
+        icon={UserCircle02FreeIcons}
+        size={24}
+        color="currentColor"
+        strokeWidth={1.5}
+      />
+    ),
   },
   {
     title: "Payments",
     description:
       "Manage billing info, process refunds, view transaction history, track payouts, and monitor revenue",
     href: "/admin/payments",
-    icon: <CreditCard className="w-6 h-6 text-gray-400" />,
+    icon: (
+      <HugeiconsIcon
+        icon={CreditCardIcon}
+        size={24}
+        color="currentColor"
+        strokeWidth={1.5}
+      />
+    ),
   },
   {
     title: "Analytics",
     description:
       "View sales reports, monitor traffic, track revenue trends, and gain insights into store performance",
     href: "/admin/analytics",
-    icon: <BarChart3 className="w-6 h-6 text-gray-400" />,
+    icon: (
+      <HugeiconsIcon
+        icon={ChartUpIcon}
+        size={24}
+        color="currentColor"
+        strokeWidth={1.5}
+      />
+    ),
   },
   {
     title: "Settings",
     description:
       "Configure store settings, manage payment gateways, set up shipping rules, and customize preferences",
     href: "/admin/settings",
-    icon: <Settings2 className="w-6 h-6 text-gray-400" />,
+    icon: (
+      <HugeiconsIcon
+        icon={Settings02Icon}
+        size={24}
+        color="currentColor"
+        strokeWidth={1.5}
+      />
+    ),
   },
 ];
 
@@ -71,7 +114,7 @@ export default function AdminDashboardPage() {
         {dashboardCards.map((card) => (
           <div
             key={card.title}
-            className="bg-white rounded-xl border border-gray-200 p-6 relative overflow-hidden hover:shadow-sm transition-shadow"
+            className="bg-white rounded-3xl border border-gray-200 p-6 relative overflow-hidden hover:shadow-sm transition-shadow"
           >
             {/* Decorative lines in top-right */}
             <div className="absolute top-0 right-0 w-32 h-24 opacity-[0.04]">
@@ -113,7 +156,12 @@ export default function AdminDashboardPage() {
               className="inline-flex items-center gap-1 text-sm font-medium text-blue-500 hover:text-blue-600 transition-colors"
             >
               View page
-              <ChevronRight className="w-4 h-4" />
+              <HugeiconsIcon
+                icon={ChevronRight}
+                size={16}
+                color="currentColor"
+                strokeWidth={1.5}
+              />
             </Link>
           </div>
         ))}

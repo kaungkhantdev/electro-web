@@ -2,10 +2,15 @@
 
 import Link from "next/link";
 import { NavigationMenuHeader } from "./navigation-menu-header";
-import { HugeiconsIcon } from '@hugeicons/react'
-import { FavouriteIcon, Search01FreeIcons, ShoppingBag01Icon, UserCircleIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  FavouriteIcon,
+  Search01FreeIcons,
+  ShoppingBag01Icon,
+} from "@hugeicons/core-free-icons";
 import { MobileNavSheet } from "./mobile-nav-sheet";
 import { Logo } from "./logo";
+import { UserMenu } from "@/components/common/user-menu";
 
 export function Header() {
   return (
@@ -40,7 +45,7 @@ export function Header() {
               />
             </Link>
             <Link href="#" className="relative">
-              <HugeiconsIcon 
+              <HugeiconsIcon
                 icon={ShoppingBag01Icon}
                 size={20}
                 color="#100a0a"
@@ -50,18 +55,10 @@ export function Header() {
                 0
               </span>
             </Link>
-            <Link href="#" className="hidden sm:flex">
-              <HugeiconsIcon
-                icon={UserCircleIcon}
-                size={20}
-                color="#100a0a"
-                strokeWidth={1.5}
-              />
-            </Link>
+            <UserMenu variant="icon" />
             <MobileNavSheet />
           </div>
         </div>
-
       </div>
     </header>
   );
