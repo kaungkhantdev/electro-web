@@ -1,6 +1,12 @@
 import Link from "next/link";
-import { AdminPageHeader } from "@/components/features/admin/shared";
+import { AdminPageHeader, StatsCard } from "@/components/features/admin/shared";
 import { PayoutsTable } from "@/components/features/admin/payments";
+import {
+  Dollar,
+  Clock01FreeIcons,
+  CheckmarkCircle01FreeIcons,
+  ChartUpFreeIcons,
+} from "@hugeicons/core-free-icons";
 
 export default function PayoutsPage() {
   return (
@@ -35,6 +41,37 @@ export default function PayoutsPage() {
             </Link>
           </div>
         </div>
+        <div className="grid gap-4 md:grid-cols-4">
+          <StatsCard
+            title="Total Paid Out"
+            value="$98,450"
+            change="+12.4% from last month"
+            changeType="positive"
+            icon={Dollar}
+          />
+          <StatsCard
+            title="Pending Payouts"
+            value="5"
+            change="Awaiting processing"
+            changeType="neutral"
+            icon={Clock01FreeIcons}
+          />
+          <StatsCard
+            title="Completed"
+            value="48"
+            change="This month"
+            changeType="positive"
+            icon={CheckmarkCircle01FreeIcons}
+          />
+          <StatsCard
+            title="Avg. Payout"
+            value="$2,051"
+            change="+5.2% from last month"
+            changeType="positive"
+            icon={ChartUpFreeIcons}
+          />
+        </div>
+
         <PayoutsTable />
       </div>
     </>

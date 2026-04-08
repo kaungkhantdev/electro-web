@@ -35,7 +35,7 @@ export default function PendingOrdersPage() {
             </Link>
           </div>
         </div>
-        <OrdersTable filter="pending" />
+        <OrdersTable />
       </div>
     </>
   );

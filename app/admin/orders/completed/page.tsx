@@ -35,7 +35,7 @@ export default function CompletedOrdersPage() {
             </Link>
           </div>
         </div>
-        <OrdersTable filter="completed" />
+        <OrdersTable />
       </div>
     </>
   );

@@ -1,7 +1,7 @@
-import { Clock, DollarSign, Package, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { AdminPageHeader, StatsCard } from "@/components/features/admin/shared";
 import { OrdersTable } from "@/components/features/admin/orders";
+import { Package01Icon } from "@hugeicons/core-free-icons";
 
 export default function OrdersPage() {
   return (
@@ -11,63 +11,56 @@ export default function OrdersPage() {
           { label: "Dashboard", href: "/admin" },
           { label: "Orders" },
         ]}
-      />
-      <div className="flex flex-col gap-5">
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Link
               href="/admin/orders"
-              className="bg-primary text-primary-foreground rounded-md px-4 py-2 text-sm font-medium"
+              className="bg-purple-600 text-white hover:bg-purple-600/90 rounded-full px-4 py-2 text-sm font-medium inline-flex items-center gap-2"
             >
               All Orders
             </Link>
             <Link
               href="/admin/orders/pending"
-              className="border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted"
+              className="border rounded-full px-4 py-2 text-sm font-medium hover:bg-muted"
             >
               Pending
             </Link>
             <Link
               href="/admin/orders/completed"
-              className="border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted"
+              className="border rounded-full px-4 py-2 text-sm font-medium hover:bg-muted"
             >
               Completed
             </Link>
           </div>
         </div>
-
-        <div className="grid auto-rows-min gap-4 md:grid-cols-4">
+      </AdminPageHeader>
+      <div className="flex flex-col gap-5">
+        <div className="grid auto-rows-min gap-5 md:grid-cols-3">
           <StatsCard
             title="Total Orders"
-            value="2,350"
-            change="+180 this month"
+            value="12,234"
+            change="+48 this week"
             changeType="positive"
-            icon={ShoppingCart}
-          />
-          <StatsCard
-            title="Revenue"
-            value="$128,770"
-            change="+15.3% from last month"
-            changeType="positive"
-            icon={DollarSign}
+            icon={Package01Icon}
           />
           <StatsCard
             title="Pending"
-            value="42"
-            change="Needs attention"
-            changeType="neutral"
-            icon={Clock}
+            value="10,891"
+            change="89% of total"
+            changeType="positive"
+            icon={Package01Icon}
           />
           <StatsCard
-            title="Fulfilled"
-            value="2,186"
-            change="93% fulfillment rate"
-            changeType="positive"
-            icon={Package}
+            title="Completed"
+            value="892"
+            change="7% of total"
+            changeType="neutral"
+            icon={Package01Icon}
           />
         </div>
 
-        <OrdersTable filter="all" />
+        <OrdersTable />
       </div>
     </>
   );

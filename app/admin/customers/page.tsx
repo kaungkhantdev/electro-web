@@ -1,7 +1,7 @@
-import { UserCheck, UserMinus, UserPlus, Users } from "lucide-react";
-import Link from "next/link";
+import { CustomersTable } from "@/components/features/admin";
 import { AdminPageHeader, StatsCard } from "@/components/features/admin/shared";
-import { CustomersTable } from "@/components/features/admin/customers";
+import { User02FreeIcons } from "@hugeicons/core-free-icons";
+import Link from "next/link";
 
 export default function CustomersPage() {
   return (
@@ -11,45 +11,45 @@ export default function CustomersPage() {
           { label: "Dashboard", href: "/admin" },
           { label: "Customers" },
         ]}
-      />
-      <div className="flex flex-col gap-5">
-        <div className="flex items-center justify-between">
+      >
+        <div className="flex items-center gap-3">
           <Link
             href="/admin/customers/reviews"
-            className="border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted"
+            className="border rounded-full px-4 py-2 text-sm font-medium hover:bg-muted"
           >
             Reviews
           </Link>
         </div>
-
-        <div className="grid auto-rows-min gap-4 md:grid-cols-4">
+      </AdminPageHeader>
+      <div className="flex flex-col gap-5">
+        <div className="grid auto-rows-min gap-5 md:grid-cols-4">
           <StatsCard
-            title="Total Customers"
-            value="2,847"
-            change="+124 this month"
+            title="Total Products"
+            value="12,234"
+            change="+48 this week"
             changeType="positive"
-            icon={Users}
+            icon={User02FreeIcons}
           />
           <StatsCard
             title="Active"
-            value="2,315"
-            change="81% of total"
+            value="10,891"
+            change="89% of total"
             changeType="positive"
-            icon={UserCheck}
+            icon={User02FreeIcons}
           />
           <StatsCard
-            title="New This Month"
-            value="+124"
-            change="+18% from last month"
-            changeType="positive"
-            icon={UserPlus}
+            title="Draft"
+            value="892"
+            change="7% of total"
+            changeType="neutral"
+            icon={User02FreeIcons}
           />
           <StatsCard
-            title="Inactive"
-            value="532"
-            change="19% of total"
+            title="Out of Stock"
+            value="451"
+            change="+12 since yesterday"
             changeType="negative"
-            icon={UserMinus}
+            icon={User02FreeIcons}
           />
         </div>
 

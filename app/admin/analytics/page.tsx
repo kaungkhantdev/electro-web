@@ -4,11 +4,18 @@ import {
   ShoppingCart,
   TrendingUp,
   Users,
+  UserSquare2,
 } from "lucide-react";
 import Link from "next/link";
 import { AdminPageHeader, StatsCard } from "@/components/features/admin/shared";
 import { OverviewChart } from "@/components/features/admin/analytics";
 import { Badge } from "@/components/ui/badge";
+import {
+  Dollar,
+  ShoppingBag,
+  TrendingDown,
+  UserSearchIcon,
+} from "@hugeicons/core-free-icons";
 
 const conversionFunnel = [
   { stage: "Visitors", value: 107430, percentage: 100 },
@@ -96,28 +103,28 @@ export default function AnalyticsPage() {
             value="$320,200"
             change="+20.1% from last month"
             changeType="positive"
-            icon={DollarSign}
+            icon={Dollar}
           />
           <StatsCard
             title="Total Orders"
             value="3,666"
             change="+15.3% from last month"
             changeType="positive"
-            icon={ShoppingCart}
+            icon={ShoppingBag}
           />
           <StatsCard
             title="Total Visitors"
             value="107,430"
             change="+23.5% from last month"
             changeType="positive"
-            icon={Users}
+            icon={UserSearchIcon}
           />
           <StatsCard
             title="Conversion Rate"
             value="11.8%"
             change="+2.4% from last month"
             changeType="positive"
-            icon={TrendingUp}
+            icon={TrendingDown}
           />
         </div>
 

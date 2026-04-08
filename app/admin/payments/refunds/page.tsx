@@ -1,4 +1,9 @@
-import { RefreshCw, Clock, CheckCircle2, DollarSign } from "lucide-react";
+import {
+  Dollar,
+  Clock01FreeIcons,
+  CheckmarkCircle01FreeIcons,
+  DollarReceiveFreeIcons,
+} from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { AdminPageHeader, StatsCard } from "@/components/features/admin/shared";
 import { RefundsTable } from "@/components/features/admin/payments";
@@ -43,28 +48,28 @@ export default function RefundsPage() {
             value="$2,145.00"
             change="This month"
             changeType="neutral"
-            icon={DollarSign}
+            icon={Dollar}
           />
           <StatsCard
             title="Pending Requests"
             value="3"
             change="Needs review"
             changeType="neutral"
-            icon={Clock}
+            icon={Clock01FreeIcons}
           />
           <StatsCard
             title="Approved"
             value="9"
             change="This month"
             changeType="positive"
-            icon={CheckCircle2}
+            icon={CheckmarkCircle01FreeIcons}
           />
           <StatsCard
             title="Refund Rate"
             value="1.8%"
             change="-0.3% from last month"
             changeType="positive"
-            icon={RefreshCw}
+            icon={DollarReceiveFreeIcons}
           />
         </div>
 

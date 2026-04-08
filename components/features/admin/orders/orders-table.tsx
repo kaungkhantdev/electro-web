@@ -148,7 +148,7 @@ const statusConfig = {
   },
 };
 
-export function ProductsTable() {
+export function OrdersTable() {
   const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "name",
