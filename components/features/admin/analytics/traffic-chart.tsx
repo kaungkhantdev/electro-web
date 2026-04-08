@@ -1,16 +1,62 @@
-"use client"
+"use client";
 
-import { ArrowUpRight, ArrowDownRight, Eye, Globe, Monitor, MousePointerClick, Smartphone, Tablet, Users } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-import { StatsCard } from "../shared/stats-card"
+import {
+  ArrowUpRight,
+  ArrowDownRight,
+  Eye,
+  Globe,
+  Monitor,
+  MousePointerClick,
+  Smartphone,
+  Tablet,
+  Users,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { StatsCard } from "../shared/stats-card";
+import {
+  EyeFreeIcons,
+  GlobalEditingFreeIcons,
+  MouseLeftClick01FreeIcons,
+  User,
+} from "@hugeicons/core-free-icons";
 
 const trafficSources = [
-  { source: "Organic Search", visitors: 45230, percentage: 42, change: "+8.2%", trend: "up" as const },
-  { source: "Direct", visitors: 28900, percentage: 27, change: "+3.1%", trend: "up" as const },
-  { source: "Social Media", visitors: 16100, percentage: 15, change: "+24.5%", trend: "up" as const },
-  { source: "Referral", visitors: 10750, percentage: 10, change: "-2.3%", trend: "down" as const },
-  { source: "Email", visitors: 6450, percentage: 6, change: "+11.8%", trend: "up" as const },
-]
+  {
+    source: "Organic Search",
+    visitors: 45230,
+    percentage: 42,
+    change: "+8.2%",
+    trend: "up" as const,
+  },
+  {
+    source: "Direct",
+    visitors: 28900,
+    percentage: 27,
+    change: "+3.1%",
+    trend: "up" as const,
+  },
+  {
+    source: "Social Media",
+    visitors: 16100,
+    percentage: 15,
+    change: "+24.5%",
+    trend: "up" as const,
+  },
+  {
+    source: "Referral",
+    visitors: 10750,
+    percentage: 10,
+    change: "-2.3%",
+    trend: "down" as const,
+  },
+  {
+    source: "Email",
+    visitors: 6450,
+    percentage: 6,
+    change: "+11.8%",
+    trend: "up" as const,
+  },
+];
 
 const sourceColors = [
   "bg-primary",
@@ -18,21 +64,69 @@ const sourceColors = [
   "bg-violet-500",
   "bg-amber-500",
   "bg-emerald-500",
-]
+];
 
 const pageViews = [
-  { page: "/", label: "Homepage", views: 89500, avgTime: "2m 34s", bounceRate: 28 },
-  { page: "/shop", label: "Shop", views: 67200, avgTime: "3m 12s", bounceRate: 22 },
-  { page: "/shop/product/iphone-15", label: "iPhone 15 Pro Max", views: 34500, avgTime: "4m 45s", bounceRate: 15 },
-  { page: "/account/cart", label: "Cart", views: 28900, avgTime: "1m 56s", bounceRate: 35 },
-  { page: "/checkout", label: "Checkout", views: 15600, avgTime: "5m 23s", bounceRate: 12 },
-]
+  {
+    page: "/",
+    label: "Homepage",
+    views: 89500,
+    avgTime: "2m 34s",
+    bounceRate: 28,
+  },
+  {
+    page: "/shop",
+    label: "Shop",
+    views: 67200,
+    avgTime: "3m 12s",
+    bounceRate: 22,
+  },
+  {
+    page: "/shop/product/iphone-15",
+    label: "iPhone 15 Pro Max",
+    views: 34500,
+    avgTime: "4m 45s",
+    bounceRate: 15,
+  },
+  {
+    page: "/account/cart",
+    label: "Cart",
+    views: 28900,
+    avgTime: "1m 56s",
+    bounceRate: 35,
+  },
+  {
+    page: "/checkout",
+    label: "Checkout",
+    views: 15600,
+    avgTime: "5m 23s",
+    bounceRate: 12,
+  },
+];
 
 const deviceStats = [
-  { device: "Desktop", icon: Monitor, percentage: 52, visitors: 55864, sessions: 78200 },
-  { device: "Mobile", icon: Smartphone, percentage: 41, visitors: 44046, sessions: 55200 },
-  { device: "Tablet", icon: Tablet, percentage: 7, visitors: 7520, sessions: 9800 },
-]
+  {
+    device: "Desktop",
+    icon: Monitor,
+    percentage: 52,
+    visitors: 55864,
+    sessions: 78200,
+  },
+  {
+    device: "Mobile",
+    icon: Smartphone,
+    percentage: 41,
+    visitors: 44046,
+    sessions: 55200,
+  },
+  {
+    device: "Tablet",
+    icon: Tablet,
+    percentage: 7,
+    visitors: 7520,
+    sessions: 9800,
+  },
+];
 
 const dailyVisitors = [
   { day: "Mon", visitors: 14200 },
@@ -42,7 +136,7 @@ const dailyVisitors = [
   { day: "Fri", visitors: 15600 },
   { day: "Sat", visitors: 12800 },
   { day: "Sun", visitors: 11400 },
-]
+];
 
 const topCountries = [
   { country: "United States", flag: "US", visitors: 42800, percentage: 39.8 },
@@ -51,11 +145,11 @@ const topCountries = [
   { country: "Canada", flag: "CA", visitors: 9800, percentage: 9.1 },
   { country: "Australia", flag: "AU", visitors: 7600, percentage: 7.1 },
   { country: "France", flag: "FR", visitors: 5400, percentage: 5.0 },
-]
+];
 
 export function TrafficChart() {
-  const maxDailyVisitors = Math.max(...dailyVisitors.map(d => d.visitors))
-  const maxPageViews = Math.max(...pageViews.map(p => p.views))
+  const maxDailyVisitors = Math.max(...dailyVisitors.map((d) => d.visitors));
+  const maxPageViews = Math.max(...pageViews.map((p) => p.views));
 
   return (
     <div className="space-y-4">
@@ -65,28 +159,28 @@ export function TrafficChart() {
           value="107,430"
           change="+23.5% from last month"
           changeType="positive"
-          icon={Users}
+          icon={User}
         />
         <StatsCard
           title="Page Views"
           value="423,890"
           change="+18.2% from last month"
           changeType="positive"
-          icon={Eye}
+          icon={EyeFreeIcons}
         />
         <StatsCard
           title="Bounce Rate"
           value="32.4%"
           change="-4.1% from last month"
           changeType="positive"
-          icon={MousePointerClick}
+          icon={MouseLeftClick01FreeIcons}
         />
         <StatsCard
           title="Avg Session"
           value="3m 42s"
           change="+12s from last month"
           changeType="positive"
-          icon={Globe}
+          icon={GlobalEditingFreeIcons}
         />
       </div>
 
@@ -95,20 +189,27 @@ export function TrafficChart() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="font-semibold">Daily Visitors</h3>
-            <p className="text-muted-foreground text-sm mt-1">This week&apos;s visitor trend</p>
+            <p className="text-muted-foreground text-sm mt-1">
+              This week&apos;s visitor trend
+            </p>
           </div>
           <div className="text-right">
             <p className="text-2xl font-bold">
-              {dailyVisitors.reduce((s, d) => s + d.visitors, 0).toLocaleString()}
+              {dailyVisitors
+                .reduce((s, d) => s + d.visitors, 0)
+                .toLocaleString()}
             </p>
             <p className="text-muted-foreground text-xs">total this week</p>
           </div>
         </div>
         <div className="flex items-end gap-3 h-[200px]">
           {dailyVisitors.map((data) => {
-            const heightPct = (data.visitors / maxDailyVisitors) * 100
+            const heightPct = (data.visitors / maxDailyVisitors) * 100;
             return (
-              <div key={data.day} className="flex-1 flex flex-col items-center gap-2 group">
+              <div
+                key={data.day}
+                className="flex-1 flex flex-col items-center gap-2 group"
+              >
                 <div className="text-xs font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity tabular-nums">
                   {(data.visitors / 1000).toFixed(1)}k
                 </div>
@@ -118,9 +219,11 @@ export function TrafficChart() {
                     style={{ height: `${heightPct}%` }}
                   />
                 </div>
-                <span className="text-muted-foreground text-xs">{data.day}</span>
+                <span className="text-muted-foreground text-xs">
+                  {data.day}
+                </span>
               </div>
-            )
+            );
           })}
         </div>
       </div>
@@ -144,22 +247,30 @@ export function TrafficChart() {
 
           <div className="space-y-3">
             {trafficSources.map((item, i) => (
-              <div key={item.source} className="flex items-center justify-between">
+              <div
+                key={item.source}
+                className="flex items-center justify-between"
+              >
                 <div className="flex items-center gap-2">
-                  <div className={`h-2.5 w-2.5 rounded-full ${sourceColors[i]}`} />
+                  <div
+                    className={`h-2.5 w-2.5 rounded-full ${sourceColors[i]}`}
+                  />
                   <span className="text-sm">{item.source}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm tabular-nums font-medium">
                     {item.visitors.toLocaleString()}
                   </span>
-                  <span className={`text-xs flex items-center gap-0.5 ${
-                    item.trend === "up" ? "text-green-600" : "text-red-500"
-                  }`}>
-                    {item.trend === "up"
-                      ? <ArrowUpRight className="h-3 w-3" />
-                      : <ArrowDownRight className="h-3 w-3" />
-                    }
+                  <span
+                    className={`text-xs flex items-center gap-0.5 ${
+                      item.trend === "up" ? "text-green-600" : "text-red-500"
+                    }`}
+                  >
+                    {item.trend === "up" ? (
+                      <ArrowUpRight className="h-3 w-3" />
+                    ) : (
+                      <ArrowDownRight className="h-3 w-3" />
+                    )}
                     {item.change}
                   </span>
                 </div>
@@ -173,17 +284,25 @@ export function TrafficChart() {
           <h3 className="font-semibold mb-4">Top Pages</h3>
           <div className="space-y-3">
             {pageViews.map((page) => {
-              const barWidth = (page.views / maxPageViews) * 100
+              const barWidth = (page.views / maxPageViews) * 100;
               return (
                 <div key={page.page}>
                   <div className="flex items-center justify-between mb-1">
                     <div className="min-w-0">
-                      <div className="font-medium text-sm truncate">{page.label}</div>
-                      <div className="text-muted-foreground text-xs font-mono truncate">{page.page}</div>
+                      <div className="font-medium text-sm truncate">
+                        {page.label}
+                      </div>
+                      <div className="text-muted-foreground text-xs font-mono truncate">
+                        {page.page}
+                      </div>
                     </div>
                     <div className="text-right shrink-0 ml-3">
-                      <div className="text-sm font-medium tabular-nums">{page.views.toLocaleString()}</div>
-                      <div className="text-muted-foreground text-xs">{page.avgTime}</div>
+                      <div className="text-sm font-medium tabular-nums">
+                        {page.views.toLocaleString()}
+                      </div>
+                      <div className="text-muted-foreground text-xs">
+                        {page.avgTime}
+                      </div>
                     </div>
                   </div>
                   <div className="h-1.5 bg-muted rounded-full overflow-hidden">
@@ -193,7 +312,7 @@ export function TrafficChart() {
                     />
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -203,13 +322,15 @@ export function TrafficChart() {
           <h3 className="font-semibold mb-4">Device Breakdown</h3>
           <div className="space-y-4">
             {deviceStats.map((device) => {
-              const Icon = device.icon
+              const Icon = device.icon;
               return (
                 <div key={device.device} className="bg-muted/30 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <Icon className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-medium text-sm">{device.device}</span>
+                      <span className="font-medium text-sm">
+                        {device.device}
+                      </span>
                     </div>
                     <Badge variant="secondary" className="text-xs tabular-nums">
                       {device.percentage}%
@@ -226,7 +347,7 @@ export function TrafficChart() {
                     <span>{device.sessions.toLocaleString()} sessions</span>
                   </div>
                 </div>
-              )
+              );
             })}
           </div>
         </div>
@@ -237,7 +358,9 @@ export function TrafficChart() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="font-semibold">Top Countries</h3>
-            <p className="text-muted-foreground text-sm mt-1">Where your visitors come from</p>
+            <p className="text-muted-foreground text-sm mt-1">
+              Where your visitors come from
+            </p>
           </div>
           <Globe className="h-4 w-4 text-muted-foreground" />
         </div>
@@ -255,9 +378,15 @@ export function TrafficChart() {
             <tbody className="divide-y">
               {topCountries.map((country, index) => (
                 <tr key={country.flag}>
-                  <td className="py-3 text-sm text-muted-foreground tabular-nums">{index + 1}</td>
-                  <td className="py-3 text-sm font-medium">{country.country}</td>
-                  <td className="py-3 text-sm text-right tabular-nums">{country.visitors.toLocaleString()}</td>
+                  <td className="py-3 text-sm text-muted-foreground tabular-nums">
+                    {index + 1}
+                  </td>
+                  <td className="py-3 text-sm font-medium">
+                    {country.country}
+                  </td>
+                  <td className="py-3 text-sm text-right tabular-nums">
+                    {country.visitors.toLocaleString()}
+                  </td>
                   <td className="py-3 text-sm text-right">
                     <Badge variant="secondary" className="text-xs tabular-nums">
                       {country.percentage}%
@@ -278,5 +407,5 @@ export function TrafficChart() {
         </div>
       </div>
     </div>
-  )
+  );
 }
