@@ -1,181 +1,588 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { ImagePlus, X } from "lucide-react"
+import { Fragment, useState } from "react";
+import {
+  Control,
+  FieldErrors,
+  UseFormRegister,
+  useFieldArray,
+} from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { ImageUpload } from "@/components/common/image-upload";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+import { useCreateProduct, ProductFormValues } from "@/hooks/mutations";
+import BaseInput from "@/components/common/base-input";
+import BaseTextarea from "@/components/common/base-textarea";
+import { Check, Plus, RotateCw, Trash2 } from "lucide-react";
+import { ParentCategoryCombobox } from "./parent-category-combobox";
+import { Switch } from "@/components/ui/switch";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils/utils";
 
-export function ProductForm() {
-  const [images, setImages] = useState<string[]>([])
+const STEPS = [
+  { title: "Basic Info" },
+  { title: "Pricing & Inventory" },
+  { title: "Media & Details" },
+  { title: "Variants" },
+];
+
+function VariantOptions({
+  control,
+  variantIndex,
+  register,
+  errors,
+}: {
+  control: Control<ProductFormValues>;
+  variantIndex: number;
+  register: UseFormRegister<ProductFormValues>;
+  errors: FieldErrors<ProductFormValues>;
+}) {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: `variants.${variantIndex}.options`,
+  });
 
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
-      <div className="lg:col-span-2 space-y-6">
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 className="font-semibold mb-4">Product Information</h3>
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium mb-2 block">Product Name</label>
-              <input
-                type="text"
-                placeholder="Enter product name"
-                className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Description</label>
-              <textarea
-                rows={4}
-                placeholder="Enter product description"
-                className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-              />
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label className="text-sm font-medium mb-2 block">SKU</label>
-                <input
-                  type="text"
-                  placeholder="SKU-001"
-                  className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-2 block">Barcode</label>
-                <input
-                  type="text"
-                  placeholder="Enter barcode"
-                  className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-            </div>
-          </div>
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-medium text-muted-foreground">Options</p>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-7 text-xs"
+          onClick={() => append({ optionName: "", optionValue: "" })}
+        >
+          <Plus className="w-3 h-3 mr-1" />
+          Add Option
+        </Button>
+      </div>
+      {fields.map((field, optIndex) => (
+        <div key={field.id} className="flex gap-2 items-end">
+          <BaseInput
+            id={`variants.${variantIndex}.options.${optIndex}.optionName`}
+            register={register}
+            errors={errors}
+            label="Name"
+            type="text"
+            placeholder="e.g. Color"
+          />
+          <BaseInput
+            id={`variants.${variantIndex}.options.${optIndex}.optionValue`}
+            register={register}
+            errors={errors}
+            label="Value"
+            type="text"
+            placeholder="e.g. Red"
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="mb-0.5 shrink-0 text-destructive hover:text-destructive"
+            onClick={() => remove(optIndex)}
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
         </div>
+      ))}
+    </div>
+  );
+}
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 className="font-semibold mb-4">Media</h3>
-          <div className="border-2 border-dashed rounded-lg p-8 text-center">
-            <ImagePlus className="h-10 w-10 mx-auto text-muted-foreground mb-2" />
-            <p className="text-sm text-muted-foreground mb-2">
-              Drag and drop images here, or click to browse
-            </p>
-            <button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium">
-              Upload Images
+export function ProductForm() {
+  const [step, setStep] = useState(0);
+  const {
+    register,
+    formState: { errors },
+    onSubmit,
+    isLoading,
+    setValue,
+    control,
+  } = useCreateProduct();
+  const router = useRouter();
+
+  const {
+    fields: variantFields,
+    append: appendVariant,
+    remove: removeVariant,
+  } = useFieldArray({ control, name: "variants" });
+
+  const isLast = step === STEPS.length - 1;
+  const next = () => setStep((s) => Math.min(s + 1, STEPS.length - 1));
+  const prev = () => setStep((s) => Math.max(s - 1, 0));
+
+  return (
+    <form onSubmit={onSubmit} className="grid gap-6 lg:grid-cols-4">
+      {/* Step indicator — full width */}
+      <div className="lg:col-span-4 flex items-center gap-2">
+        {STEPS.map((s, i) => (
+          <Fragment key={i}>
+            <button
+              type="button"
+              onClick={() => setStep(i)}
+              className={cn(
+                "flex items-center gap-2 shrink-0",
+                i <= step ? "text-primary" : "text-muted-foreground",
+              )}
+            >
+              <span
+                className={cn(
+                  "w-7 h-7 rounded-full flex items-center justify-center text-sm font-medium border-2 transition-colors",
+                  i < step
+                    ? "bg-primary border-primary text-white"
+                    : i === step
+                      ? "border-primary text-primary"
+                      : "border-muted-foreground/30 text-muted-foreground",
+                )}
+              >
+                {i < step ? <Check className="w-3.5 h-3.5" /> : i + 1}
+              </span>
+              <span className="text-sm font-medium hidden md:block">
+                {s.title}
+              </span>
             </button>
-          </div>
-          {images.length > 0 && (
-            <div className="grid grid-cols-4 gap-4 mt-4">
-              {images.map((img, i) => (
-                <div key={i} className="relative aspect-square bg-muted rounded-lg">
-                  <button className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1">
-                    <X className="h-3 w-3" />
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 className="font-semibold mb-4">Pricing</h3>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div>
-              <label className="text-sm font-medium mb-2 block">Price</label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                <input
-                  type="number"
-                  placeholder="0.00"
-                  className="border-input bg-background w-full rounded-md border pl-8 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Compare at Price</label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                <input
-                  type="number"
-                  placeholder="0.00"
-                  className="border-input bg-background w-full rounded-md border pl-8 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Cost per Item</label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                <input
-                  type="number"
-                  placeholder="0.00"
-                  className="border-input bg-background w-full rounded-md border pl-8 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 className="font-semibold mb-4">Inventory</h3>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="text-sm font-medium mb-2 block">Quantity</label>
-              <input
-                type="number"
-                placeholder="0"
-                className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            {i < STEPS.length - 1 && (
+              <div
+                className={cn(
+                  "flex-1 h-px transition-colors",
+                  i < step ? "bg-primary" : "bg-border",
+                )}
               />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Low Stock Alert</label>
-              <input
-                type="number"
-                placeholder="10"
-                className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
-          </div>
-        </div>
+            )}
+          </Fragment>
+        ))}
       </div>
 
-      <div className="space-y-6">
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 className="font-semibold mb-4">Status</h3>
-          <select className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
-            <option value="draft">Draft</option>
-            <option value="active">Active</option>
-            <option value="archived">Archived</option>
-          </select>
-        </div>
+      {/* Main content */}
+      <div className="lg:col-span-2 space-y-6 lg:border-r lg:pr-6">
+        {/* Step 1 — Basic Info */}
+        {step === 0 && (
+          <>
+            <div className="bg-white">
+              <h3 className="font-semibold mb-4">Product Information</h3>
+              <div className="space-y-4">
+                <BaseInput
+                  id="name"
+                  register={register}
+                  errors={errors}
+                  label="Name"
+                  type="text"
+                  required
+                  placeholder=""
+                />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <BaseInput
+                    id="sku"
+                    register={register}
+                    errors={errors}
+                    label="SKU"
+                    type="text"
+                    required
+                    placeholder=""
+                  />
+                  <BaseInput
+                    id="barcode"
+                    register={register}
+                    errors={errors}
+                    label="Barcode"
+                    type="text"
+                    required
+                    placeholder=""
+                  />
+                </div>
+                <BaseTextarea
+                  id="description"
+                  register={register}
+                  errors={errors}
+                  label="Description"
+                  required
+                  placeholder=""
+                />
+              </div>
+            </div>
+            <div className="bg-white">
+              <h3 className="font-semibold mb-4">Brand & Vendor</h3>
+              <div className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <BaseInput
+                    id="brand"
+                    register={register}
+                    errors={errors}
+                    label="Brand"
+                    type="text"
+                    required
+                    placeholder=""
+                  />
+                  <BaseInput
+                    id="vendor"
+                    register={register}
+                    errors={errors}
+                    label="Vendor"
+                    type="text"
+                    required
+                    placeholder=""
+                  />
+                </div>
+                <BaseInput
+                  id="tags"
+                  register={register}
+                  errors={errors}
+                  label="Tags"
+                  type="text"
+                  required
+                  placeholder="e.g. electronics, sale"
+                />
+              </div>
+            </div>
+          </>
+        )}
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
+        {/* Step 2 — Pricing & Inventory */}
+        {step === 1 && (
+          <div className="bg-white">
+            <h3 className="font-semibold mb-4">Pricing & Inventory</h3>
+            <div className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <BaseInput
+                  id="price"
+                  register={register}
+                  errors={errors}
+                  label="Price"
+                  type="number"
+                  required
+                  placeholder=""
+                />
+                <BaseInput
+                  id="comparePrice"
+                  register={register}
+                  errors={errors}
+                  label="Compare Price"
+                  type="number"
+                  required
+                  placeholder=""
+                />
+              </div>
+              <BaseInput
+                id="costPrice"
+                register={register}
+                errors={errors}
+                label="Cost Price"
+                type="number"
+                required
+                placeholder=""
+              />
+              <div className="grid md:grid-cols-2 gap-4">
+                <BaseInput
+                  id="stock"
+                  register={register}
+                  errors={errors}
+                  label="Stock"
+                  type="number"
+                  required
+                  placeholder=""
+                />
+                <BaseInput
+                  id="lowStockThreshold"
+                  register={register}
+                  errors={errors}
+                  label="Low Stock Threshold"
+                  type="number"
+                  required
+                  placeholder=""
+                />
+              </div>
+              <FieldGroup className="w-full">
+                <FieldLabel htmlFor="switch-track-inventory">
+                  <Field orientation="horizontal">
+                    <FieldContent>
+                      <FieldTitle>Track Inventory</FieldTitle>
+                      <FieldDescription>
+                        Monitor stock levels for this product.
+                      </FieldDescription>
+                    </FieldContent>
+                    <Switch
+                      id="switch-track-inventory"
+                      onCheckedChange={(val) => setValue("trackInventory", val)}
+                    />
+                  </Field>
+                </FieldLabel>
+              </FieldGroup>
+              <FieldGroup className="w-full">
+                <FieldLabel htmlFor="switch-allow-backorder">
+                  <Field orientation="horizontal">
+                    <FieldContent>
+                      <FieldTitle>Allow Backorder</FieldTitle>
+                      <FieldDescription>
+                        Allow purchases when stock is zero.
+                      </FieldDescription>
+                    </FieldContent>
+                    <Switch
+                      id="switch-allow-backorder"
+                      onCheckedChange={(val) => setValue("allowBackorder", val)}
+                    />
+                  </Field>
+                </FieldLabel>
+              </FieldGroup>
+            </div>
+          </div>
+        )}
+
+        {/* Step 3 — Media & Details */}
+        {step === 2 && (
+          <>
+            <div className="bg-white">
+              <h3 className="font-semibold mb-4">Product Images</h3>
+              <ImageUpload
+                maxSizeBytes={2 * 1024 * 1024}
+                acceptedTypes={["image/png", "image/jpeg", "image/webp"]}
+                onChange={(urls) =>
+                  setValue(
+                    "images",
+                    urls.map((url, index) => ({
+                      url,
+                      alt: "",
+                      position: index,
+                    })),
+                  )
+                }
+              />
+            </div>
+            <div className="bg-white">
+              <h3 className="font-semibold mb-4">SEO</h3>
+              <div className="space-y-4">
+                <BaseInput
+                  id="metaTitle"
+                  register={register}
+                  errors={errors}
+                  label="Meta Title"
+                  type="text"
+                  required
+                  placeholder=""
+                />
+                <BaseTextarea
+                  id="metaDescription"
+                  register={register}
+                  errors={errors}
+                  label="Meta Description"
+                  required
+                  placeholder=""
+                />
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Step 4 — Variants */}
+        {step === 3 && (
+          <div className="bg-white">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold">Variants</h3>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="base-btn"
+                onClick={() =>
+                  appendVariant({
+                    name: "",
+                    sku: "",
+                    price: 0,
+                    comparePrice: 0,
+                    stock: 0,
+                    options: [],
+                  })
+                }
+              >
+                <Plus className="w-4 h-4 mr-1" />
+                Add Variant
+              </Button>
+            </div>
+            {variantFields.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-10 border rounded-lg border-dashed">
+                No variants yet. Click &quot;Add Variant&quot; to get started.
+              </p>
+            ) : (
+              <div className="space-y-4">
+                {variantFields.map((field, index) => (
+                  <div
+                    key={field.id}
+                    className="border rounded-lg p-4 space-y-4"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium">Variant {index + 1}</p>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 text-destructive hover:text-destructive"
+                        onClick={() => removeVariant(index)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    <BaseInput
+                      id={`variants.${index}.name`}
+                      register={register}
+                      errors={errors}
+                      label="Variant Name"
+                      type="text"
+                      placeholder="e.g. Large / Red"
+                    />
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <BaseInput
+                        id={`variants.${index}.sku`}
+                        register={register}
+                        errors={errors}
+                        label="SKU"
+                        type="text"
+                        placeholder=""
+                      />
+                      <BaseInput
+                        id={`variants.${index}.stock`}
+                        register={register}
+                        errors={errors}
+                        label="Stock"
+                        type="number"
+                        placeholder=""
+                      />
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <BaseInput
+                        id={`variants.${index}.price`}
+                        register={register}
+                        errors={errors}
+                        label="Price"
+                        type="number"
+                        placeholder=""
+                      />
+                      <BaseInput
+                        id={`variants.${index}.comparePrice`}
+                        register={register}
+                        errors={errors}
+                        label="Compare Price"
+                        type="number"
+                        placeholder=""
+                      />
+                    </div>
+                    <VariantOptions
+                      control={control}
+                      variantIndex={index}
+                      register={register}
+                      errors={errors}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Sidebar */}
+      <div className="lg:col-span-1 space-y-6">
+        <div className="bg-white">
           <h3 className="font-semibold mb-4">Category</h3>
-          <select className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
-            <option value="">Select category</option>
-            <option value="phones">Phones</option>
-            <option value="laptops">Laptops</option>
-            <option value="tablets">Tablets</option>
-            <option value="audio">Audio</option>
-            <option value="wearables">Wearables</option>
-            <option value="accessories">Accessories</option>
-          </select>
-        </div>
-
-        <div className="bg-white border border-gray-200 rounded-xl p-6">
-          <h3 className="font-semibold mb-4">Tags</h3>
-          <input
-            type="text"
-            placeholder="Add tags separated by comma"
-            className="border-input bg-background w-full rounded-md border px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          <ParentCategoryCombobox
+            onValueChange={(val) => setValue("categoryId", val)}
           />
         </div>
-
+        <div className="bg-white">
+          <h3 className="font-semibold mb-4">Featured</h3>
+          <FieldGroup className="w-full max-w-sm">
+            <FieldLabel htmlFor="switch-featured">
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>Featured Product</FieldTitle>
+                  <FieldDescription>
+                    Highlight this product in the featured section.
+                  </FieldDescription>
+                </FieldContent>
+                <Switch
+                  id="switch-featured"
+                  onCheckedChange={(val) => setValue("isFeatured", val)}
+                />
+              </Field>
+            </FieldLabel>
+          </FieldGroup>
+        </div>
+        <div className="bg-white">
+          <h3 className="font-semibold mb-4">Status</h3>
+          <RadioGroup
+            onValueChange={(val) => setValue("status", val)}
+            className="flex gap-2 flex-wrap"
+          >
+            <FieldLabel htmlFor="active" className="rounded-3xl">
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>Active</FieldTitle>
+                </FieldContent>
+                <RadioGroupItem value="ACTIVE" id="active" />
+              </Field>
+            </FieldLabel>
+            <FieldLabel htmlFor="draft">
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>Draft</FieldTitle>
+                </FieldContent>
+                <RadioGroupItem value="DRAFT" id="draft" />
+              </Field>
+            </FieldLabel>
+            <FieldLabel htmlFor="inactive">
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>Inactive</FieldTitle>
+                </FieldContent>
+                <RadioGroupItem value="INACTIVE" id="inactive" />
+              </Field>
+            </FieldLabel>
+          </RadioGroup>
+        </div>
         <div className="flex gap-3">
-          <button className="flex-1 border rounded-md px-4 py-2 text-sm font-medium hover:bg-muted">
-            Save Draft
-          </button>
-          <button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium">
-            Publish
-          </button>
+          <Button
+            type="button"
+            variant="outline"
+            className="rounded-full flex-1 base-btn"
+            onClick={step === 0 ? () => router.back() : prev}
+          >
+            {step === 0 ? "Cancel" : "Back"}
+          </Button>
+          {isLast ? (
+            <Button
+              disabled={isLoading}
+              type="submit"
+              size="lg"
+              className="flex-1 base-btn base-btn-primary"
+            >
+              {isLoading ? (
+                <>
+                  <RotateCw className="h-4 animate-spin" />
+                  Loading
+                </>
+              ) : (
+                "Create Product"
+              )}
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              size="lg"
+              className="flex-1 base-btn base-btn-primary"
+              onClick={next}
+            >
+              Next
+            </Button>
+          )}
         </div>
       </div>
-    </div>
-  )
+    </form>
+  );
 }

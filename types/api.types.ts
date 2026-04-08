@@ -52,3 +52,7 @@ export function isApiError(res: unknown): res is ApiErrorResponse {
     "message" in res
   );
 }
+export interface CursorPaginatedResponse<T> {
+  data: T[];
+  nextCursor: string | null;
+}

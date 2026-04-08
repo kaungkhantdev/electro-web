@@ -1,2 +1,4 @@
+export * from "./api.types";
 export * from "./auth.types";
-export * from "./cateogry.types";
+export * from "./product.types";
+export * from "./category.types";
