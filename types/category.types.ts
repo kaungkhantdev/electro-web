@@ -17,8 +17,3 @@ export interface CategoryPayload {
   isFeatured?: boolean;
   parentId?: string | null;
 }
-
-export interface CursorPaginatedResponse<T> {
-  data: T[];
-  nextCursor: string | null;
-}
