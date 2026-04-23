@@ -15,7 +15,7 @@ import { useCreateCategory } from "@/hooks/mutations";
 import BaseInput from "@/components/common/base-input";
 import BaseTextarea from "@/components/common/base-textarea";
 import { RotateCw } from "lucide-react";
-import { ParentCategoryCombobox } from "./parent-category-combobox";
+import { ParentCategoryCombobox } from "../products/parent-category-combobox";
 import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
 

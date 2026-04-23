@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/features/admin/shared";
-import { CategoriesTable } from "@/components/features/admin/products";
+import { CategoriesTable } from "@/components/features/admin";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Add01FreeIcons } from "@hugeicons/core-free-icons";
 import { Input } from "@/components/ui/input";
