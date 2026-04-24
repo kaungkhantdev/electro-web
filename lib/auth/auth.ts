@@ -20,22 +20,27 @@ const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const { data: response } = await serverClient.post<LoginResponse>(
-            AUTH_ENDPOINT.LOGIN,
-            {
+          const { data: response, headers } =
+            await serverClient.post<LoginResponse>(AUTH_ENDPOINT.LOGIN, {
               username: credentials?.username,
               password: credentials?.password,
-            },
-          );
+            });
 
           const { user, accessToken } = response.data;
 
+          const setCookieHeader = headers["set-cookie"];
+          const refreshToken = setCookieHeader
+            ?.find((c: string) => c.startsWith("refreshToken="))
+            ?.split(";")[0]
+            ?.split("=")[1];
+          // console.log("Extracted refresh token:", refreshToken);
           return {
             id: user.id,
             name: `${user.firstName} ${user.lastName}`,
             email: user.email,
             role: user.role,
             accessToken,
+            refreshToken,
           };
         } catch (error) {
           if (isApiError(error)) {
@@ -53,7 +58,8 @@ const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.accessToken = user.accessToken;
-        token.accessTokenExpires = Date.now() + 1 * 60 * 1000; // 1 minute
+        token.refreshToken = user.refreshToken;
+        token.accessTokenExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
         token.role = user.role;
       }
 
@@ -79,13 +85,19 @@ const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
-  session: { strategy: "jwt", maxAge: 15 * 60 },
+  session: { strategy: "jwt", maxAge: 15 * 60 }, // 15 minutes
 };
 
 async function refreshAccessToken(token: JWT) {
   try {
     const { data: response } = await serverClient.post<{ accessToken: string }>(
       AUTH_ENDPOINT.REFRESH,
+      {},
+      {
+        headers: {
+          Cookie: `refreshToken=${token.refreshToken}`,
+        },
+      },
     );
 
     return {
@@ -95,6 +107,7 @@ async function refreshAccessToken(token: JWT) {
     };
   } catch (error) {
     console.error("Error refreshing access token:", error);
+    console.error("Response data:", error.response?.data);
     return {
       ...token,
       error: "RefreshAccessTokenError",

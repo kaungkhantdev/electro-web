@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getSession, signOut } from "next-auth/react";
-import { AUTH_ENDPOINT } from "./endpoint";
 
 const API_URL = process.env.API_URL || "http://localhost:8000";
 
@@ -51,15 +50,11 @@ apiClient.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const { data } = await serverClient.post(AUTH_ENDPOINT.REFRESH, null, {
-        withCredentials: true,
-      });
-      const newToken = data.accessToken;
-
-      // Update the session with the new access token
       const session = await getSession();
-      if (session?.user) {
-        session.user.accessToken = newToken;
+      const newToken = session?.user?.accessToken;
+
+      if (!newToken || session?.error === "RefreshAccessTokenError") {
+        throw new Error("Token refresh failed");
       }
 
       refreshQueue.forEach((cb) => cb(newToken));
