@@ -14,6 +14,11 @@ export const CATEGORY_ENDPOINT = {
   BASE: `${PREFIX.API_V1}/categories`,
 };
 
+export const BRAND_ENDPOINT = {
+  ADMIN_BASE: `${PREFIX.ADMIN}/brands`,
+  BASE: `${PREFIX.API_V1}/brands`,
+};
+
 export const UPLOAD_ENDPOINT = {
   IMAGE: `${PREFIX.API_V1}/storage/upload`,
   IMAGE_DELETE: (key: string) => `${PREFIX.API_V1}/storage/${key}`,

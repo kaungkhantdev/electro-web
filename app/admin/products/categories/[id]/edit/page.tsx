@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/features/admin/shared";
-import { CategoryForm } from "@/components/features/admin/products/category-form";
+import { CategoryForm } from "@/components/features/admin";
 
 const sampleCategories: Record<
   string,

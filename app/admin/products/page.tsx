@@ -15,6 +15,12 @@ export default function ProductsPage() {
       >
         <div className="flex items-center gap-3">
           <Link
+            href="/admin/products/brands"
+            className="border rounded-full px-4 py-2 text-sm font-medium hover:bg-muted"
+          >
+            brands
+          </Link>
+          <Link
             href="/admin/products/categories"
             className="border rounded-full px-4 py-2 text-sm font-medium hover:bg-muted"
           >

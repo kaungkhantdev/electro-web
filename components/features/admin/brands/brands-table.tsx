@@ -26,17 +26,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
-import { useCategoriesQuery } from "@/hooks/queries/use-categories";
+import { useBrandsQuery } from "@/hooks/queries/use-brands";
 
-export function CategoriesTable() {
+export function BrandsTable() {
   const [cursorHistory, setCursorHistory] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [limit, setLimit] = useState(10);
 
   const currentCursor = cursorHistory[currentIndex] || undefined;
 
-  const { data, isLoading } = useCategoriesQuery(currentCursor, limit);
-  const categories = data?.data ?? [];
+  const { data, isLoading } = useBrandsQuery(currentCursor, limit);
+  const brands = data?.data ?? [];
   const nextCursor = data?.nextCursor ?? null;
 
   const handleNextPage = (e: React.MouseEvent) => {
@@ -59,19 +59,23 @@ export function CategoriesTable() {
   const hasNextPage = !!nextCursor || currentIndex < cursorHistory.length - 1;
   const hasPrevPage = currentIndex > 0;
 
-  if (isLoading && categories.length === 0) {
-    return <div className="text-center py-10">Loading categories...</div>;
+  if (isLoading && brands.length === 0) {
+    return <div className="text-center py-10">Loading brands...</div>;
+  }
+
+  if (brands.length === 0) {
+    return <div className="text-center py-10">No brands found.</div>;
   }
 
   return (
     <div className="space-y-5">
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {categories.map((category) => {
+        {brands.map((brand) => {
           const activePercent = "10%";
           const barWidth = "10%";
           return (
             <div
-              key={category.id}
+              key={brand.id}
               className="bg-white border border-gray-200 rounded-3xl p-4 hover:shadow-sm transition-shadow"
             >
               <div className="flex items-start justify-between mb-3">
@@ -83,9 +87,9 @@ export function CategoriesTable() {
                 </div>
                 <div className="flex items-center gap-1">
                   <Link
-                    href={`/admin/products/categories/${category.id}/edit`}
+                    href={`/admin/products/brands/${brand.id}/edit`}
                     className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                    title="Edit category"
+                    title="Edit brand"
                   >
                     <HugeiconsIcon
                       icon={Edit01FreeIcons}
@@ -94,7 +98,7 @@ export function CategoriesTable() {
                   </Link>
                   <button
                     className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-red-600 transition-colors"
-                    title="Delete category"
+                    title="Delete brand"
                   >
                     <HugeiconsIcon
                       icon={Delete02Icon}
@@ -103,9 +107,9 @@ export function CategoriesTable() {
                   </button>
                 </div>
               </div>
-              <h3 className="font-semibold">{category.name}</h3>
+              <h3 className="font-semibold">{brand.name}</h3>
               <p className="text-muted-foreground text-sm mt-1 line-clamp-2">
-                {category.description}
+                {brand.description}
               </p>
 
               <div className="mt-4">
@@ -130,15 +134,6 @@ export function CategoriesTable() {
                     style={{ width: `${barWidth}%` }}
                   />
                 </div>
-              </div>
-
-              <div className="flex items-center justify-between mt-3 pt-3 border-t">
-                <span className="text-muted-foreground text-xs font-mono">
-                  /{category.slug}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  10 active / 3 inactive
-                </span>
               </div>
             </div>
           );
