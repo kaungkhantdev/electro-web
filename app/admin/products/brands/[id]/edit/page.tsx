@@ -1,11 +1,12 @@
 "use client";
 
 import { use } from "react";
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/features/admin/shared";
 import { BrandForm } from "@/components/features/admin";
 import { useGetBrand } from "@/hooks/mutations/use-brand";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 
 export default function EditBrandPage({
   params,
@@ -48,22 +49,18 @@ export default function EditBrandPage({
           { label: "Dashboard", href: "/admin" },
           { label: "Products", href: "/admin/products" },
           { label: "Brands", href: "/admin/products/brands" },
-          { label: brand.name },
+          { label: "Edit Brand" },
         ]}
-      />
+      >
+        <Link
+          href="/admin/products/brands"
+          className="hover:bg-muted rounded-full py-2 px-4 transition-colors flex items-center gap-2"
+        >
+          <HugeiconsIcon icon={ArrowLeft01Icon} className="h-4 w-4" />
+          Back
+        </Link>
+      </AdminPageHeader>
       <div className="flex flex-col gap-5">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/admin/products/brands"
-            className="hover:bg-muted rounded-md p-2 transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold">Edit Brand</h1>
-            <p className="text-muted-foreground text-sm mt-0.5">{brand.name}</p>
-          </div>
-        </div>
         <BrandForm mode="edit" defaultValues={brand} />
       </div>
     </>

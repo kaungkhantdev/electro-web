@@ -35,30 +35,38 @@ type Brand = {
   logo?: string;
 };
 
+function getLogoUrl(logo: string) {
+  if (logo.startsWith("http")) return logo;
+  return `${process.env.NEXT_PUBLIC_API_URL}${logo}`;
+}
+
 function BrandCard({ brand }: { brand: Brand }) {
   const [imgError, setImgError] = useState(false);
 
   return (
     <div className="bg-white border border-gray-200 rounded-3xl p-4 hover:shadow-sm transition-shadow">
       <div className="flex items-start justify-between">
-        <div className="flex items-center gap-3">
-          <div className="bg-primary/10 rounded-lg p-2 h-13 w-13 flex items-center justify-center overflow-hidden">
+        <div className="flex items-start gap-3">
+          <div className="rounded-lg h-16 w-16 overflow-hidden shrink-0">
             {brand.logo && !imgError ? (
               <Image
-                src={brand.logo}
+                src={getLogoUrl(brand.logo!)}
                 alt={brand.name}
-                width={36}
-                height={36}
+                width={64}
+                height={64}
+                unoptimized
                 className="h-full w-full object-contain"
                 onError={() => setImgError(true)}
               />
             ) : (
-              <HugeiconsIcon icon={Photo} className="h-5 w-5 text-primary" />
+              <div className="bg-primary/10 rounded-lg p-2 h-16 w-16 flex items-center justify-center overflow-hidden">
+                <HugeiconsIcon icon={Photo} className="h-5 w-5 text-primary" />
+              </div>
             )}
           </div>
           <div>
             <h3 className="font-semibold">{brand.name}</h3>
-            <ExpandableText text={brand.description} />
+            <ExpandableText maxChars={30} text={brand.description} />
           </div>
         </div>
         <div className="flex items-center gap-1">
