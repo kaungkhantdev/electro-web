@@ -1,13 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Edit01FreeIcons,
-  Folder02FreeIcons,
   Delete02Icon,
-  PackageIcon,
+  Photo,
 } from "@hugeicons/core-free-icons";
 import { Field, FieldLabel } from "@/components/ui/field";
 import {
@@ -27,6 +26,74 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { useBrandsQuery } from "@/hooks/queries/use-brands";
+import { ExpandableText } from "@/components/common/expandable-text";
+
+type Brand = {
+  id: string;
+  name: string;
+  description?: string;
+  logo?: string;
+};
+
+function getLogoUrl(logo: string) {
+  if (logo.startsWith("http")) return logo;
+  return `${process.env.NEXT_PUBLIC_API_URL}${logo}`;
+}
+
+function BrandCard({ brand }: { brand: Brand }) {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-3xl p-4 hover:shadow-sm transition-shadow">
+      <div className="flex items-start justify-between">
+        <div className="flex items-start gap-3">
+          <div className="rounded-lg h-16 w-16 overflow-hidden shrink-0">
+            {brand.logo && !imgError ? (
+              <Image
+                src={getLogoUrl(brand.logo!)}
+                alt={brand.name}
+                width={64}
+                height={64}
+                unoptimized
+                className="h-full w-full object-contain"
+                onError={() => setImgError(true)}
+              />
+            ) : (
+              <div className="bg-primary/10 rounded-lg p-2 h-16 w-16 flex items-center justify-center overflow-hidden">
+                <HugeiconsIcon icon={Photo} className="h-5 w-5 text-primary" />
+              </div>
+            )}
+          </div>
+          <div>
+            <h3 className="font-semibold">{brand.name}</h3>
+            <ExpandableText maxChars={30} text={brand.description} />
+          </div>
+        </div>
+        <div className="flex items-center gap-1">
+          <Link
+            href={`/admin/products/brands/${brand.id}/edit`}
+            className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors"
+            title="Edit brand"
+          >
+            <HugeiconsIcon
+              icon={Edit01FreeIcons}
+              className="h-5 w-5 text-primary"
+            />
+          </Link>
+          <button
+            className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-red-600 transition-colors"
+            title="Delete brand"
+          >
+            <HugeiconsIcon
+              icon={Delete02Icon}
+              className="h-5 w-5 text-primary"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function BrandsTable() {
   const [cursorHistory, setCursorHistory] = useState<string[]>([]);
@@ -70,74 +137,9 @@ export function BrandsTable() {
   return (
     <div className="space-y-5">
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {brands.map((brand) => {
-          const activePercent = "10%";
-          const barWidth = "10%";
-          return (
-            <div
-              key={brand.id}
-              className="bg-white border border-gray-200 rounded-3xl p-4 hover:shadow-sm transition-shadow"
-            >
-              <div className="flex items-start justify-between mb-3">
-                <div className="bg-primary/10 rounded-lg p-2">
-                  <HugeiconsIcon
-                    icon={Folder02FreeIcons}
-                    className="h-5 w-5 text-primary"
-                  />
-                </div>
-                <div className="flex items-center gap-1">
-                  <Link
-                    href={`/admin/products/brands/${brand.id}/edit`}
-                    className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors"
-                    title="Edit brand"
-                  >
-                    <HugeiconsIcon
-                      icon={Edit01FreeIcons}
-                      className="h-5 w-5 text-primary"
-                    />
-                  </Link>
-                  <button
-                    className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-red-600 transition-colors"
-                    title="Delete brand"
-                  >
-                    <HugeiconsIcon
-                      icon={Delete02Icon}
-                      className="h-5 w-5 text-primary"
-                    />
-                  </button>
-                </div>
-              </div>
-              <h3 className="font-semibold">{brand.name}</h3>
-              <p className="text-muted-foreground text-sm mt-1 line-clamp-2">
-                {brand.description}
-              </p>
-
-              <div className="mt-4">
-                <div className="flex items-center justify-between text-xs mb-1.5">
-                  <span className="text-muted-foreground flex items-center gap-1">
-                    <HugeiconsIcon
-                      icon={PackageIcon}
-                      className="h-3 w-3 text-primary"
-                    />
-                    10 products
-                  </span>
-                  <Badge
-                    variant="secondary"
-                    className="text-[10px] px-1.5 py-0"
-                  >
-                    {activePercent}% active
-                  </Badge>
-                </div>
-                <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-primary/60 rounded-full transition-all"
-                    style={{ width: `${barWidth}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        {brands.map((brand) => (
+          <BrandCard key={brand.id} brand={brand} />
+        ))}
       </div>
 
       <div className="flex items-center justify-between gap-4">
