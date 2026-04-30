@@ -47,7 +47,7 @@ function BrandCard({ brand }: { brand: Brand }) {
     <div className="bg-white border border-gray-200 rounded-3xl p-4 hover:shadow-sm transition-shadow">
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-3">
-          <div className="rounded-lg h-16 w-16 overflow-hidden shrink-0">
+          <div className="rounded-lg h-14 w-14 overflow-hidden shrink-0">
             {brand.logo && !imgError ? (
               <Image
                 src={getLogoUrl(brand.logo!)}
@@ -66,7 +66,11 @@ function BrandCard({ brand }: { brand: Brand }) {
           </div>
           <div>
             <h3 className="font-semibold">{brand.name}</h3>
-            <ExpandableText maxChars={30} text={brand.description} />
+            <ExpandableText
+              maxChars={20}
+              text={brand.description}
+              className="flex gap-1 items-center flex-wrap"
+            />
           </div>
         </div>
         <div className="flex items-center gap-1">

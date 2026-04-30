@@ -22,10 +22,11 @@ import { useCreateProduct, ProductFormValues } from "@/hooks/mutations";
 import BaseInput from "@/components/common/base-input";
 import BaseTextarea from "@/components/common/base-textarea";
 import { Check, Plus, RotateCw, Trash2 } from "lucide-react";
-import { ParentCategoryCombobox } from "./parent-category-combobox";
+import { ParentCategoryCombobox } from "../categories/parent-category-combobox";
 import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils/utils";
+import { BrandCombobox } from "../brands";
 
 const STEPS = [
   { title: "Basic Info" },
@@ -210,28 +211,8 @@ export function ProductForm() {
               </div>
             </div>
             <div className="bg-white">
-              <h3 className="font-semibold mb-4">Brand & Vendor</h3>
+              <h3 className="font-semibold mb-4">Tags</h3>
               <div className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <BaseInput
-                    id="brand"
-                    register={register}
-                    errors={errors}
-                    label="Brand"
-                    type="text"
-                    required
-                    placeholder=""
-                  />
-                  <BaseInput
-                    id="vendor"
-                    register={register}
-                    errors={errors}
-                    label="Vendor"
-                    type="text"
-                    required
-                    placeholder=""
-                  />
-                </div>
                 <BaseInput
                   id="tags"
                   register={register}
@@ -341,20 +322,45 @@ export function ProductForm() {
           <>
             <div className="bg-white">
               <h3 className="font-semibold mb-4">Product Images</h3>
-              <ImageUpload
-                maxSizeBytes={2 * 1024 * 1024}
-                acceptedTypes={["image/png", "image/jpeg", "image/webp"]}
-                onChange={(urls) =>
-                  setValue(
-                    "images",
-                    urls.map((url, index) => ({
-                      url,
-                      alt: "",
-                      position: index,
-                    })),
-                  )
-                }
-              />
+              <div className="flex items-start gap-6">
+                <div className="grid gap-3 min-w-3xs max-w-3xs">
+                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Hero Image
+                  </label>
+                  <ImageUpload
+                    maxSizeBytes={2 * 1024 * 1024}
+                    acceptedTypes={["image/png", "image/jpeg", "image/webp"]}
+                    onChange={(urls) =>
+                      setValue("heroImage", {
+                        url: urls[0] || "",
+                        alt: "",
+                        position: 1,
+                      })
+                    }
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Upload Images
+                  </label>
+                  <ImageUpload
+                    maxSizeBytes={2 * 1024 * 1024}
+                    maxFiles={6}
+                    allowMultiple
+                    acceptedTypes={["image/png", "image/jpeg", "image/webp"]}
+                    onChange={(urls) =>
+                      setValue(
+                        "images",
+                        urls.map((url, index) => ({
+                          url,
+                          alt: "",
+                          position: index + 2,
+                        })),
+                      )
+                    }
+                  />
+                </div>
+              </div>
             </div>
             <div className="bg-white">
               <h3 className="font-semibold mb-4">SEO</h3>
@@ -496,6 +502,11 @@ export function ProductForm() {
           />
         </div>
         <div className="bg-white">
+          <h3 className="font-semibold mb-4">Brand</h3>
+          <BrandCombobox onValueChange={(val) => setValue("brandId", val)} />
+        </div>
+
+        <div className="bg-white">
           <h3 className="font-semibold mb-4">Featured</h3>
           <FieldGroup className="w-full max-w-sm">
             <FieldLabel htmlFor="switch-featured">
@@ -518,7 +529,7 @@ export function ProductForm() {
           <h3 className="font-semibold mb-4">Status</h3>
           <RadioGroup
             onValueChange={(val) => setValue("status", val)}
-            className="flex gap-2 flex-wrap"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-2"
           >
             <FieldLabel htmlFor="active" className="rounded-3xl">
               <Field orientation="horizontal">

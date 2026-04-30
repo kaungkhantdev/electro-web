@@ -41,16 +41,16 @@ const productSchema = z.object({
   lowStockThreshold: z.number(),
   trackInventory: z.boolean(),
   allowBackorder: z.boolean(),
-  brand: z.string(),
-  vendor: z.string(),
+  brandId: z.string(),
   tags: z.string(),
   metaTitle: z.string(),
   metaDescription: z.string(),
   status: z.string().min(1, "Status is required"),
   isFeatured: z.boolean(),
-  publishedAt: z.string(),
+  publishedAt: z.string().optional(),
   categoryId: z.string().min(1, "Category is required"),
   images: z.array(productImageSchema),
+  heroImage: productImageSchema.optional(),
   variants: z.array(productVariantSchema),
 });
 
@@ -64,33 +64,69 @@ export function useCreateProduct() {
   const { register, handleSubmit, formState, setValue, control } =
     useForm<ProductFormValues>({
       resolver: zodResolver(productSchema),
+      defaultValues: {
+        trackInventory: false,
+        allowBackorder: false,
+        isFeatured: false,
+        images: [],
+        variants: [],
+      },
     });
 
-  const onSubmit = handleSubmit(async (values) => {
-    console.log("Form values:", values);
-    // setIsLoading(true);
-    // try {
-    //   const result = await productService.adminCreate({
-    //     name: values.name,
-    //     description: values.description,
-    //     status: values.status,
-    //     isFeatured: values.isFeatured ?? false,
-    //     image: values.image ?? "",
-    //   });
+  const onSubmit = handleSubmit(
+    async (values) => {
+      const formattedValues = {
+        ...values,
+        images: [values.heroImage, ...values.images],
+      };
+      console.log("Form values:", formattedValues);
+      // setIsLoading(true);
+      // try {
+      //   const result = await productService.adminCreate({
+      //     name: values.name,
+      //     description: values.description,
+      //     status: values.status,
+      //     isFeatured: values.isFeatured ?? false,
+      //     image: values.image ?? "",
+      //   });
 
-    //   if (result?.error) {
-    //     toast.error("Invalid name or slug.");
-    //   } else {
-    //     toast.success("Product created successfully!");
-    //     queryClient.invalidateQueries({ queryKey: ["products"] });
-    //     router.push("/admin/products");
-    //   }
-    // } catch {
-    //   toast.error("Something went wrong. Please try again.");
-    // } finally {
-    //   setIsLoading(false);
-    // }
-  });
+      //   if (result?.error) {
+      //     toast.error("Invalid name or slug.");
+      //   } else {
+      //     toast.success("Product created successfully!");
+      //     queryClient.invalidateQueries({ queryKey: ["products"] });
+      //     router.push("/admin/products");
+      //   }
+      // } catch {
+      //   toast.error("Something went wrong. Please try again.");
+      // } finally {
+      //   setIsLoading(false);
+      // }
+    },
+    (errors) => {
+      const labels: Record<string, string> = {
+        name: "Name",
+        description: "Description",
+        sku: "SKU",
+        barcode: "Barcode",
+        price: "Price",
+        comparePrice: "Compare Price",
+        costPrice: "Cost Price",
+        stock: "Stock",
+        lowStockThreshold: "Low Stock Threshold",
+        status: "Status",
+        categoryId: "Category",
+        metaTitle: "Meta Title",
+        metaDescription: "Meta Description",
+        heroImage: "Hero Image",
+        tags: "Tags",
+      };
+      const fields = Object.keys(errors)
+        .map((k) => labels[k] ?? k)
+        .join(", ");
+      toast.error(`Please fix the following fields: ${fields}`);
+    },
+  );
 
   return {
     register,
@@ -101,3 +137,30 @@ export function useCreateProduct() {
     isLoading,
   };
 }
+
+// Here's how price, comparePrice, and variants are intended to work together:
+
+// price vs comparePrice
+
+// Field	Purpose
+// price	The actual selling price customers pay
+// comparePrice	The "was" price shown crossed out (e.g. $100 → $80)
+// comparePrice should always be higher than price. If comparePrice is set, the storefront can show a discount badge. If not needed, it's just 0.
+
+// costPrice is internal — what you paid to source the product. Never shown to customers, used for profit margin calculation.
+
+// variants and how they relate to price/comparePrice
+
+// Right now your schema has both a top-level price/comparePrice on the product and a price/comparePrice inside each variant. The typical pattern is:
+
+// No variants → product's own price/comparePrice are used
+// Has variants → each variant overrides with its own price/comparePrice; the top-level ones become the "base" or are ignored
+// Each variant also has its own stock and sku, since e.g. "Red / Large" and "Blue / Small" track inventory separately.
+
+// options inside a variant describe what makes that variant different:
+
+// Variant: "Red / Large"
+//   options: [
+//     { optionName: "Color", optionValue: "Red" },
+//     { optionName: "Size",  optionValue: "Large" }
+//   ]
