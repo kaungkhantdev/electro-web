@@ -33,14 +33,13 @@ export interface ProductPayload {
   lowStockThreshold: number;
   trackInventory: boolean;
   allowBackorder: boolean;
-  brand: string;
-  vendor: string;
-  tags: string;
+  brandId: string;
+  tags: string[];
   metaTitle: string;
   metaDescription: string;
   status: string;
   isFeatured: boolean;
-  publishedAt: string;
+  publishedAt?: string;
   categoryId: string;
   images: ProductImagePayload[];
   variants: ProductVariantPayload[];

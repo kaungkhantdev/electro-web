@@ -5,6 +5,7 @@ import {
   Control,
   FieldErrors,
   UseFormRegister,
+  useController,
   useFieldArray,
 } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,66 @@ const STEPS = [
   { title: "Media & Details" },
   { title: "Variants" },
 ];
+
+function TagsInput({ control }: { control: Control<ProductFormValues> }) {
+  const [input, setInput] = useState("");
+  const { field } = useController({ control, name: "tags", defaultValue: [] });
+
+  const addTag = (value: string) => {
+    const tag = value.trim();
+    if (tag && !field.value.includes(tag)) {
+      field.onChange([...field.value, tag]);
+    }
+    setInput("");
+  };
+
+  const removeTag = (tag: string) => {
+    field.onChange(field.value.filter((t) => t !== tag));
+  };
+
+  return (
+    <div className="space-y-1.5">
+      <label className="text-sm font-medium leading-none">Tags</label>
+      <div className="flex flex-wrap gap-1.5 p-2 border rounded-md min-h-10 focus-within:ring-1 focus-within:ring-ring">
+        {field.value.map((tag) => (
+          <span
+            key={tag}
+            className="flex items-center gap-1 bg-secondary text-secondary-foreground text-xs px-2 py-0.5 rounded-full"
+          >
+            {tag}
+            <button
+              type="button"
+              onClick={() => removeTag(tag)}
+              className="text-muted-foreground hover:text-foreground leading-none"
+            >
+              ×
+            </button>
+          </span>
+        ))}
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === ",") {
+              e.preventDefault();
+              addTag(input);
+            } else if (e.key === "Backspace" && !input && field.value.length) {
+              removeTag(field.value[field.value.length - 1]);
+            }
+          }}
+          onBlur={() => {
+            if (input) addTag(input);
+          }}
+          placeholder={field.value.length === 0 ? "e.g. electronics, sale" : ""}
+          className="flex-1 min-w-24 outline-none text-sm bg-transparent"
+        />
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Press Enter or comma to add a tag.
+      </p>
+    </div>
+  );
+}
 
 function VariantOptions({
   control,
@@ -108,6 +169,7 @@ export function ProductForm() {
     isLoading,
     setValue,
     control,
+    trigger,
   } = useCreateProduct();
   const router = useRouter();
 
@@ -212,17 +274,7 @@ export function ProductForm() {
             </div>
             <div className="bg-white">
               <h3 className="font-semibold mb-4">Tags</h3>
-              <div className="space-y-4">
-                <BaseInput
-                  id="tags"
-                  register={register}
-                  errors={errors}
-                  label="Tags"
-                  type="text"
-                  required
-                  placeholder="e.g. electronics, sale"
-                />
-              </div>
+              <TagsInput control={control} />
             </div>
           </>
         )}
@@ -568,6 +620,7 @@ export function ProductForm() {
           </Button>
           {isLast ? (
             <Button
+              key="submit-btn"
               disabled={isLoading}
               type="submit"
               size="lg"
@@ -584,10 +637,26 @@ export function ProductForm() {
             </Button>
           ) : (
             <Button
-              type="button"
+              key="next-btn"
+              type="button" // this button only ever exists on non-last steps
               size="lg"
               className="flex-1 base-btn base-btn-primary"
-              onClick={next}
+              onClick={async () => {
+                // Validate current step fields before advancing
+                const fieldsPerStep: (keyof ProductFormValues)[][] = [
+                  ["name", "sku", "barcode", "description", "tags"], // step 0
+                  [
+                    "price",
+                    "comparePrice",
+                    "costPrice",
+                    "stock",
+                    "lowStockThreshold",
+                  ], // step 1
+                  ["heroImage", "metaTitle", "metaDescription"], // step 2
+                ];
+                const valid = await trigger(fieldsPerStep[step]);
+                if (valid) next();
+              }}
             >
               Next
             </Button>

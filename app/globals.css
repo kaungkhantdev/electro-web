@@ -126,6 +126,14 @@
 }
 
 @layer utilities {
+  /* toast */
+  [data-sonner-toast] [data-close-button] {
+    left: auto !important;
+    right: 0 !important;
+    /* top: 13px !important; */
+  }
+
+
   .base-btn {
     @apply rounded-full h-10;
   }
@@ -135,4 +143,5 @@
   .base-btn-outline {
     @apply rounded-full;
   }
+
 }

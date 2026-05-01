@@ -42,7 +42,7 @@ const productSchema = z.object({
   trackInventory: z.boolean(),
   allowBackorder: z.boolean(),
   brandId: z.string(),
-  tags: z.string(),
+  tags: z.array(z.string()),
   metaTitle: z.string(),
   metaDescription: z.string(),
   status: z.string().min(1, "Status is required"),
@@ -61,7 +61,7 @@ export function useCreateProduct() {
   const queryClient = useQueryClient();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState, setValue, control } =
+  const { register, handleSubmit, formState, setValue, control, trigger } =
     useForm<ProductFormValues>({
       resolver: zodResolver(productSchema),
       defaultValues: {
@@ -75,33 +75,28 @@ export function useCreateProduct() {
 
   const onSubmit = handleSubmit(
     async (values) => {
+      const { heroImage, ...rest } = values;
       const formattedValues = {
-        ...values,
-        images: [values.heroImage, ...values.images],
+        ...rest,
+        images: [...(heroImage ? [heroImage] : []), ...values.images],
       };
-      console.log("Form values:", formattedValues);
-      // setIsLoading(true);
-      // try {
-      //   const result = await productService.adminCreate({
-      //     name: values.name,
-      //     description: values.description,
-      //     status: values.status,
-      //     isFeatured: values.isFeatured ?? false,
-      //     image: values.image ?? "",
-      //   });
+      // console.log("Form values:", formattedValues);
+      setIsLoading(true);
+      try {
+        const result = await productService.adminCreate(formattedValues);
 
-      //   if (result?.error) {
-      //     toast.error("Invalid name or slug.");
-      //   } else {
-      //     toast.success("Product created successfully!");
-      //     queryClient.invalidateQueries({ queryKey: ["products"] });
-      //     router.push("/admin/products");
-      //   }
-      // } catch {
-      //   toast.error("Something went wrong. Please try again.");
-      // } finally {
-      //   setIsLoading(false);
-      // }
+        if (result?.error) {
+          toast.error("Invalid name or slug.");
+        } else {
+          toast.success("Product created successfully!");
+          queryClient.invalidateQueries({ queryKey: ["products"] });
+          router.push("/admin/products");
+        }
+      } catch {
+        toast.error("Something went wrong. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
     },
     (errors) => {
       const labels: Record<string, string> = {
@@ -135,6 +130,7 @@ export function useCreateProduct() {
     control,
     onSubmit,
     isLoading,
+    trigger,
   };
 }
 
