@@ -1,3 +1,43 @@
+export interface ProductBrand {
+  id: string;
+  name: string;
+  description: string;
+  logo: string;
+}
+
+export interface ProductCategory {
+  id: string;
+  name: string;
+  description: string;
+  parentId: string | null;
+  position: number;
+}
+
+export interface ProductImagePayload {
+  id?: string;
+  url: string;
+  alt: string;
+  position: number;
+}
+
+export interface ProductVariantOptionPayload {
+  id?: string;
+  optionName: string;
+  optionValue: string;
+}
+
+export interface ProductVariantPayload {
+  id?: string;
+  name: string;
+  sku: string;
+  price: number;
+  comparePrice: number;
+  stock: number;
+  image?: string | null;
+  isActive?: boolean;
+  options: ProductVariantOptionPayload[];
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -11,14 +51,16 @@ export interface Product {
   lowStockThreshold: number;
   trackInventory: boolean;
   allowBackorder: boolean;
-  brand: string;
-  vendor: string;
+  brand: ProductBrand;
+  category: ProductCategory;
   tags: string[];
   metaTitle: string;
   metaDescription: string;
   status: string;
   isFeatured: boolean;
-  publishedAt: string;
+  publishedAt: string | null;
+  images: ProductImagePayload[];
+  variants: ProductVariantPayload[];
 }
 
 export interface ProductPayload {
@@ -43,24 +85,4 @@ export interface ProductPayload {
   categoryId: string;
   images: ProductImagePayload[];
   variants: ProductVariantPayload[];
-}
-
-export interface ProductImagePayload {
-  url: string;
-  alt: string;
-  position: number;
-}
-
-export interface ProductVariantPayload {
-  name: string;
-  sku: string;
-  price: number;
-  comparePrice: number;
-  stock: number;
-  options: ProductVariantOptionPayload[];
-}
-
-export interface ProductVariantOptionPayload {
-  optionName: string;
-  optionValue: string;
 }

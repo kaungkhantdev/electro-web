@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { ReusableDataTable } from "../shared/data-table";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -15,258 +17,186 @@ import {
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
+import { Product } from "@/types";
+import { useProductsQuery } from "@/hooks/queries/use-products";
 
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  sku: string;
-  category: string;
-  price: number;
-  comparePrice?: number;
-  stock: number;
-  status: "active" | "draft" | "out_of_stock";
+function resolveImageUrl(url: string) {
+  if (url.startsWith("http")) return url;
+  return `${process.env.NEXT_PUBLIC_API_URL}${url}`;
 }
 
-const sampleProducts: Product[] = [
-  {
-    id: "1",
-    name: "iPhone 15 Pro Max",
-    image: "/products/iphone.jpg",
-    sku: "IPH-15PM-256",
-    category: "Phones",
-    price: 1199,
-    comparePrice: 1299,
-    stock: 45,
-    status: "active",
-  },
-  {
-    id: "2",
-    name: 'MacBook Pro 16"',
-    image: "/products/macbook.jpg",
-    sku: "MBP-16-M3",
-    category: "Laptops",
-    price: 2499,
-    stock: 23,
-    status: "active",
-  },
-  {
-    id: "3",
-    name: "AirPods Pro 2",
-    image: "/products/airpods.jpg",
-    sku: "APP-2-USB",
-    category: "Audio",
-    price: 249,
-    stock: 120,
-    status: "active",
-  },
-  {
-    id: "4",
-    name: 'iPad Pro 12.9"',
-    image: "/products/ipad.jpg",
-    sku: "IPD-PRO-129",
-    category: "Tablets",
-    price: 1099,
-    comparePrice: 1199,
-    stock: 0,
-    status: "out_of_stock",
-  },
-  {
-    id: "5",
-    name: "Apple Watch Ultra 2",
-    image: "/products/watch.jpg",
-    sku: "AW-ULT-2",
-    category: "Wearables",
-    price: 799,
-    stock: 67,
-    status: "active",
-  },
-  {
-    id: "6",
-    name: "Samsung Galaxy S24 Ultra",
-    image: "/products/samsung.jpg",
-    sku: "SG-S24U-256",
-    category: "Phones",
-    price: 1299,
-    stock: 34,
-    status: "active",
-  },
-  {
-    id: "7",
-    name: "Sony WH-1000XM5",
-    image: "/products/sony.jpg",
-    sku: "SNY-WH5-BLK",
-    category: "Audio",
-    price: 399,
-    comparePrice: 449,
-    stock: 89,
-    status: "active",
-  },
-  {
-    id: "8",
-    name: "Dell XPS 15",
-    image: "/products/dell.jpg",
-    sku: "DLL-XPS15-I7",
-    category: "Laptops",
-    price: 1799,
-    stock: 12,
-    status: "draft",
-  },
-  {
-    id: "9",
-    name: "Google Pixel 8 Pro",
-    image: "/products/pixel.jpg",
-    sku: "GP-8PRO-128",
-    category: "Phones",
-    price: 999,
-    stock: 56,
-    status: "active",
-  },
-  {
-    id: "10",
-    name: "Nintendo Switch OLED",
-    image: "/products/switch.jpg",
-    sku: "NTD-SWOLED",
-    category: "Gaming",
-    price: 349,
-    stock: 0,
-    status: "out_of_stock",
-  },
-];
+function ProductThumb({ url, alt }: { url: string; alt: string }) {
+  const [error, setError] = useState(false);
+  if (error)
+    return (
+      <div className="h-full w-full bg-linear-to-br from-gray-200 to-gray-300" />
+    );
+  return (
+    <Image
+      src={resolveImageUrl(url)}
+      alt={alt}
+      width={40}
+      height={40}
+      className="h-full w-full object-cover"
+      onError={() => setError(true)}
+    />
+  );
+}
 
-const statusConfig = {
-  active: {
+const statusConfig: Record<
+  string,
+  {
+    label: string;
+    variant: "default" | "secondary" | "destructive";
+    className: string;
+  }
+> = {
+  ACTIVE: {
     label: "Active",
-    variant: "default" as const,
+    variant: "default",
     className: "bg-green-600 hover:bg-green-600",
   },
-  draft: { label: "Draft", variant: "secondary" as const, className: "" },
-  out_of_stock: {
+  DRAFT: { label: "Draft", variant: "secondary", className: "" },
+  OUT_OF_STOCK: {
     label: "Out of Stock",
-    variant: "destructive" as const,
+    variant: "destructive",
     className: "",
   },
 };
 
-export function ProductsTable() {
-  const columns: ColumnDef<Product>[] = [
-    {
-      accessorKey: "name",
-      header: "Product",
-      cell: ({ row }) => (
+const columns: ColumnDef<Product>[] = [
+  {
+    accessorKey: "name",
+    header: "Product",
+    cell: ({ row }) => (
+      <Link
+        href={`/admin/products/${row.original.id}`}
+        className="flex items-center gap-3 group"
+      >
+        <div className="relative bg-muted h-10 w-10 rounded-lg overflow-hidden shrink-0">
+          {(() => {
+            const img = row.original.images.find((i) => i.position === 1);
+            return img ? (
+              <ProductThumb url={img.url} alt={img.alt} />
+            ) : (
+              <div className="h-full w-full bg-linear-to-br from-gray-200 to-gray-300" />
+            );
+          })()}
+        </div>
+        <div className="min-w-0">
+          <span className="font-medium group-hover:text-primary transition-colors block truncate">
+            {row.original.name}
+          </span>
+          <span className="text-muted-foreground text-xs">
+            {row.original.sku}
+          </span>
+        </div>
+      </Link>
+    ),
+  },
+  {
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => (
+      <Badge variant="secondary" className="text-xs">
+        {row.original.category?.name ?? "—"}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }) => (
+      <div>
+        <span className="font-medium">
+          ${row.original.price.toLocaleString()}
+        </span>
+        {row.original.comparePrice > 0 && (
+          <span className="text-muted-foreground text-xs line-through ml-2">
+            ${row.original.comparePrice.toLocaleString()}
+          </span>
+        )}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "stock",
+    header: "Stock",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <div
+          className={`h-2 w-2 rounded-full ${
+            row.original.stock === 0
+              ? "bg-red-500"
+              : row.original.stock < 20
+                ? "bg-yellow-500"
+                : "bg-green-500"
+          }`}
+        />
+        <span
+          className={row.original.stock === 0 ? "text-red-600 font-medium" : ""}
+        >
+          {row.original.stock === 0
+            ? "Out of stock"
+            : `${row.original.stock} in stock`}
+        </span>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const config = statusConfig[row.original.status] ?? {
+        label: row.original.status,
+        variant: "secondary" as const,
+        className: "",
+      };
+      return (
+        <Badge
+          variant={config.variant}
+          className={`text-xs ${config.className}`}
+        >
+          {config.label}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "actions",
+    header: "Actions",
+    cell: ({ row }) => (
+      <div className="flex items-center justify-end gap-1">
         <Link
           href={`/admin/products/${row.original.id}`}
-          className="flex items-center gap-3 group"
+          className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors"
+          title="View details"
         >
-          <div className="bg-muted h-10 w-10 rounded-lg overflow-hidden shrink-0">
-            <div className="h-full w-full bg-gradient-to-br from-gray-200 to-gray-300" />
-          </div>
-          <div className="min-w-0">
-            <span className="font-medium group-hover:text-primary transition-colors block truncate">
-              {row.original.name}
-            </span>
-            <span className="text-muted-foreground text-xs">
-              {row.original.sku}
-            </span>
-          </div>
+          <HugeiconsIcon icon={EyeIcon} className="h-4 w-4" />
         </Link>
-      ),
-    },
-    {
-      accessorKey: "category",
-      header: "Category",
-      cell: ({ row }) => (
-        <Badge variant="secondary" className="text-xs">
-          {row.original.category}
-        </Badge>
-      ),
-    },
-    {
-      accessorKey: "price",
-      header: "Price",
-      cell: ({ row }) => (
-        <div>
-          <span className="font-medium">
-            ${row.original.price.toLocaleString()}
-          </span>
-          {row.original.comparePrice && (
-            <span className="text-muted-foreground text-xs line-through ml-2">
-              ${row.original.comparePrice.toLocaleString()}
-            </span>
-          )}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "stock",
-      header: "Stock",
-      cell: ({ row }) => (
-        <div className="flex items-center gap-2">
-          <div
-            className={`h-2 w-2 rounded-full ${
-              row.original.stock === 0
-                ? "bg-red-500"
-                : row.original.stock < 20
-                  ? "bg-yellow-500"
-                  : "bg-green-500"
-            }`}
-          />
-          <span
-            className={
-              row.original.stock === 0 ? "text-red-600 font-medium" : ""
-            }
-          >
-            {row.original.stock === 0
-              ? "Out of stock"
-              : `${row.original.stock} in stock`}
-          </span>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => {
-        const config = statusConfig[row.original.status];
-        return (
-          <Badge
-            variant={config.variant}
-            className={`text-xs ${config.className}`}
-          >
-            {config.label}
-          </Badge>
-        );
-      },
-    },
-    {
-      accessorKey: "actions",
-      header: "Actions",
-      cell: ({ row }) => (
-        <div className="flex items-center justify-end gap-1">
-          <Link
-            href={`/admin/products/${row.original.id}`}
-            className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors"
-            title="View details"
-          >
-            <HugeiconsIcon icon={EyeIcon} className="h-4 w-4" />
-          </Link>
-          <Link
-            href={`/admin/products/${row.original.id}/edit`}
-            className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors"
-            title="Edit product"
-          >
-            <HugeiconsIcon icon={Edit01FreeIcons} className="h-4 w-4" />
-          </Link>
-          <button
-            className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-red-600 transition-colors"
-            title="Delete product"
-          >
-            <HugeiconsIcon icon={Delete02Icon} className="h-4 w-4" />
-          </button>
-        </div>
-      ),
-    },
-  ];
+        <Link
+          href={`/admin/products/${row.original.id}/edit`}
+          className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-foreground transition-colors"
+          title="Edit product"
+        >
+          <HugeiconsIcon icon={Edit01FreeIcons} className="h-4 w-4" />
+        </Link>
+        <button
+          className="hover:bg-muted rounded p-1.5 text-muted-foreground hover:text-red-600 transition-colors"
+          title="Delete product"
+        >
+          <HugeiconsIcon icon={Delete02Icon} className="h-4 w-4" />
+        </button>
+      </div>
+    ),
+  },
+];
+
+export function ProductsTable() {
+  const [cursor, setCursor] = useState<string | undefined>(undefined);
+  const [limit, setLimit] = useState(10);
+
+  const { data, isLoading } = useProductsQuery(cursor, limit);
 
   return (
     <div className="bg-white rounded-3xl border p-5">
@@ -276,7 +206,7 @@ export function ProductsTable() {
             icon={SearchIcon}
             className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
           />
-          <Input className="border-0 bg-gray-100 " />
+          <Input className="border-0 bg-gray-100" />
         </div>
 
         <div className="flex items-center gap-2">
@@ -292,10 +222,23 @@ export function ProductsTable() {
         </div>
       </div>
       <hr className="border-border" />
-      <ReusableDataTable
-        data={[...sampleProducts, ...sampleProducts]}
-        columns={columns}
-      />
+
+      {isLoading && !data ? (
+        <div className="text-center py-10 text-muted-foreground">
+          Loading products...
+        </div>
+      ) : (
+        <ReusableDataTable
+          data={data?.data ?? []}
+          columns={columns}
+          cursorPagination={{
+            nextCursor: data?.nextCursor,
+            onCursorChange: setCursor,
+            limit,
+            onLimitChange: setLimit,
+          }}
+        />
+      )}
     </div>
   );
 }
