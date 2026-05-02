@@ -28,6 +28,7 @@ import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils/utils";
 import { BrandCombobox } from "../brands";
+import { PRODUCT_STATUS_OPTIONS } from "./constant";
 
 const STEPS = [
   { title: "Basic Info" },
@@ -184,7 +185,10 @@ export function ProductForm() {
   const prev = () => setStep((s) => Math.max(s - 1, 0));
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-6 lg:grid-cols-4">
+    <form
+      onSubmit={onSubmit}
+      className="grid gap-6 lg:grid-cols-3 2xl:grid-cols-4"
+    >
       {/* Step indicator — full width */}
       <div className="lg:col-span-4 flex items-center gap-2">
         {STEPS.map((s, i) => (
@@ -226,7 +230,7 @@ export function ProductForm() {
       </div>
 
       {/* Main content */}
-      <div className="lg:col-span-2 space-y-6 lg:border-r lg:pr-6">
+      <div className="lg:col-span-2 2xl:col-span-2 space-y-4 lg:border-r lg:pr-6">
         {/* Step 1 — Basic Info */}
         {step === 0 && (
           <>
@@ -546,7 +550,7 @@ export function ProductForm() {
       </div>
 
       {/* Sidebar */}
-      <div className="lg:col-span-1 space-y-6">
+      <div className="2xl:col-span-1 space-y-4">
         <div className="bg-white">
           <h3 className="font-semibold mb-4">Category</h3>
           <ParentCategoryCombobox
@@ -583,30 +587,16 @@ export function ProductForm() {
             onValueChange={(val) => setValue("status", val)}
             className="grid grid-cols-1 sm:grid-cols-2 gap-2"
           >
-            <FieldLabel htmlFor="active" className="rounded-3xl">
-              <Field orientation="horizontal">
-                <FieldContent>
-                  <FieldTitle>Active</FieldTitle>
-                </FieldContent>
-                <RadioGroupItem value="ACTIVE" id="active" />
-              </Field>
-            </FieldLabel>
-            <FieldLabel htmlFor="draft">
-              <Field orientation="horizontal">
-                <FieldContent>
-                  <FieldTitle>Draft</FieldTitle>
-                </FieldContent>
-                <RadioGroupItem value="DRAFT" id="draft" />
-              </Field>
-            </FieldLabel>
-            <FieldLabel htmlFor="inactive">
-              <Field orientation="horizontal">
-                <FieldContent>
-                  <FieldTitle>Inactive</FieldTitle>
-                </FieldContent>
-                <RadioGroupItem value="INACTIVE" id="inactive" />
-              </Field>
-            </FieldLabel>
+            {PRODUCT_STATUS_OPTIONS.map(({ value, label }) => (
+              <FieldLabel key={value} htmlFor={`status-${value}`}>
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldTitle>{label}</FieldTitle>
+                  </FieldContent>
+                  <RadioGroupItem value={value} id={`status-${value}`} />
+                </Field>
+              </FieldLabel>
+            ))}
           </RadioGroup>
         </div>
         <div className="flex gap-3">

@@ -63,6 +63,43 @@ export interface Product {
   variants: ProductVariantPayload[];
 }
 
+export interface UpdateProductDto {
+  name?: string;
+  description?: string;
+  sku?: string;
+  barcode?: string;
+  price?: number;
+  comparePrice?: number;
+  costPrice?: number;
+  stock?: number;
+  lowStockThreshold?: number;
+  trackInventory?: boolean;
+  allowBackorder?: boolean;
+  brandId?: string;
+  categoryId?: string;
+  tags?: string[];
+  metaTitle?: string;
+  metaDescription?: string;
+  status?: string;
+  isFeatured?: boolean;
+  publishedAt?: string;
+}
+
+export interface UpdateVariantDto {
+  name?: string;
+  sku?: string;
+  price?: number;
+  comparePrice?: number;
+  stock?: number;
+  options?: Pick<ProductVariantOptionPayload, "optionName" | "optionValue">[];
+}
+
+export interface UpdateImageDto {
+  url?: string;
+  alt?: string;
+  position?: number;
+}
+
 export interface ProductPayload {
   name: string;
   description: string;

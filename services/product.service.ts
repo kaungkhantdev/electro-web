@@ -5,6 +5,9 @@ import {
   CursorPaginatedResponse,
   Product,
   ApiResponse,
+  UpdateProductDto,
+  UpdateVariantDto,
+  UpdateImageDto,
 } from "@/types";
 
 export const productService = {
@@ -19,14 +22,27 @@ export const productService = {
         params: { cursor, limit },
       })
       .then((res) => res.data),
+
   adminGetById: (id: string) =>
     apiClient
       .get<ApiResponse<Product>>(`${PRODUCT_ENDPOINT.ADMIN_BASE}/${id}`)
       .then((res) => res.data.data),
-  adminUpdate: (id: string, payload: ProductPayload) =>
+
+  adminUpdate: (id: string, payload: UpdateProductDto) =>
     apiClient
-      .put<Product>(`${PRODUCT_ENDPOINT.ADMIN_BASE}/${id}`, payload)
+      .put(`${PRODUCT_ENDPOINT.ADMIN_BASE}/${id}`, payload)
       .then((res) => res.data),
+
+  adminUpdateVariant: (variantId: string, payload: UpdateVariantDto) =>
+    apiClient
+      .put(`${PRODUCT_ENDPOINT.ADMIN_BASE}/variants/${variantId}`, payload)
+      .then((res) => res.data),
+
+  adminUpdateImage: (imageId: string, payload: UpdateImageDto) =>
+    apiClient
+      .put(`${PRODUCT_ENDPOINT.ADMIN_BASE}/images/${imageId}`, payload)
+      .then((res) => res.data),
+
   adminDelete: (id: string) =>
     apiClient
       .delete(`${PRODUCT_ENDPOINT.ADMIN_BASE}/${id}`)
