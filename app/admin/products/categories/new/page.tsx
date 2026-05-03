@@ -24,7 +24,7 @@ export default function NewCategoryPage() {
         </Link>
       </AdminPageHeader>
       <div className="flex flex-col gap-5">
-        <CategoryForm mode="create" />
+        <CategoryForm />
       </div>
     </>
   );

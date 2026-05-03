@@ -19,4 +19,9 @@ export const brandService = {
     apiClient
       .get<Brand>(`${BRAND_ENDPOINT.ADMIN_BASE}/${id}`)
       .then((res) => res.data),
+
+  adminUpdate: (id: string, payload: BrandPayload) =>
+    apiClient
+      .put<Brand>(`${BRAND_ENDPOINT.ADMIN_BASE}/${id}`, payload)
+      .then((res) => res.data),
 };

@@ -1,85 +1,30 @@
-import { ArrowLeft } from "lucide-react";
+"use client";
+
 import Link from "next/link";
+import { use } from "react";
 import { AdminPageHeader } from "@/components/features/admin/shared";
-import { CategoryForm } from "@/components/features/admin";
+import { CategoryEditForm } from "@/components/features/admin";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import { useCategoryQuery } from "@/hooks/queries/use-categories";
 
-const sampleCategories: Record<
-  string,
-  {
-    name: string;
-    slug: string;
-    description: string;
-    parentCategory: string;
-    status: string;
-  }
-> = {
-  "1": {
-    name: "Phones",
-    slug: "phones",
-    description: "Smartphones and mobile devices",
-    parentCategory: "",
-    status: "active",
-  },
-  "2": {
-    name: "Laptops",
-    slug: "laptops",
-    description: "Notebooks and portable computers",
-    parentCategory: "",
-    status: "active",
-  },
-  "3": {
-    name: "Tablets",
-    slug: "tablets",
-    description: "Tablet computers and e-readers",
-    parentCategory: "",
-    status: "active",
-  },
-  "4": {
-    name: "Audio",
-    slug: "audio",
-    description: "Headphones, speakers and audio equipment",
-    parentCategory: "",
-    status: "active",
-  },
-  "5": {
-    name: "Wearables",
-    slug: "wearables",
-    description: "Smartwatches and fitness trackers",
-    parentCategory: "",
-    status: "active",
-  },
-  "6": {
-    name: "Accessories",
-    slug: "accessories",
-    description: "Cases, chargers and accessories",
-    parentCategory: "",
-    status: "active",
-  },
-  "7": {
-    name: "Gaming",
-    slug: "gaming",
-    description: "Gaming consoles and accessories",
-    parentCategory: "",
-    status: "active",
-  },
-  "8": {
-    name: "Smart Home",
-    slug: "smart-home",
-    description: "Smart home devices and IoT",
-    parentCategory: "",
-    status: "active",
-  },
-};
-
-export default async function EditCategoryPage({
+export default function EditCategoryPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
-  const category = sampleCategories[id];
+  const { id } = use(params);
+  const { data: category, isLoading, isError } = useCategoryQuery(id);
 
-  if (!category) {
+  if (isLoading) {
+    return (
+      <div className="flex flex-1 items-center justify-center p-8 text-muted-foreground">
+        Loading category...
+      </div>
+    );
+  }
+
+  if (isError || !category) {
     return (
       <>
         <AdminPageHeader
@@ -97,7 +42,7 @@ export default async function EditCategoryPage({
           </p>
           <Link
             href="/admin/products/categories"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium"
+            className="bg-purple-600 text-white hover:bg-purple-600/90 rounded-full px-4 py-2 text-sm font-medium"
           >
             Back to Categories
           </Link>
@@ -115,23 +60,17 @@ export default async function EditCategoryPage({
           { label: "Categories", href: "/admin/products/categories" },
           { label: category.name },
         ]}
-      />
+      >
+        <Link
+          href="/admin/products/categories"
+          className="hover:bg-muted rounded-full py-2 px-4 transition-colors flex items-center gap-2"
+        >
+          <HugeiconsIcon icon={ArrowLeft01Icon} className="h-4 w-4" />
+          Back
+        </Link>
+      </AdminPageHeader>
       <div className="flex flex-col gap-5">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/admin/products/categories"
-            className="hover:bg-muted rounded-md p-2 transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold">Edit Category</h1>
-            <p className="text-muted-foreground text-sm mt-0.5">
-              {category.name}
-            </p>
-          </div>
-        </div>
-        <CategoryForm mode="edit" defaultValues={category} />
+        <CategoryEditForm category={category} />
       </div>
     </>
   );

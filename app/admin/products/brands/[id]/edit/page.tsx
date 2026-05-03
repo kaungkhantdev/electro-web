@@ -3,8 +3,8 @@
 import { use } from "react";
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/features/admin/shared";
-import { BrandForm } from "@/components/features/admin";
-import { useGetBrand } from "@/hooks/mutations/use-brand";
+import { BrandEditForm } from "@/components/features/admin";
+import { useBrandQuery } from "@/hooks/queries/use-brands";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 
@@ -14,8 +14,17 @@ export default function EditBrandPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const { brand, isLoading } = useGetBrand(id);
-  if (!brand) {
+  const { data: brand, isLoading, isError } = useBrandQuery(id);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-1 items-center justify-center p-8 text-muted-foreground">
+        Loading brand...
+      </div>
+    );
+  }
+
+  if (isError || !brand) {
     return (
       <>
         <AdminPageHeader
@@ -33,7 +42,7 @@ export default function EditBrandPage({
           </p>
           <Link
             href="/admin/products/brands"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium"
+            className="bg-purple-600 text-white hover:bg-purple-600/90 rounded-full px-4 py-2 text-sm font-medium"
           >
             Back to Brands
           </Link>
@@ -49,7 +58,7 @@ export default function EditBrandPage({
           { label: "Dashboard", href: "/admin" },
           { label: "Products", href: "/admin/products" },
           { label: "Brands", href: "/admin/products/brands" },
-          { label: "Edit Brand" },
+          { label: brand.name },
         ]}
       >
         <Link
@@ -61,7 +70,7 @@ export default function EditBrandPage({
         </Link>
       </AdminPageHeader>
       <div className="flex flex-col gap-5">
-        <BrandForm mode="edit" defaultValues={brand} />
+        <BrandEditForm brand={brand} />
       </div>
     </>
   );

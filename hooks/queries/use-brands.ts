@@ -21,3 +21,11 @@ export function useBrandsQuery(cursor?: string, limit = LIMIT) {
     queryFn: () => brandService.adminGetList(cursor, limit),
   });
 }
+
+export function useBrandQuery(id: string) {
+  return useQuery({
+    queryKey: ["brands", id],
+    queryFn: () => brandService.adminGetById(id),
+    enabled: !!id,
+  });
+}

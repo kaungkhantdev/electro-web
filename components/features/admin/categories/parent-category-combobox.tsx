@@ -14,10 +14,12 @@ import type { Category } from "@/types";
 
 interface ParentCategoryComboboxProps {
   onValueChange: (value: string) => void;
+  defaultValue?: string | null;
 }
 
 export function ParentCategoryCombobox({
   onValueChange,
+  defaultValue,
 }: ParentCategoryComboboxProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useCategoriesInfiniteQuery();
@@ -50,10 +52,13 @@ export function ParentCategoryCombobox({
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
+  const selectedDefault =
+    categories.find((c) => c.value === (defaultValue ?? "")) ?? categories[0];
+
   return (
     <Combobox
       items={categories}
-      defaultValue={categories[0]}
+      defaultValue={selectedDefault}
       onValueChange={(val) => onValueChange(String(val?.value ?? ""))}
     >
       <ComboboxInput
