@@ -14,7 +14,9 @@ export default function EditBrandPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const { data: brand, isLoading, isError } = useBrandQuery(id);
+  const { data, isLoading, isError } = useBrandQuery(id);
+  console.log("Brand data:", data, "Loading:", isLoading, "Error:", isError);
+  const brand = data?.data;
 
   if (isLoading) {
     return (

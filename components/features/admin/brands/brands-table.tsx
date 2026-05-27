@@ -59,7 +59,7 @@ function BrandCard({ brand }: { brand: Brand }) {
                 onError={() => setImgError(true)}
               />
             ) : (
-              <div className="bg-primary/10 rounded-lg p-2 h-16 w-16 flex items-center justify-center overflow-hidden">
+              <div className="bg-primary/10 rounded-lg p-2 h-14 w-14 flex items-center justify-center">
                 <HugeiconsIcon icon={Photo} className="h-5 w-5 text-primary" />
               </div>
             )}
