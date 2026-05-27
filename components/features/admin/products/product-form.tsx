@@ -5,6 +5,7 @@ import {
   Control,
   FieldErrors,
   UseFormRegister,
+  useController,
   useFieldArray,
 } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -22,10 +23,12 @@ import { useCreateProduct, ProductFormValues } from "@/hooks/mutations";
 import BaseInput from "@/components/common/base-input";
 import BaseTextarea from "@/components/common/base-textarea";
 import { Check, Plus, RotateCw, Trash2 } from "lucide-react";
-import { ParentCategoryCombobox } from "./parent-category-combobox";
+import { ParentCategoryCombobox } from "../categories/parent-category-combobox";
 import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils/utils";
+import { BrandCombobox } from "../brands";
+import { PRODUCT_STATUS_OPTIONS } from "./constant";
 
 const STEPS = [
   { title: "Basic Info" },
@@ -33,6 +36,66 @@ const STEPS = [
   { title: "Media & Details" },
   { title: "Variants" },
 ];
+
+function TagsInput({ control }: { control: Control<ProductFormValues> }) {
+  const [input, setInput] = useState("");
+  const { field } = useController({ control, name: "tags", defaultValue: [] });
+
+  const addTag = (value: string) => {
+    const tag = value.trim();
+    if (tag && !field.value.includes(tag)) {
+      field.onChange([...field.value, tag]);
+    }
+    setInput("");
+  };
+
+  const removeTag = (tag: string) => {
+    field.onChange(field.value.filter((t) => t !== tag));
+  };
+
+  return (
+    <div className="space-y-1.5">
+      <label className="text-sm font-medium leading-none">Tags</label>
+      <div className="flex flex-wrap gap-1.5 p-2 border rounded-md min-h-10 focus-within:ring-1 focus-within:ring-ring">
+        {field.value.map((tag) => (
+          <span
+            key={tag}
+            className="flex items-center gap-1 bg-secondary text-secondary-foreground text-xs px-2 py-0.5 rounded-full"
+          >
+            {tag}
+            <button
+              type="button"
+              onClick={() => removeTag(tag)}
+              className="text-muted-foreground hover:text-foreground leading-none"
+            >
+              ×
+            </button>
+          </span>
+        ))}
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === ",") {
+              e.preventDefault();
+              addTag(input);
+            } else if (e.key === "Backspace" && !input && field.value.length) {
+              removeTag(field.value[field.value.length - 1]);
+            }
+          }}
+          onBlur={() => {
+            if (input) addTag(input);
+          }}
+          placeholder={field.value.length === 0 ? "e.g. electronics, sale" : ""}
+          className="flex-1 min-w-24 outline-none text-sm bg-transparent"
+        />
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Press Enter or comma to add a tag.
+      </p>
+    </div>
+  );
+}
 
 function VariantOptions({
   control,
@@ -107,6 +170,7 @@ export function ProductForm() {
     isLoading,
     setValue,
     control,
+    trigger,
   } = useCreateProduct();
   const router = useRouter();
 
@@ -121,7 +185,10 @@ export function ProductForm() {
   const prev = () => setStep((s) => Math.max(s - 1, 0));
 
   return (
-    <form onSubmit={onSubmit} className="grid gap-6 lg:grid-cols-4">
+    <form
+      onSubmit={onSubmit}
+      className="grid gap-6 lg:grid-cols-3 2xl:grid-cols-4"
+    >
       {/* Step indicator — full width */}
       <div className="lg:col-span-4 flex items-center gap-2">
         {STEPS.map((s, i) => (
@@ -163,7 +230,7 @@ export function ProductForm() {
       </div>
 
       {/* Main content */}
-      <div className="lg:col-span-2 space-y-6 lg:border-r lg:pr-6">
+      <div className="lg:col-span-2 2xl:col-span-2 space-y-4 lg:border-r lg:pr-6">
         {/* Step 1 — Basic Info */}
         {step === 0 && (
           <>
@@ -210,38 +277,8 @@ export function ProductForm() {
               </div>
             </div>
             <div className="bg-white">
-              <h3 className="font-semibold mb-4">Brand & Vendor</h3>
-              <div className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <BaseInput
-                    id="brand"
-                    register={register}
-                    errors={errors}
-                    label="Brand"
-                    type="text"
-                    required
-                    placeholder=""
-                  />
-                  <BaseInput
-                    id="vendor"
-                    register={register}
-                    errors={errors}
-                    label="Vendor"
-                    type="text"
-                    required
-                    placeholder=""
-                  />
-                </div>
-                <BaseInput
-                  id="tags"
-                  register={register}
-                  errors={errors}
-                  label="Tags"
-                  type="text"
-                  required
-                  placeholder="e.g. electronics, sale"
-                />
-              </div>
+              <h3 className="font-semibold mb-4">Tags</h3>
+              <TagsInput control={control} />
             </div>
           </>
         )}
@@ -341,20 +378,45 @@ export function ProductForm() {
           <>
             <div className="bg-white">
               <h3 className="font-semibold mb-4">Product Images</h3>
-              <ImageUpload
-                maxSizeBytes={2 * 1024 * 1024}
-                acceptedTypes={["image/png", "image/jpeg", "image/webp"]}
-                onChange={(urls) =>
-                  setValue(
-                    "images",
-                    urls.map((url, index) => ({
-                      url,
-                      alt: "",
-                      position: index,
-                    })),
-                  )
-                }
-              />
+              <div className="flex items-start gap-6">
+                <div className="grid gap-3 min-w-3xs max-w-3xs">
+                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Hero Image
+                  </label>
+                  <ImageUpload
+                    maxSizeBytes={2 * 1024 * 1024}
+                    acceptedTypes={["image/png", "image/jpeg", "image/webp"]}
+                    onChange={(urls) =>
+                      setValue("heroImage", {
+                        url: urls[0] || "",
+                        alt: "",
+                        position: 1,
+                      })
+                    }
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Upload Images
+                  </label>
+                  <ImageUpload
+                    maxSizeBytes={2 * 1024 * 1024}
+                    maxFiles={6}
+                    allowMultiple
+                    acceptedTypes={["image/png", "image/jpeg", "image/webp"]}
+                    onChange={(urls) =>
+                      setValue(
+                        "images",
+                        urls.map((url, index) => ({
+                          url,
+                          alt: "",
+                          position: index + 2,
+                        })),
+                      )
+                    }
+                  />
+                </div>
+              </div>
             </div>
             <div className="bg-white">
               <h3 className="font-semibold mb-4">SEO</h3>
@@ -488,13 +550,18 @@ export function ProductForm() {
       </div>
 
       {/* Sidebar */}
-      <div className="lg:col-span-1 space-y-6">
+      <div className="2xl:col-span-1 space-y-4">
         <div className="bg-white">
           <h3 className="font-semibold mb-4">Category</h3>
           <ParentCategoryCombobox
             onValueChange={(val) => setValue("categoryId", val)}
           />
         </div>
+        <div className="bg-white">
+          <h3 className="font-semibold mb-4">Brand</h3>
+          <BrandCombobox onValueChange={(val) => setValue("brandId", val)} />
+        </div>
+
         <div className="bg-white">
           <h3 className="font-semibold mb-4">Featured</h3>
           <FieldGroup className="w-full max-w-sm">
@@ -518,32 +585,18 @@ export function ProductForm() {
           <h3 className="font-semibold mb-4">Status</h3>
           <RadioGroup
             onValueChange={(val) => setValue("status", val)}
-            className="flex gap-2 flex-wrap"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-2"
           >
-            <FieldLabel htmlFor="active" className="rounded-3xl">
-              <Field orientation="horizontal">
-                <FieldContent>
-                  <FieldTitle>Active</FieldTitle>
-                </FieldContent>
-                <RadioGroupItem value="ACTIVE" id="active" />
-              </Field>
-            </FieldLabel>
-            <FieldLabel htmlFor="draft">
-              <Field orientation="horizontal">
-                <FieldContent>
-                  <FieldTitle>Draft</FieldTitle>
-                </FieldContent>
-                <RadioGroupItem value="DRAFT" id="draft" />
-              </Field>
-            </FieldLabel>
-            <FieldLabel htmlFor="inactive">
-              <Field orientation="horizontal">
-                <FieldContent>
-                  <FieldTitle>Inactive</FieldTitle>
-                </FieldContent>
-                <RadioGroupItem value="INACTIVE" id="inactive" />
-              </Field>
-            </FieldLabel>
+            {PRODUCT_STATUS_OPTIONS.map(({ value, label }) => (
+              <FieldLabel key={value} htmlFor={`status-${value}`}>
+                <Field orientation="horizontal">
+                  <FieldContent>
+                    <FieldTitle>{label}</FieldTitle>
+                  </FieldContent>
+                  <RadioGroupItem value={value} id={`status-${value}`} />
+                </Field>
+              </FieldLabel>
+            ))}
           </RadioGroup>
         </div>
         <div className="flex gap-3">
@@ -557,6 +610,7 @@ export function ProductForm() {
           </Button>
           {isLast ? (
             <Button
+              key="submit-btn"
               disabled={isLoading}
               type="submit"
               size="lg"
@@ -573,10 +627,26 @@ export function ProductForm() {
             </Button>
           ) : (
             <Button
-              type="button"
+              key="next-btn"
+              type="button" // this button only ever exists on non-last steps
               size="lg"
               className="flex-1 base-btn base-btn-primary"
-              onClick={next}
+              onClick={async () => {
+                // Validate current step fields before advancing
+                const fieldsPerStep: (keyof ProductFormValues)[][] = [
+                  ["name", "sku", "barcode", "description", "tags"], // step 0
+                  [
+                    "price",
+                    "comparePrice",
+                    "costPrice",
+                    "stock",
+                    "lowStockThreshold",
+                  ], // step 1
+                  ["heroImage", "metaTitle", "metaDescription"], // step 2
+                ];
+                const valid = await trigger(fieldsPerStep[step]);
+                if (valid) next();
+              }}
             >
               Next
             </Button>

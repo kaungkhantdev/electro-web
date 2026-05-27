@@ -14,4 +14,14 @@ export const categoryService = {
         params: { cursor, limit },
       })
       .then((res) => res.data),
+
+  adminGetById: (id: string) =>
+    apiClient
+      .get<Category>(`${CATEGORY_ENDPOINT.ADMIN_BASE}/${id}`)
+      .then((res) => res.data),
+
+  adminUpdate: (id: string, payload: CategoryPayload) =>
+    apiClient
+      .put<Category>(`${CATEGORY_ENDPOINT.ADMIN_BASE}/${id}`, payload)
+      .then((res) => res.data),
 };

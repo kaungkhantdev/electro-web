@@ -1,3 +1,43 @@
+export interface ProductBrand {
+  id: string;
+  name: string;
+  description: string;
+  logo: string;
+}
+
+export interface ProductCategory {
+  id: string;
+  name: string;
+  description: string;
+  parentId: string | null;
+  position: number;
+}
+
+export interface ProductImagePayload {
+  id?: string;
+  url: string;
+  alt: string;
+  position: number;
+}
+
+export interface ProductVariantOptionPayload {
+  id?: string;
+  optionName: string;
+  optionValue: string;
+}
+
+export interface ProductVariantPayload {
+  id?: string;
+  name: string;
+  sku: string;
+  price: number;
+  comparePrice: number;
+  stock: number;
+  image?: string | null;
+  isActive?: boolean;
+  options: ProductVariantOptionPayload[];
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -11,14 +51,53 @@ export interface Product {
   lowStockThreshold: number;
   trackInventory: boolean;
   allowBackorder: boolean;
-  brand: string;
-  vendor: string;
+  brand: ProductBrand;
+  category: ProductCategory;
   tags: string[];
   metaTitle: string;
   metaDescription: string;
   status: string;
   isFeatured: boolean;
-  publishedAt: string;
+  publishedAt: string | null;
+  images: ProductImagePayload[];
+  variants: ProductVariantPayload[];
+}
+
+export interface UpdateProductDto {
+  name?: string;
+  description?: string;
+  sku?: string;
+  barcode?: string;
+  price?: number;
+  comparePrice?: number;
+  costPrice?: number;
+  stock?: number;
+  lowStockThreshold?: number;
+  trackInventory?: boolean;
+  allowBackorder?: boolean;
+  brandId?: string;
+  categoryId?: string;
+  tags?: string[];
+  metaTitle?: string;
+  metaDescription?: string;
+  status?: string;
+  isFeatured?: boolean;
+  publishedAt?: string;
+}
+
+export interface UpdateVariantDto {
+  name?: string;
+  sku?: string;
+  price?: number;
+  comparePrice?: number;
+  stock?: number;
+  options?: Pick<ProductVariantOptionPayload, "optionName" | "optionValue">[];
+}
+
+export interface UpdateImageDto {
+  url?: string;
+  alt?: string;
+  position?: number;
 }
 
 export interface ProductPayload {
@@ -33,35 +112,14 @@ export interface ProductPayload {
   lowStockThreshold: number;
   trackInventory: boolean;
   allowBackorder: boolean;
-  brand: string;
-  vendor: string;
-  tags: string;
+  brandId: string;
+  tags: string[];
   metaTitle: string;
   metaDescription: string;
   status: string;
   isFeatured: boolean;
-  publishedAt: string;
+  publishedAt?: string;
   categoryId: string;
   images: ProductImagePayload[];
   variants: ProductVariantPayload[];
-}
-
-export interface ProductImagePayload {
-  url: string;
-  alt: string;
-  position: number;
-}
-
-export interface ProductVariantPayload {
-  name: string;
-  sku: string;
-  price: number;
-  comparePrice: number;
-  stock: number;
-  options: ProductVariantOptionPayload[];
-}
-
-export interface ProductVariantOptionPayload {
-  optionName: string;
-  optionValue: string;
 }

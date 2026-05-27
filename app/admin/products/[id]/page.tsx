@@ -1,4 +1,8 @@
+"use client";
+
+import { use } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { AdminPageHeader } from "@/components/features/admin/shared";
 import { Badge } from "@/components/ui/badge";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -9,209 +13,39 @@ import {
   Package01FreeIcons,
 } from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
+import { useProductQuery } from "@/hooks/queries/use-products";
 
-const sampleProducts: Record<
-  string,
-  {
-    id: string;
-    name: string;
-    sku: string;
-    category: string;
-    description: string;
-    price: number;
-    comparePrice?: number;
-    cost: number;
-    stock: number;
-    lowStockAlert: number;
-    status: "active" | "draft" | "out_of_stock";
-    tags: string[];
-    createdAt: string;
-    updatedAt: string;
-  }
-> = {
-  "1": {
-    id: "1",
-    name: "iPhone 15 Pro Max",
-    sku: "IPH-15PM-256",
-    category: "Phones",
-    description:
-      "The most powerful iPhone ever. Featuring a titanium design, the A17 Pro chip, a customizable Action button, and a more powerful Pro camera system.",
-    price: 1199,
-    comparePrice: 1299,
-    cost: 850,
-    stock: 45,
-    lowStockAlert: 10,
-    status: "active",
-    tags: ["apple", "smartphone", "5g", "flagship"],
-    createdAt: "2024-09-22",
-    updatedAt: "2025-01-15",
-  },
-  "2": {
-    id: "2",
-    name: 'MacBook Pro 16"',
-    sku: "MBP-16-M3",
-    category: "Laptops",
-    description:
-      "Supercharged by M3 Pro and M3 Max chips. With a stunning Liquid Retina XDR display, up to 22 hours of battery life, and a range of pro ports.",
-    price: 2499,
-    cost: 1800,
-    stock: 23,
-    lowStockAlert: 5,
-    status: "active",
-    tags: ["apple", "laptop", "m3", "pro"],
-    createdAt: "2024-10-30",
-    updatedAt: "2025-02-01",
-  },
-  "3": {
-    id: "3",
-    name: "AirPods Pro 2",
-    sku: "APP-2-USB",
-    category: "Audio",
-    description:
-      "Rebuilt from the sound up. Featuring Adaptive Audio, USB-C charging, and up to 2x more Active Noise Cancellation.",
-    price: 249,
-    cost: 150,
-    stock: 120,
-    lowStockAlert: 20,
-    status: "active",
-    tags: ["apple", "earbuds", "anc", "wireless"],
-    createdAt: "2024-09-12",
-    updatedAt: "2025-01-20",
-  },
-  "4": {
-    id: "4",
-    name: 'iPad Pro 12.9"',
-    sku: "IPD-PRO-129",
-    category: "Tablets",
-    description:
-      "The ultimate iPad experience with the M2 chip. Featuring a stunning Liquid Retina XDR display, advanced cameras, and superfast wireless connectivity.",
-    price: 1099,
-    comparePrice: 1199,
-    cost: 780,
-    stock: 0,
-    lowStockAlert: 10,
-    status: "out_of_stock",
-    tags: ["apple", "tablet", "m2", "pro"],
-    createdAt: "2024-06-15",
-    updatedAt: "2025-02-05",
-  },
-  "5": {
-    id: "5",
-    name: "Apple Watch Ultra 2",
-    sku: "AW-ULT-2",
-    category: "Wearables",
-    description:
-      "The most rugged and capable Apple Watch, designed for endurance, exploration, and adventure. With a precision dual-frequency GPS and up to 36 hours of battery life.",
-    price: 799,
-    cost: 520,
-    stock: 67,
-    lowStockAlert: 15,
-    status: "active",
-    tags: ["apple", "smartwatch", "fitness", "gps"],
-    createdAt: "2024-09-22",
-    updatedAt: "2025-01-10",
-  },
-  "6": {
-    id: "6",
-    name: "Samsung Galaxy S24 Ultra",
-    sku: "SG-S24U-256",
-    category: "Phones",
-    description:
-      "The ultimate Galaxy experience with Galaxy AI. Featuring a titanium frame, built-in S Pen, and a 200MP camera system.",
-    price: 1299,
-    cost: 900,
-    stock: 34,
-    lowStockAlert: 10,
-    status: "active",
-    tags: ["samsung", "smartphone", "5g", "ai"],
-    createdAt: "2024-01-17",
-    updatedAt: "2025-01-28",
-  },
-  "7": {
-    id: "7",
-    name: "Sony WH-1000XM5",
-    sku: "SNY-WH5-BLK",
-    category: "Audio",
-    description:
-      "Industry-leading noise canceling with Auto NC Optimizer. Exceptionally natural sound quality and crystal clear hands-free calling.",
-    price: 399,
-    comparePrice: 449,
-    cost: 220,
-    stock: 89,
-    lowStockAlert: 15,
-    status: "active",
-    tags: ["sony", "headphones", "anc", "bluetooth"],
-    createdAt: "2024-05-12",
-    updatedAt: "2025-01-05",
-  },
-  "8": {
-    id: "8",
-    name: "Dell XPS 15",
-    sku: "DLL-XPS15-I7",
-    category: "Laptops",
-    description:
-      "Stunning 15.6-inch InfinityEdge display with Intel Core i7, 16GB RAM, and 512GB SSD. Premium build quality with a compact form factor.",
-    price: 1799,
-    cost: 1300,
-    stock: 12,
-    lowStockAlert: 5,
-    status: "draft",
-    tags: ["dell", "laptop", "intel", "windows"],
-    createdAt: "2024-11-20",
-    updatedAt: "2025-02-08",
-  },
-  "9": {
-    id: "9",
-    name: "Google Pixel 8 Pro",
-    sku: "GP-8PRO-128",
-    category: "Phones",
-    description:
-      "Google's most advanced phone yet, with Google Tensor G3 chip, advanced AI-powered camera features, and 7 years of OS updates.",
-    price: 999,
-    cost: 650,
-    stock: 56,
-    lowStockAlert: 10,
-    status: "active",
-    tags: ["google", "smartphone", "5g", "ai"],
-    createdAt: "2024-10-04",
-    updatedAt: "2025-01-22",
-  },
-  "10": {
-    id: "10",
-    name: "Nintendo Switch OLED",
-    sku: "NTD-SWOLED",
-    category: "Gaming",
-    description:
-      "Enhanced gaming experience with a vibrant 7-inch OLED screen, wide adjustable stand, and enhanced audio.",
-    price: 349,
-    cost: 250,
-    stock: 0,
-    lowStockAlert: 20,
-    status: "out_of_stock",
-    tags: ["nintendo", "gaming", "console", "portable"],
-    createdAt: "2024-03-10",
-    updatedAt: "2025-02-03",
-  },
-};
+function resolveImageUrl(url: string) {
+  if (url.startsWith("http")) return url;
+  return `${process.env.NEXT_PUBLIC_API_URL}${url}`;
+}
 
-const statusConfig = {
-  active: { label: "Active", className: "bg-green-600 hover:bg-green-600" },
-  draft: { label: "Draft", className: "" },
-  out_of_stock: {
+const statusConfig: Record<string, { label: string; className: string }> = {
+  ACTIVE: { label: "Active", className: "bg-green-600 hover:bg-green-600" },
+  DRAFT: { label: "Draft", className: "" },
+  OUT_OF_STOCK: {
     label: "Out of Stock",
     className: "bg-red-600 hover:bg-red-600",
   },
 };
 
-export default async function ProductDetailPage({
+export default function ProductDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
-  const product = sampleProducts[id];
+  const { id } = use(params);
+  const { data: product, isLoading, isError } = useProductQuery(id);
 
-  if (!product) {
+  if (isLoading) {
+    return (
+      <div className="flex flex-1 items-center justify-center p-8 text-muted-foreground">
+        Loading product...
+      </div>
+    );
+  }
+
+  if (isError || !product) {
     return (
       <>
         <AdminPageHeader
@@ -241,9 +75,23 @@ export default async function ProductDetailPage({
     );
   }
 
-  const statusCfg = statusConfig[product.status];
-  const profit = product.price - product.cost;
-  const margin = ((profit / product.price) * 100).toFixed(1);
+  const statusCfg = statusConfig[product.status] ?? {
+    label: product.status,
+    className: "",
+  };
+  const hasVariants = product.variants?.length > 0;
+  const heroImage = product?.images?.find((i) => i.position === 1);
+  const otherImages = product?.images?.filter((i) => i.position !== 1);
+
+  const profit = product.price - product.costPrice;
+  const margin =
+    product.price > 0 ? ((profit / product.price) * 100).toFixed(1) : "0.0";
+  const discount =
+    product.comparePrice > 0
+      ? Math.round(
+          ((product.comparePrice - product.price) / product.comparePrice) * 100,
+        )
+      : null;
 
   return (
     <>
@@ -257,7 +105,7 @@ export default async function ProductDetailPage({
         <div className="flex items-center gap-3">
           <Link
             href="/admin/products"
-            className="hover:bg-muted rounded-full py-2 px-4 transition-colors flex items-center gap-2"
+            className="hover:bg-muted rounded-full py-2 px-4 transition-colors flex items-center gap-2 text-sm"
           >
             <HugeiconsIcon icon={ArrowLeft01Icon} className="h-4 w-4" />
             Back
@@ -269,186 +117,409 @@ export default async function ProductDetailPage({
             <HugeiconsIcon icon={Edit01FreeIcons} className="h-4 w-4" />
             Edit
           </Link>
-          <Button variant="destructive" className="base-btn">
+          <Button variant="destructive" className="rounded-full">
             <HugeiconsIcon icon={Delete02Icon} className="h-4 w-4" />
             Delete
           </Button>
         </div>
       </AdminPageHeader>
 
-      <div className="flex flex-col gap-5 border p-5 rounded-3xl">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div>
-              <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold">{product.name}</h1>
-                <Badge
-                  variant={product.status === "draft" ? "secondary" : "default"}
-                  className={statusCfg.className}
-                >
-                  {statusCfg.label}
+      <div className="flex flex-col gap-5 bg-white">
+        {/* Title row */}
+        <div className="flex items-center gap-3">
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-bold">{product.name}</h1>
+              <Badge
+                variant={product.status === "DRAFT" ? "secondary" : "default"}
+                className={statusCfg.className}
+              >
+                {statusCfg.label}
+              </Badge>
+              {product.isFeatured && (
+                <Badge variant="outline" className="text-xs">
+                  Featured
                 </Badge>
-              </div>
-              <p className="text-muted-foreground text-sm mt-0.5">
-                SKU: {product.sku}
-              </p>
+              )}
             </div>
+            <p className="text-muted-foreground text-sm mt-0.5">
+              SKU: {product.sku}
+            </p>
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
-          <div className="lg:col-span-2 space-y-4">
-            {/* Product Image & Info */}
-            <div className="">
-              <div className="flex gap-6">
-                <div className="bg-muted h-40 w-40 rounded-xl overflow-hidden shrink-0">
-                  <div className="h-full w-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                    <HugeiconsIcon
-                      icon={Package01FreeIcons}
-                      className="h-12 w-12 text-muted-foreground"
+        <div className="grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2 space-y-6 lg:border-r lg:pr-6">
+            {/* Images + Description */}
+            <div className="flex gap-6">
+              <div className="shrink-0 space-y-2">
+                <div className="relative bg-muted h-40 w-40 rounded-xl overflow-hidden">
+                  {heroImage ? (
+                    <Image
+                      src={resolveImageUrl(heroImage.url)}
+                      alt={heroImage.alt}
+                      fill
+                      className="object-cover"
                     />
-                  </div>
+                  ) : (
+                    <div className="h-full w-full bg-linear-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                      <HugeiconsIcon
+                        icon={Package01FreeIcons}
+                        className="h-12 w-12 text-muted-foreground"
+                      />
+                    </div>
+                  )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold mb-2">Description</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {product.description}
-                  </p>
+                {otherImages?.length > 0 && (
+                  <div className="flex gap-2 flex-wrap">
+                    {otherImages?.map((img) => (
+                      <div
+                        key={img.position}
+                        className="relative bg-muted h-12 w-12 rounded-lg overflow-hidden"
+                      >
+                        <Image
+                          src={resolveImageUrl(img.url)}
+                          alt={img.alt}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold mb-2">Description</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {product.description}
+                </p>
+                {product.tags?.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-4">
-                    {product.tags.map((tag) => (
+                    {product.tags?.map((tag) => (
                       <Badge key={tag} variant="outline" className="text-xs">
                         {tag}
                       </Badge>
                     ))}
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
             {/* Pricing */}
-            <div className="">
+            <div>
               <h3 className="font-semibold mb-4">Pricing</h3>
-              <div className="grid gap-4 sm:grid-cols-4">
-                <div>
-                  <span className="text-muted-foreground text-sm">Price</span>
-                  <p className="text-lg font-bold mt-1">
-                    ${product.price.toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground text-sm">
-                    Compare at
-                  </span>
-                  <p className="text-lg font-bold mt-1">
-                    {product.comparePrice
-                      ? `$${product.comparePrice.toLocaleString()}`
-                      : "—"}
-                  </p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground text-sm">Cost</span>
-                  <p className="text-lg font-bold mt-1">
-                    ${product.cost.toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <span className="text-muted-foreground text-sm">Margin</span>
-                  <p className="text-lg font-bold mt-1 text-green-600">
-                    {margin}%
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Inventory */}
-            <div className="">
-              <h3 className="font-semibold mb-4">Inventory</h3>
-              <div className="grid gap-4 sm:grid-cols-3">
-                <div>
-                  <span className="text-muted-foreground text-sm">
-                    Current Stock
-                  </span>
-                  <div className="flex items-center gap-2 mt-1">
-                    <div
-                      className={`h-2.5 w-2.5 rounded-full ${
-                        product.stock === 0
-                          ? "bg-red-500"
-                          : product.stock < product.lowStockAlert
-                            ? "bg-yellow-500"
-                            : "bg-green-500"
-                      }`}
-                    />
-                    <p className="text-lg font-bold">
-                      {product.stock === 0
-                        ? "Out of stock"
-                        : `${product.stock} units`}
+              {hasVariants ? (
+                <p className="text-sm text-muted-foreground mb-3">
+                  Pricing is set per variant. Base price: $
+                  {product.price?.toLocaleString()}.
+                </p>
+              ) : (
+                <div className="grid gap-4 sm:grid-cols-4">
+                  <div>
+                    <span className="text-muted-foreground text-sm">Price</span>
+                    <p className="text-lg font-bold mt-1">
+                      ${product.price?.toLocaleString()}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground text-sm">
+                      Compare at
+                    </span>
+                    <div className="flex items-center gap-2 mt-1">
+                      <p className="text-lg font-bold">
+                        {product.comparePrice > 0
+                          ? `$${product.comparePrice?.toLocaleString()}`
+                          : "—"}
+                      </p>
+                      {discount !== null && (
+                        <Badge className="bg-red-500 hover:bg-red-500 text-xs">
+                          {discount}% off
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground text-sm">Cost</span>
+                    <p className="text-lg font-bold mt-1">
+                      ${product.costPrice?.toLocaleString()}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground text-sm">
+                      Margin
+                    </span>
+                    <p className="text-lg font-bold mt-1 text-green-600">
+                      {margin}%
                     </p>
                   </div>
                 </div>
-                <div>
-                  <span className="text-muted-foreground text-sm">
-                    Low Stock Alert
-                  </span>
-                  <p className="text-lg font-bold mt-1">
-                    {product.lowStockAlert} units
-                  </p>
+              )}
+            </div>
+
+            {/* Inventory */}
+            <div>
+              <h3 className="font-semibold mb-4">Inventory</h3>
+              {hasVariants ? (
+                <p className="text-sm text-muted-foreground">
+                  Stock is tracked per variant — see below.
+                </p>
+              ) : (
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <div>
+                    <span className="text-muted-foreground text-sm">
+                      Current Stock
+                    </span>
+                    <div className="flex items-center gap-2 mt-1">
+                      <div
+                        className={`h-2.5 w-2.5 rounded-full ${
+                          product.stock === 0
+                            ? "bg-red-500"
+                            : product.stock < product.lowStockThreshold
+                              ? "bg-yellow-500"
+                              : "bg-green-500"
+                        }`}
+                      />
+                      <p className="text-lg font-bold">
+                        {product.stock === 0
+                          ? "Out of stock"
+                          : `${product.stock} units`}
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground text-sm">
+                      Low Stock Threshold
+                    </span>
+                    <p className="text-lg font-bold mt-1">
+                      {product.lowStockThreshold} units
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground text-sm">
+                      Stock Value
+                    </span>
+                    <p className="text-lg font-bold mt-1">
+                      ${(product.stock * product.costPrice).toLocaleString()}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-muted-foreground text-sm">
-                    Stock Value
-                  </span>
-                  <p className="text-lg font-bold mt-1">
-                    ${(product.stock * product.cost).toLocaleString()}
-                  </p>
+              )}
+            </div>
+
+            {/* Variants */}
+            {hasVariants && (
+              <div>
+                <h3 className="font-semibold mb-4">
+                  Variants ({product.variants.length})
+                </h3>
+                <div className="rounded-xl border overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead className="bg-muted/50">
+                      <tr>
+                        <th className="text-left px-4 py-2 font-medium text-muted-foreground">
+                          Variant
+                        </th>
+                        <th className="text-left px-4 py-2 font-medium text-muted-foreground">
+                          SKU
+                        </th>
+                        <th className="text-left px-4 py-2 font-medium text-muted-foreground">
+                          Price
+                        </th>
+                        <th className="text-left px-4 py-2 font-medium text-muted-foreground">
+                          Compare at
+                        </th>
+                        <th className="text-left px-4 py-2 font-medium text-muted-foreground">
+                          Stock
+                        </th>
+                        <th className="text-left px-4 py-2 font-medium text-muted-foreground">
+                          Status
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y">
+                      {product.variants.map((variant) => (
+                        <tr key={variant.id} className="hover:bg-muted/30">
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-2">
+                              {variant.image && (
+                                <div className="relative h-8 w-8 rounded-md overflow-hidden bg-muted shrink-0">
+                                  <Image
+                                    src={resolveImageUrl(variant.image)}
+                                    alt={variant.name}
+                                    fill
+                                    className="object-cover"
+                                  />
+                                </div>
+                              )}
+                              <div>
+                                <p className="font-medium">{variant.name}</p>
+                                <p className="text-muted-foreground text-xs mt-0.5">
+                                  {variant.options
+                                    .map(
+                                      (o) =>
+                                        `${o.optionName}: ${o.optionValue}`,
+                                    )
+                                    .join(" · ")}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 font-mono text-xs">
+                            {variant.sku || "—"}
+                          </td>
+                          <td className="px-4 py-3 font-medium">
+                            ${variant.price.toLocaleString()}
+                          </td>
+                          <td className="px-4 py-3 text-muted-foreground">
+                            {variant.comparePrice > 0 ? (
+                              <span className="line-through">
+                                ${variant.comparePrice.toLocaleString()}
+                              </span>
+                            ) : (
+                              "—"
+                            )}
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-1.5">
+                              <div
+                                className={`h-2 w-2 rounded-full ${variant.stock === 0 ? "bg-red-500" : variant.stock < 10 ? "bg-yellow-500" : "bg-green-500"}`}
+                              />
+                              {variant.stock === 0
+                                ? "Out of stock"
+                                : `${variant.stock}`}
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <Badge
+                              variant={
+                                variant.isActive ? "default" : "secondary"
+                              }
+                              className={`text-xs ${variant.isActive ? "bg-green-600 hover:bg-green-600" : ""}`}
+                            >
+                              {variant.isActive ? "Active" : "Inactive"}
+                            </Badge>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-4">
-            <div className="">
-              <h3 className="font-semibold mb-4">Details</h3>
-              <dl className="space-y-3">
+          <div className="space-y-5">
+            {/* Brand */}
+            {product.brand && (
+              <div>
+                <h3 className="font-semibold mb-3">Brand</h3>
+                <div className="flex items-center gap-3">
+                  {product.brand.logo && (
+                    <div className="relative h-10 w-10 rounded-lg overflow-hidden bg-muted shrink-0">
+                      <Image
+                        src={resolveImageUrl(product.brand.logo)}
+                        alt={product.brand.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <p className="font-medium text-sm">{product.brand.name}</p>
+                    {product.brand.description && (
+                      <p className="text-muted-foreground text-xs">
+                        {product.brand.description}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Category */}
+            {product.category && (
+              <div>
+                <h3 className="font-semibold mb-3">Category</h3>
+                <dl className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Name</dt>
+                    <dd>
+                      <Badge variant="secondary" className="text-xs">
+                        {product.category.name}
+                      </Badge>
+                    </dd>
+                  </div>
+                  {product.category.description && (
+                    <div className="flex justify-between border-t pt-2">
+                      <dt className="text-muted-foreground">Description</dt>
+                      <dd className="text-right max-w-[60%]">
+                        {product.category.description}
+                      </dd>
+                    </div>
+                  )}
+                  {product.category.parentId && (
+                    <div className="flex justify-between border-t pt-2">
+                      <dt className="text-muted-foreground">Parent ID</dt>
+                      <dd className="font-mono text-xs">
+                        {product.category.parentId}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+            )}
+
+            {/* Details */}
+            <div>
+              <h3 className="font-semibold mb-3">Details</h3>
+              <dl className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <dt className="text-muted-foreground text-sm">Category</dt>
-                  <dd>
-                    <Badge variant="secondary" className="text-xs">
-                      {product.category}
-                    </Badge>
-                  </dd>
+                  <dt className="text-muted-foreground">Barcode</dt>
+                  <dd className="font-mono">{product.barcode || "—"}</dd>
                 </div>
                 <div className="flex justify-between border-t pt-3">
-                  <dt className="text-muted-foreground text-sm">SKU</dt>
-                  <dd className="text-sm font-medium font-mono">
-                    {product.sku}
-                  </dd>
+                  <dt className="text-muted-foreground">Track Inventory</dt>
+                  <dd>{product.trackInventory ? "Yes" : "No"}</dd>
                 </div>
                 <div className="flex justify-between border-t pt-3">
-                  <dt className="text-muted-foreground text-sm">Status</dt>
-                  <dd>
-                    <Badge
-                      variant={
-                        product.status === "draft" ? "secondary" : "default"
-                      }
-                      className={`text-xs ${statusCfg.className}`}
-                    >
-                      {statusCfg.label}
-                    </Badge>
-                  </dd>
+                  <dt className="text-muted-foreground">Allow Backorder</dt>
+                  <dd>{product.allowBackorder ? "Yes" : "No"}</dd>
                 </div>
-                <div className="flex justify-between border-t pt-3">
-                  <dt className="text-muted-foreground text-sm">Created</dt>
-                  <dd className="text-sm">{product.createdAt}</dd>
-                </div>
-                <div className="flex justify-between border-t pt-3">
-                  <dt className="text-muted-foreground text-sm">
-                    Last updated
-                  </dt>
-                  <dd className="text-sm">{product.updatedAt}</dd>
-                </div>
+                {product.publishedAt && (
+                  <div className="flex justify-between border-t pt-3">
+                    <dt className="text-muted-foreground">Published</dt>
+                    <dd>
+                      {new Date(product.publishedAt).toLocaleDateString()}
+                    </dd>
+                  </div>
+                )}
               </dl>
             </div>
+
+            {(product.metaTitle || product.metaDescription) && (
+              <div>
+                <h3 className="font-semibold mb-4">SEO</h3>
+                <dl className="space-y-3 text-sm">
+                  {product.metaTitle && (
+                    <div>
+                      <dt className="text-muted-foreground mb-1">Meta Title</dt>
+                      <dd className="font-medium">{product.metaTitle}</dd>
+                    </div>
+                  )}
+                  {product.metaDescription && (
+                    <div className="border-t pt-3">
+                      <dt className="text-muted-foreground mb-1">
+                        Meta Description
+                      </dt>
+                      <dd className="text-muted-foreground leading-relaxed">
+                        {product.metaDescription}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+            )}
           </div>
         </div>
       </div>

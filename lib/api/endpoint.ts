@@ -14,6 +14,11 @@ export const CATEGORY_ENDPOINT = {
   BASE: `${PREFIX.API_V1}/categories`,
 };
 
+export const PRODUCT_ENDPOINT = {
+  ADMIN_BASE: `${PREFIX.ADMIN}/products`,
+  BASE: `${PREFIX.API_V1}/products`,
+};
+
 export const BRAND_ENDPOINT = {
   ADMIN_BASE: `${PREFIX.ADMIN}/brands`,
   BASE: `${PREFIX.API_V1}/brands`,

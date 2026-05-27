@@ -24,7 +24,7 @@ export default function NewBrandPage() {
         </Link>
       </AdminPageHeader>
       <div className="flex flex-col gap-5">
-        <BrandForm mode="create" />
+        <BrandForm />
       </div>
     </>
   );

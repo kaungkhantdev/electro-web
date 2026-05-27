@@ -21,3 +21,11 @@ export function useCategoriesQuery(cursor?: string, limit = LIMIT) {
     queryFn: () => categoryService.adminGetList(cursor, limit),
   });
 }
+
+export function useCategoryQuery(id: string) {
+  return useQuery({
+    queryKey: ["categories", id],
+    queryFn: () => categoryService.adminGetById(id),
+    enabled: !!id,
+  });
+}

@@ -37,7 +37,7 @@ const BaseInput = <T extends FieldValues>({
       </Label>
       <div>
         <Input
-          {...register?.(id)}
+          {...register?.(id, { valueAsNumber: props.type === "number" })}
           id={id}
           className={cn(
             "flex h-11 w-full rounded-md border bg-background px-3 py-2 text-sm ring-offset-background",

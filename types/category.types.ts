@@ -5,8 +5,10 @@ export interface Category {
   slug: string;
   description: string;
   parentCategory: string;
+  parentId?: string | null;
   status: string;
   image: string;
+  isFeatured?: boolean;
 }
 
 export interface CategoryPayload {

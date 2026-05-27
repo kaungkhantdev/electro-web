@@ -24,7 +24,7 @@ export function AdminPageHeader({
         <p className="text-sm text-gray-500 mt-0.5">
           {breadcrumbs.length > 1 ? (
             breadcrumbs.map((item, index) => (
-              <span key={item.label}>
+              <span key={index}>
                 {index > 0 && " / "}
                 {item.href ? (
                   <Link

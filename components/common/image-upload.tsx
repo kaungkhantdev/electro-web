@@ -10,6 +10,7 @@ import {
   Loading03Icon,
 } from "@hugeicons/core-free-icons";
 import { uploadService } from "@/services/upload.service";
+import { fi } from "zod/v4/locales";
 
 type UploadStatus = "uploading" | "done" | "error";
 
@@ -244,82 +245,76 @@ export const ImageUpload = ({
         </div>
       )}
 
-      {/* ── File list ── */}
+      {/* ── Thumbnail grid ── */}
       {files.length > 0 && (
-        <ul className="space-y-2">
+        <div
+          className={
+            allowMultiple ? "grid grid-cols-3 gap-2" : "grid grid-cols-1"
+          }
+        >
           {files.map((f) => (
-            <li
+            <div
               key={f.id}
               className={[
-                "flex items-center gap-3 rounded-xl border p-3 transition-colors",
+                "group relative aspect-square overflow-hidden rounded-xl border",
                 f.status === "error"
                   ? "border-red-200 bg-red-50"
-                  : "border-gray-100 bg-white",
+                  : "border-gray-100 bg-gray-50",
               ].join(" ")}
             >
-              {/* Thumbnail */}
-              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={f.preview}
-                  alt={f.file.name}
-                  className="h-full w-full object-cover"
-                />
-                {/* Uploading overlay */}
-                {f.status === "uploading" && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-lg">
-                    <HugeiconsIcon
-                      icon={Loading03Icon}
-                      className="h-5 w-5 text-white animate-spin"
-                    />
-                  </div>
-                )}
-              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={f.preview}
+                alt={f.file.name}
+                className="h-full w-full object-cover"
+              />
 
-              {/* Info */}
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-gray-800">
-                  {f.file.name}
-                </p>
+              {/* Uploading overlay */}
+              {f.status === "uploading" && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-xl">
+                  <HugeiconsIcon
+                    icon={Loading03Icon}
+                    className="h-5 w-5 text-white animate-spin"
+                  />
+                </div>
+              )}
 
-                {f.status === "uploading" && (
-                  <p className="text-xs text-gray-400">Uploading…</p>
-                )}
+              {/* Done badge */}
+              {f.status === "done" && (
+                <div className="absolute bottom-1.5 left-1.5">
+                  <HugeiconsIcon
+                    icon={CheckmarkCircle01Icon}
+                    className="h-4 w-4 text-green-400 drop-shadow"
+                  />
+                </div>
+              )}
 
-                {f.status === "done" && (
-                  <p className="flex items-center gap-1 text-xs text-gray-400">
-                    <HugeiconsIcon
-                      icon={CheckmarkCircle01Icon}
-                      className="h-3 w-3 text-green-500 shrink-0"
-                    />
-                    {formatBytes(f.file.size)}
-                  </p>
-                )}
-
-                {f.status === "error" && (
-                  <p className="flex items-center gap-1 text-xs text-red-500">
-                    <HugeiconsIcon
-                      icon={AlertCircleIcon}
-                      className="h-3 w-3 shrink-0"
-                    />
+              {/* Error overlay */}
+              {f.status === "error" && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-red-50/80 p-1">
+                  <HugeiconsIcon
+                    icon={AlertCircleIcon}
+                    className="h-4 w-4 text-red-500"
+                  />
+                  <p className="text-center text-[10px] text-red-500 leading-tight">
                     {f.error}
                   </p>
-                )}
-              </div>
+                </div>
+              )}
 
-              {/* Remove / delete */}
+              {/* Remove button — visible on hover */}
               <button
                 type="button"
                 onClick={() => removeFile(f.id)}
                 disabled={f.status === "uploading"}
-                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="absolute top-1.5 right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0"
                 aria-label="Remove file"
               >
-                <HugeiconsIcon icon={Cancel01Icon} className="h-4 w-4" />
+                <HugeiconsIcon icon={Cancel01Icon} className="h-3 w-3" />
               </button>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

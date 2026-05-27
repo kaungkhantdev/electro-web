@@ -9,24 +9,22 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox";
-import { useCategoriesInfiniteQuery } from "@/hooks/queries/use-categories";
-import type { Category } from "@/types";
+import type { Brand } from "@/types";
+import { useBrandsInfiniteQuery } from "@/hooks/queries/use-brands";
 
-interface ParentCategoryComboboxProps {
+interface BrandComboboxProps {
   onValueChange: (value: string) => void;
 }
 
-export function ParentCategoryCombobox({
-  onValueChange,
-}: ParentCategoryComboboxProps) {
+export function BrandCombobox({ onValueChange }: BrandComboboxProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useCategoriesInfiniteQuery();
+    useBrandsInfiniteQuery();
 
   // Flatten all pages into one item list, prepend "None" option
   const categories = [
     { value: "", label: "" },
     ...(data?.pages.flatMap((page) =>
-      page.data.map((cat: Category) => ({ value: cat.id, label: cat.name })),
+      page.data.map((brand: Brand) => ({ value: brand.id, label: brand.name })),
     ) ?? []),
   ];
 
@@ -56,13 +54,9 @@ export function ParentCategoryCombobox({
       defaultValue={categories[0]}
       onValueChange={(val) => onValueChange(String(val?.value ?? ""))}
     >
-      <ComboboxInput
-        placeholder="Select a category"
-        showClear
-        className="h-11"
-      />
+      <ComboboxInput placeholder="Select a brand" showClear className="h-11" />
       <ComboboxContent className="">
-        <ComboboxEmpty>No categories found.</ComboboxEmpty>
+        <ComboboxEmpty>No brands found.</ComboboxEmpty>
         <ComboboxList>
           {(item) => (
             <ComboboxItem key={item.value} value={item}>
