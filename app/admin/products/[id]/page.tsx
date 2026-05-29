@@ -123,7 +123,7 @@ export default function ProductDetailPage({
           </Button>
         </div>
       </AdminPageHeader>
-
+      <hr className="mb-5" />
       <div className="flex flex-col gap-5 bg-white">
         {/* Title row */}
         <div className="flex items-center gap-3">
